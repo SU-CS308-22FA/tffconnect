@@ -6,6 +6,7 @@ from . import views
 app_name = "users"
 
 urlpatterns = [
+    path("users/login/", authtoken_views.obtain_auth_token),
     path("users/signup/", views.SignUpView.as_view()),
     path("users/me/", views.MeView.as_view()),
 ]
