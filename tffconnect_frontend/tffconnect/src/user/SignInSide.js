@@ -15,7 +15,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 import {useState, useEffect, setPosts, posts } from "react";
 import axios from "axios";
-import Home from '/Users/ilginarat/Desktop/tffconnect/tffconnect_frontend/tffconnect/src/components/Home.js';
 
 function Copyright(props) {
   return (
