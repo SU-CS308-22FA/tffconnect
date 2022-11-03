@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,6 +15,7 @@ import { createTheme, ThemeProvider, useColorScheme } from '@mui/material/styles
 import { Link } from "react-router-dom";
 import {useState, useEffect, setPosts, posts } from "react";
 import axios from "axios";
+import Home from '/Users/ilginarat/Desktop/tffconnect/tffconnect_frontend/tffconnect/src/components/Home.js';
 
 
 function Copyright(props) {
@@ -37,30 +39,36 @@ const user = axios.create({
 
 
 export default function SignUp() {
-
+  const navigate = useNavigate();
   const [current_user, setUser] = useState({});
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
-    // "first name, last name" ekle 
+    
+    let first_name = data.get('first_name');
+    let last_name = data.get('last_name');
     let email = data.get('email');
     let password = data.get('password');
 
-    signUp(email, password);
+    signUp(email, password, first_name, last_name);
   };
  
-  const signUp = (userName, password) => {
-    user
-       .post('/signup/', {
-          // "first name, last name" ekle 
+  const signUp = (userName, password, firstName, lastName) => {
+    user.post('/signup/', {
           username: userName,
-          password: password, // password isimlendirmeleri? 
+          password: password, 
+          first_name: firstName,
+          last_name: lastName
        })
-       .then((response) => { 
-          setUser(response.data);
-       });
+       .then((response) => {
+        navigate('/')
+       }).catch((error) => {
+        if( error.response ){
+            console.log(error.response.data); // => the response payload 
+        }
+      });
  };
 
   return (
@@ -86,10 +94,10 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="first_name"
                   required
                   fullWidth
-                  id="firstName"
+                  id="first_name"
                   label="First Name"
                   autoFocus
                 />
@@ -98,9 +106,9 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="last_name"
                   label="Last Name"
-                  name="lastName"
+                  name="last_name"
                   autoComplete="family-name"
                 />
               </Grid>
