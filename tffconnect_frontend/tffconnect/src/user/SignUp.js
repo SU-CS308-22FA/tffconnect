@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,8 +11,12 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, useColorScheme } from '@mui/material/styles';
 import { Link } from "react-router-dom";
+import {useState, useEffect, setPosts, posts } from "react";
+import axios from "axios";
+import Home from '/Users/ilginarat/Desktop/tffconnect/tffconnect_frontend/tffconnect/src/components/Home.js';
+
 
 function Copyright(props) {
   return (
@@ -28,15 +33,43 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+const user = axios.create({
+  baseURL: "http://127.0.0.1:8000/api/users/" 
+});
+
+
 export default function SignUp() {
+  const navigate = useNavigate();
+  const [current_user, setUser] = useState({});
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    
+    let first_name = data.get('first_name');
+    let last_name = data.get('last_name');
+    let email = data.get('email');
+    let password = data.get('password');
+
+    signUp(email, password, first_name, last_name);
   };
+ 
+  const signUp = (userName, password, firstName, lastName) => {
+    user.post('/signup/', {
+          username: userName,
+          password: password, 
+          first_name: firstName,
+          last_name: lastName
+       })
+       .then((response) => {
+        navigate('/')
+       }).catch((error) => {
+        if( error.response ){
+            console.log(error.response.data); // => the response payload 
+        }
+      });
+ };
 
   return (
     <ThemeProvider theme={theme}>
@@ -61,10 +94,10 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="first_name"
                   required
                   fullWidth
-                  id="firstName"
+                  id="first_name"
                   label="First Name"
                   autoFocus
                 />
@@ -73,9 +106,9 @@ export default function SignUp() {
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="last_name"
                   label="Last Name"
-                  name="lastName"
+                  name="last_name"
                   autoComplete="family-name"
                 />
               </Grid>

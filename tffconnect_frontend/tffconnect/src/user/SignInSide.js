@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +13,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
+import {useState, useEffect, setPosts, posts } from "react";
+import axios from "axios";
+import Home from '/Users/ilginarat/Desktop/tffconnect/tffconnect_frontend/tffconnect/src/components/Home.js';
 
 function Copyright(props) {
   return (
@@ -28,15 +32,39 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignInSide() {
+const user = axios.create({
+  baseURL: "http://127.0.0.1:8000/api/users/" //should it be changed?
+});
+
+export default function SignInSide() { //sorun yok dimi
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+      let email= data.get('email');
+      let password= data.get('password');
+
+      SignIn(email, password);
+    
+    
   };
+
+  const SignIn = (myEmail, myPassword) => {
+
+    user
+      .post('/login/', {
+        username: myEmail,
+        password: myPassword
+      })
+      .then((response) => {
+        window.localStorage.setItem("auth_token", response.data["token"]);
+        navigate('/')
+      });
+
+  };
+
 
   return (
     <ThemeProvider theme={theme}>
