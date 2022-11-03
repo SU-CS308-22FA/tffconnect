@@ -10,8 +10,11 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, useColorScheme } from '@mui/material/styles';
 import { Link } from "react-router-dom";
+import {useState, useEffect, setPosts, posts } from "react";
+import axios from "axios";
+
 
 function Copyright(props) {
   return (
@@ -28,15 +31,37 @@ function Copyright(props) {
 
 const theme = createTheme();
 
+const user = axios.create({
+  baseURL: "http://127.0.0.1:8000/api/users/" 
+});
+
+
 export default function SignUp() {
+
+  const [current_user, setUser] = useState({});
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    // "first name, last name" ekle 
+    let email = data.get('email');
+    let password = data.get('password');
+
+    signUp(email, password);
   };
+ 
+  const signUp = (userName, password) => {
+    user
+       .post('/signup/', {
+          // "first name, last name" ekle 
+          username: userName,
+          password: password, // password isimlendirmeleri? 
+       })
+       .then((response) => { 
+          setUser(response.data);
+       });
+ };
 
   return (
     <ThemeProvider theme={theme}>
