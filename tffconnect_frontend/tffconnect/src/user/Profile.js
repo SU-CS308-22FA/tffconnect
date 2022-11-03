@@ -9,20 +9,67 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
+const user_me = axios.create({
+  baseURL: "http://127.0.0.1:8000/api/users/me/",
+  headers: {
+    Authorization: "Token " + localStorage.getItem("auth_token"),
+  },
+});
+
 export default function Profile() {
+  const navigate = useNavigate();
+  const [user, setUser] = React.useState({
+    username: "",
+    first_name: "",
+    last_name: "",
+  });
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      firstName: data.get('firstName'),
-      lastName: data.get('lastName'),
-      password: data.get('password'),
-    });
+    let username = data.get('email') === "" ? user.username : data.get('email');
+    let firstName = data.get('firstName') === "" ? user.firstName : data.get('firstName');
+    let lastName = data.get('lastName') === "" ? user.lastName : data.get('lastName');
+    let password = data.get('password');
+
+    updateUser(username, firstName, lastName, password);
+    navigate("/feed");
   };
+
+  const updateUser = (username, firstName, lastName, password) => {
+    const token = localStorage.getItem("auth_token");
+    user_me.put("", {
+      username: username,
+      first_name: firstName,
+      last_name: lastName,
+      password: password,
+      }).then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const getUser = () => {
+    const token = localStorage.getItem("auth_token");
+    user_me.get()
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  React.useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,7 +100,7 @@ export default function Profile() {
                   name="firstName"
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label={ user.first_name }
                   autoFocus
                 />
               </Grid>
@@ -61,7 +108,7 @@ export default function Profile() {
                 <TextField
                   fullWidth
                   id="lastName"
-                  label="Last Name"
+                  label={ user.last_name }
                   name="lastName"
                   autoComplete="family-name"
                 />
@@ -70,16 +117,17 @@ export default function Profile() {
                 <TextField
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label={ user.username }
                   name="email"
                   autoComplete="email"
                 />
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Type to change password"
                   type="password"
                   id="password"
                   autoComplete="new-password"

@@ -9,7 +9,7 @@ class Feed extends Component {
                 <br />
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <Link to="/feed">Home</Link>
                     </li>
                     <li>
                         {/* Endpoint to route to Profile component */}
