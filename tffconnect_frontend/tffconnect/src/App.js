@@ -4,7 +4,7 @@ import SignInSide from './user/SignInSide';
 import SignUp from './user/SignUp';
 import Home from './components/Home';
 import Feed from './components/Feed';
-import Settings from './user/Settings';
+import Profile from './user/Profile';
 
 function App() {
   return(
@@ -14,7 +14,7 @@ function App() {
         <Route exact path="/login" element={<SignInSide />} />
         <Route exact path="/signup" element={<SignUp />} />
         <Route exact path="/feed" element={<Feed />} />
-        <Route exact path="/profile" element={<Settings />} />
+        <Route exact path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );
