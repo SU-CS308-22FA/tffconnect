@@ -59,7 +59,7 @@ export default function SignInSide() { //sorun yok dimi
       })
       .then((response) => {
         window.localStorage.setItem("auth_token", response.data["token"]);
-        navigate('/')
+        navigate('/feed');
       });
 
   };
