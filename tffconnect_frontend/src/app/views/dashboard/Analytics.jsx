@@ -16,6 +16,8 @@ import ShareIcon from '@mui/icons-material/Share';
 import logo from './components/voleybol.jpeg';
 import logo2 from './components/haftanin_programi.jpeg';
 import logo3 from './components/kadin_amilli.jpeg';
+import proje from './components/stadyum.jpg';
+import proje2 from './components/genc_yildiz.png';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -34,12 +36,8 @@ const SubTitle = styled('span')(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const H4 = styled('h4')(({ theme }) => ({
-  fontSize: '1rem',
-  fontWeight: '500',
-  marginBottom: '16px',
-  textTransform: 'capitalize',
-  color: theme.palette.text.secondary,
+const Description = styled('span')(() => ({
+  fontSize: '0.7rem',
 }));
 
 const Analytics = () => {
@@ -58,7 +56,25 @@ const Analytics = () => {
                 alt="dunya_samp"
               />
               <Title>Voleybol Dünya Şampiyonası Başlıyor</Title>
-              <SubTitle>2 hafta önce</SubTitle>
+              <SubTitle>Haber</SubTitle>
+              <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites">
+                  <FavoriteIcon />
+                </IconButton>
+                <IconButton aria-label="share">
+                  <ShareIcon />
+                </IconButton>
+              </CardActions>
+            </Card>
+            <Card sx={{ px: 3, py: 2, mb: 3 }}>
+              <CardMedia
+                component="img"
+                height="300"
+                image= {proje}
+                alt="stadyum"
+              />
+              <Title>Bitlis'te Stadyum İnşaatı Sürüyor</Title>
+              <SubTitle>Proje</SubTitle>
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />
@@ -75,11 +91,30 @@ const Analytics = () => {
               <CardMedia
                 component="img"
                 height="300"
+                image= {proje2}
+                alt="gencyildiz"
+              />
+              <Title>Beylikdüzü Genç Yıldızlar Futbol Okulu Açılıyor</Title>
+              <SubTitle>Proje</SubTitle>
+              <CardActions disableSpacing>
+                <IconButton aria-label="add to favorites">
+                  <FavoriteIcon />
+                </IconButton>
+                <IconButton aria-label="share">
+                  <ShareIcon />
+                </IconButton>
+              </CardActions>
+            </Card>
+
+            <Card sx={{ px: 3, py: 2, mb: 3 }}>
+              <CardMedia
+                component="img"
+                height="300"
                 image= {logo2}
                 alt="ligler"
               />
               <Title>Liglerde Haftanın Programı</Title>
-              <SubTitle>Güncel Haber</SubTitle>
+              <SubTitle>Haber</SubTitle>
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />
@@ -100,7 +135,7 @@ const Analytics = () => {
                 alt="amilli"
               />
               <Title>Kadın A Milli Takımı, Ürdün'ü 5-0 Yendi</Title>
-              <SubTitle>Güncel Haber</SubTitle>
+              <SubTitle>Haber</SubTitle>
               <CardActions disableSpacing>
                 <IconButton aria-label="add to favorites">
                   <FavoriteIcon />
