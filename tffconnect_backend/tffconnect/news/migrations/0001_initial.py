@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('header', models.CharField(max_length=100)),
                 ('date', models.DateTimeField(verbose_name='date published')),
-                ('image', models.ImageField(upload_to=tffconnect.news.models.user_directory_path)),
+                ('image', models.ImageField(upload_to='news_images/')),
                 ('details', models.CharField(max_length=1000)),
             ],
         ),
