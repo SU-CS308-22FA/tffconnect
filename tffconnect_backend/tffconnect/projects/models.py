@@ -4,7 +4,7 @@ from tffconnect.users.models import User
 
 # Create your models here.
 class Project(models.Model):
-    name = models.CharField(max_length=30)  # should we make this field lenght bit larger? 
+    name = models.CharField(max_length=30)  # should we make this field lenght bit larger?
     is_finished = models.BooleanField()
     start_datetime = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=30)  # should we make this field lenght bit larger?
