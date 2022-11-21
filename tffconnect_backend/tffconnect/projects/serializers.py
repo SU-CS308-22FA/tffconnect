@@ -9,11 +9,15 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = (
             'name',
             'is_finished',
-            'start_datetime',
+            'proposal_date',
+            'start_date',
+            'end_date',
             'description',
             'location',
             'budget',
-            'owner'
+            'owner',
+            'is_confirmed_by_tff',
+            'confirmation_datetime'
         )
 
     def create(self, validated_data):
