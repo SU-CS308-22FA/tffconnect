@@ -14,7 +14,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             'location',
             'budget',
             'owner'
-            )
+        )
 
     def create(self, validated_data):
         project = models.Project.objects.create(**validated_data)
