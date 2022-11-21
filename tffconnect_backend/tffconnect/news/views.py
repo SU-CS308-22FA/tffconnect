@@ -7,16 +7,19 @@ from rest_framework.permissions import AllowAny
 from .models import News
 from .serializers import NewsSerializer
 
+
 class AddNews(CreateAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     permission_classes = [AllowAny]
+
 
 class ModifyNews(RetrieveUpdateDestroyAPIView):
     queryset = News.objects.all()
     lookup_url_kwarg = 'id'
     serializer_class = NewsSerializer
     permission_classes = [AllowAny]
+
 
 @csrf_exempt
 def index(request):
