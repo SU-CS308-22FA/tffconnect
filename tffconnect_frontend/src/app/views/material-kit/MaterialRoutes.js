@@ -15,6 +15,7 @@ const AppDialog = Loadable(lazy(() => import('./dialog/AppDialog')));
 const AppSnackbar = Loadable(lazy(() => import('./snackbar/AppSnackbar')));
 const AppAutoComplete = Loadable(lazy(() => import('./auto-complete/AppAutoComplete')));
 const AppExpansionPanel = Loadable(lazy(() => import('./expansion-panel/AppExpansionPanel')));
+const AddProject = Loadable(lazy(() => import('../AddProject')));
 
 const materialRoutes = [
   {
@@ -72,6 +73,10 @@ const materialRoutes = [
   {
     path: '/material/snackbar',
     element: <AppSnackbar />,
+  },
+  {
+    path: '/material/addproject',
+    element: <AddProject />,
   },
 ];
 
