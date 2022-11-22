@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "tffconnect.users",
     "tffconnect.news",
+    "tffconnect.projects",
 ]
 
 MIDDLEWARE = [
