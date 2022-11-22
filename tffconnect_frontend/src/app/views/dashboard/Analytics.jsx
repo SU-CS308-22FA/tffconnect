@@ -1,12 +1,13 @@
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Grid, styled, useTheme } from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
 import { Fragment } from 'react';
-import Campaigns from './shared/Campaigns';
-import DoughnutChart from './shared/Doughnut';
-import RowCards from './shared/RowCards';
-import StatCards from './shared/StatCards';
-import StatCards2 from './shared/StatCards2';
-import TopSellingTable from './shared/TopSellingTable';
-import UpgradeCard from './shared/UpgradeCard';
+import CardActions from '@mui/material/CardActions';
+import IconButton from '@mui/material/IconButton';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import axios from 'axios';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -25,48 +26,104 @@ const SubTitle = styled('span')(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const H4 = styled('h4')(({ theme }) => ({
-  fontSize: '1rem',
-  fontWeight: '500',
-  marginBottom: '16px',
-  textTransform: 'capitalize',
-  color: theme.palette.text.secondary,
+const Description = styled('span')(() => ({
+  fontSize: '0.7rem',
 }));
 
-const Analytics = () => {
+export default function MainView() {
   const { palette } = useTheme();
+  let [allNews, setResponseData] = useState('');
 
-  return (
-    <Fragment>
-      <ContentBox className="analytics">
-        <Grid container spacing={3}>
-          <Grid item lg={8} md={8} sm={12} xs={12}>
-            <StatCards />
-            <TopSellingTable />
-            <StatCards2 />
+  useEffect(() => {
+    getNewsItems();
+  }, []);
 
-            <H4>Ongoing Projects</H4>
-            <RowCards />
+  const getNewsItems = () => {
+    axios.get('http://tffconnect.com/api/news/')
+    .then((response) => {
+      allNews = response.data;
+      setResponseData(allNews);
+      console.log(allNews);
+      console.log(allNews.length);
+    })
+    .catch(error => console.error('Error: ${error}'));
+  }
+
+  let whereToStart = Math.ceil(allNews.length/2);
+  console.log(whereToStart);
+
+    return (
+      <Fragment>
+        <ContentBox className="analytics">
+          <Grid container spacing={-1}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <ul>
+                {(() => {
+                  let cards = [];
+                  for (let i=0; i < whereToStart; i++) {
+                    let imageUrlStr = "http://tffconnect.com" + allNews[i].image
+                    cards.push (
+                      <Card sx={{ px: 3, py: 2, mb: 3 }}>
+                      <CardMedia
+                        component="img"
+                        height="300"
+                        image={imageUrlStr}
+                        alt={allNews[i].image}
+                      />
+                      <Title>{allNews[i].header}</Title>
+                      <SubTitle>Haber</SubTitle><br></br>
+                      <Description>{allNews[i].details}</Description>
+                      <CardActions disableSpacing>
+                        <IconButton aria-label="add to favorites">
+                          <FavoriteIcon />
+                        </IconButton>
+                        <IconButton aria-label="share">
+                          <ShareIcon />
+                        </IconButton>
+                      </CardActions>
+                    </Card>
+                    );
+                  }
+                  return cards;
+                })()}
+              </ul>
+            </Grid>
+
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <ul>
+                  {(() => {
+                    let cards = [];
+                    for (let i=whereToStart; i < allNews.length; i++) {
+                      let imageUrlStr = "http://tffconnect.com" + allNews[i].image
+                      cards.push (
+                        <Card sx={{ px: 3, py: 2, mb: 3 }}>
+                        <CardMedia
+                          component="img"
+                          height="300"
+                          image={imageUrlStr}
+                          alt={allNews[i].image}
+                        />
+                        <Title>{allNews[i].header}</Title>
+                        <SubTitle>Haber</SubTitle><br></br>
+                        <Description>{allNews[i].details}</Description>
+                        <CardActions disableSpacing>
+                          <IconButton aria-label="add to favorites">
+                            <FavoriteIcon />
+                          </IconButton>
+                          <IconButton aria-label="share">
+                            <ShareIcon />
+                          </IconButton>
+                        </CardActions>
+                      </Card>
+                      );
+                    }
+                    return cards;
+                  })()}
+                </ul>
+            </Grid>
+
           </Grid>
-
-          <Grid item lg={4} md={4} sm={12} xs={12}>
-            <Card sx={{ px: 3, py: 2, mb: 3 }}>
-              <Title>Traffic Sources</Title>
-              <SubTitle>Last 30 days</SubTitle>
-
-              <DoughnutChart
-                height="300px"
-                color={[palette.primary.dark, palette.primary.main, palette.primary.light]}
-              />
-            </Card>
-
-            <UpgradeCard />
-            <Campaigns />
-          </Grid>
-        </Grid>
-      </ContentBox>
-    </Fragment>
-  );
+        </ContentBox>
+      </Fragment>
+    );
 };
-
-export default Analytics;
