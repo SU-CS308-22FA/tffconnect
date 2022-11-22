@@ -3,23 +3,11 @@ import { useEffect, useState } from 'react';
 import { Card, Grid, styled, useTheme } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import { Fragment } from 'react';
-import Campaigns from './shared/Campaigns';
-import DoughnutChart from './shared/Doughnut';
 import CardActions from '@mui/material/CardActions';
-import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import RowCards from './shared/RowCards';
-import StatCards from './shared/StatCards';
-import StatCards2 from './shared/StatCards2';
-import TopSellingTable from './shared/TopSellingTable';
-import UpgradeCard from './shared/UpgradeCard';
+import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import axios from 'axios';
-import logo from './components/voleybol.jpeg';
-import logo2 from './components/haftanin_programi.jpeg';
-import logo3 from './components/kadin_amilli.jpeg';
-import proje from './components/stadyum.jpg';
-import proje2 from './components/genc_yildiz.png';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -56,112 +44,82 @@ export default function MainView() {
       allNews = response.data;
       setResponseData(allNews);
       console.log(allNews);
+      console.log(allNews.length);
     })
     .catch(error => console.error('Error: ${error}'));
   }
 
+  let whereToStart = Math.ceil(allNews.length/2);
+  console.log(whereToStart);
+
     return (
       <Fragment>
         <ContentBox className="analytics">
-          <Grid container spacing={3}>
-            <Grid item lg={4} md={4} sm={12} xs={12}>
-              <Card sx={{ px: 3, py: 2, mb: 3 }}>
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image= {logo}
-                  alt="dunya_samp"
-                />
-                <Title>Voleybol Dünya Şampiyonası Başlıyor</Title>
-                <SubTitle>Haber</SubTitle>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-              <Card sx={{ px: 3, py: 2, mb: 3 }}>
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image= {proje}
-                  alt="stadyum"
-                />
-                <Title>Bitlis'te Stadyum İnşaatı Sürüyor</Title>
-                <SubTitle>Proje</SubTitle>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
+          <Grid container spacing={-1}>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <ul>
+                {(() => {
+                  let cards = [];
+                  for (let i=0; i < whereToStart; i++) {
+                    let imageUrlStr = "http://127.0.0.1:8000" + allNews[i].image
+                    cards.push (
+                      <Card sx={{ px: 3, py: 2, mb: 3 }}>
+                      <CardMedia
+                        component="img"
+                        height="300"
+                        image={imageUrlStr}
+                        alt={allNews[i].image}
+                      />
+                      <Title>{allNews[i].header}</Title>
+                      <SubTitle>Haber</SubTitle><br></br>
+                      <Description>{allNews[i].details}</Description>
+                      <CardActions disableSpacing>
+                        <IconButton aria-label="add to favorites">
+                          <FavoriteIcon />
+                        </IconButton>
+                        <IconButton aria-label="share">
+                          <ShareIcon />
+                        </IconButton>
+                      </CardActions>
+                    </Card>
+                    );
+                  }
+                  return cards;
+                })()}
+              </ul>
             </Grid>
 
-            <Grid item lg={4} md={4} sm={12} xs={12}>
-              <Card sx={{ px: 3, py: 2, mb: 3 }}>
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image= {proje2}
-                  alt="gencyildiz"
-                />
-                <Title>Beylikdüzü Genç Yıldızlar Futbol Okulu Açılıyor</Title>
-                <SubTitle>Proje</SubTitle>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-
-              <Card sx={{ px: 3, py: 2, mb: 3 }}>
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image= {logo2}
-                  alt="ligler"
-                />
-                <Title>Liglerde Haftanın Programı</Title>
-                <SubTitle>Haber</SubTitle>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </Grid>
-
-            <Grid item lg={4} md={4} sm={12} xs={12}>
-              <Card sx={{ px: 3, py: 2, mb: 3 }}>
-                <CardMedia
-                  component="img"
-                  height="300"
-                  image= {logo3}
-                  alt="amilli"
-                />
-                <Title>Kadın A Milli Takımı, Ürdün'ü 5-0 Yendi</Title>
-                <SubTitle>Haber</SubTitle>
-                <CardActions disableSpacing>
-                  <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                  </IconButton>
-                  <IconButton aria-label="share">
-                    <ShareIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <ul>
+                  {(() => {
+                    let cards = [];
+                    for (let i=whereToStart; i < allNews.length; i++) {
+                      let imageUrlStr = "http://127.0.0.1:8000" + allNews[i].image
+                      cards.push (
+                        <Card sx={{ px: 3, py: 2, mb: 3 }}>
+                        <CardMedia
+                          component="img"
+                          height="300"
+                          image={imageUrlStr}
+                          alt={allNews[i].image}
+                        />
+                        <Title>{allNews[i].header}</Title>
+                        <SubTitle>Haber</SubTitle><br></br>
+                        <Description>{allNews[i].details}</Description>
+                        <CardActions disableSpacing>
+                          <IconButton aria-label="add to favorites">
+                            <FavoriteIcon />
+                          </IconButton>
+                          <IconButton aria-label="share">
+                            <ShareIcon />
+                          </IconButton>
+                        </CardActions>
+                      </Card>
+                      );
+                    }
+                    return cards;
+                  })()}
+                </ul>
             </Grid>
 
           </Grid>
