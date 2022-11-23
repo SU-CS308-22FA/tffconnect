@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useReducer } from 'react'
-import jwtDecode from 'jwt-decode'
 import axios from 'axios.js'
 import { MatxLoading } from 'app/components'
 
@@ -9,20 +8,10 @@ const initialState = {
     user: null,
 }
 
-const isValidToken = (accessToken) => {
-    if (!accessToken) {
-        return false
-    }
-
-    const decodedToken = jwtDecode(accessToken)
-    const currentTime = Date.now() / 1000
-    return decodedToken.exp > currentTime
-}
-
 const setSession = (accessToken) => {
     if (accessToken) {
         localStorage.setItem('accessToken', accessToken)
-        axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+        axios.defaults.headers.common['Authorization'] = `Token ${accessToken}`
     } else {
         localStorage.removeItem('accessToken')
         delete axios.defaults.headers.common.Authorization
@@ -74,7 +63,7 @@ const reducer = (state, action) => {
 
 const AuthContext = createContext({
     ...initialState,
-    method: 'JWT',
+    method: 'Token',
     login: () => Promise.resolve(),
     logout: () => { },
     register: () => Promise.resolve(),
@@ -129,16 +118,15 @@ export const AuthProvider = ({ children }) => {
             try {
                 const accessToken = window.localStorage.getItem('accessToken')
 
-                if (accessToken && isValidToken(accessToken)) {
+                if (accessToken) {
                     setSession(accessToken)
-                    const response = await axios.get('/api/auth/profile')
-                    const { user } = response.data
+                    const response = await axios.get('http://tffconnect.com/api/users/me/')
 
                     dispatch({
                         type: 'INIT',
                         payload: {
                             isAuthenticated: true,
-                            user,
+                            user: response.data,
                         },
                     })
                 } else {
@@ -171,7 +159,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider
             value={{
                 ...state,
-                method: 'JWT',
+                method: 'Token',
                 login,
                 logout,
                 register,
