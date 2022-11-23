@@ -74,7 +74,7 @@ import {
                 <TableCell align="center">{project.end_date}</TableCell>
                 <TableCell align="center">{project.location}</TableCell>
                 <TableCell align="center">${project.budget}</TableCell>
-                <TableCell align="center">{project.owner}</TableCell>
+                <TableCell align="center">${project.owner}</TableCell>
                 <TableCell align="center">{project.is_confirmed_by_tff}</TableCell>
                 <TableCell align="right">{project.confirmation_date}</TableCell>
               <TableCell align="right">

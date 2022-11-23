@@ -9,7 +9,7 @@ from .serializers import ProjectSerializer
 class ProjectListCreateView(ListCreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
 
 
 # /api/projects/<int:pk> Retrieve, Update, Destroy
