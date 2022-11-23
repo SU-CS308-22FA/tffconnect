@@ -1,15 +1,30 @@
 server {
     listen 80;
     server_name tffconnect.com;
-    root /home/ubuntu/tffconnect/tffconnect_frontend/build/;
-    index index.html;
 
     location /api/ {
         include proxy_params;
         proxy_pass http://unix:/home/ubuntu/tffconnect/tffconnect_backend/tffconnect_backend.sock;
     }
 
+    location /admin/ {
+        include proxy_params;
+        proxy_pass http://unix:/home/ubuntu/tffconnect/tffconnect_backend/tffconnect_backend.sock;
+    }
+
+    location /media/ {
+        root /home/ubuntu/tffconnect/tffconnect_backend/tffconnect;
+        try_files $uri =404;
+    }
+
+    location /backend-static/ {
+        root /home/ubuntu/tffconnect/tffconnect_backend/tffconnect;
+        try_files $uri =404;
+    }
+
     location / {
+        root /home/ubuntu/tffconnect/tffconnect_frontend/build/;
+        index index.html;
         try_files $uri $uri/ /index.html;
     }
 }
