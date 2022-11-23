@@ -14,6 +14,7 @@ import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import axios from 'axios';
+import useAuth from 'app/hooks/useAuth';
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
@@ -21,14 +22,15 @@ const TextField = styled(TextValidator)(() => ({
 }));
 
 const SimpleForm = () => {
+  const { user } = useAuth();
   const [state, setState] = useState({
     proposal_date : new Date(),
     start_date : new Date(),
     end_date : new Date(),
     confirmation_date : new Date(),
-    owner : '8',
+    owner : user.id,
     is_finished : false
-});
+  });
   const handleSubmit = (event) => {
     console.log("submitted");
     event.preventDefault();
@@ -36,7 +38,7 @@ const SimpleForm = () => {
     postProject();
   }
   const postProject = () => {
-    axios.post('http://localhost:8000/api/projects/', state).then((response) => {
+    axios.post('http://127.0.0.1:8000//api/projects/', state).then((response) => {
         console.log(response);
       })
       .catch(error => console.error(error));
