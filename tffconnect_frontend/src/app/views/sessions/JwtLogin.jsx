@@ -8,6 +8,8 @@ import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
+import { GoogleLogin } from '@react-oauth/google';
+
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
 const JustifyBox = styled(FlexBox)(() => ({ justifyContent: 'center' }));
@@ -75,7 +77,19 @@ const JwtLogin = () => {
           </Grid>
 
           <Grid item sm={6} xs={12}>
-            <ContentBox>
+              <ContentBox>
+              <GoogleLogin
+                ux_mode='redirect'
+                login_uri='http://localhost:8000/api/users/google-signup-login/'
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+              <Box sx={{ height: 20 }} />
+              <Paragraph color="text.secondary" textAlign="left" padding="0 0 0 4px">
+                Or sign in with your email address:
+              </Paragraph>
+              <Box sx={{ height: 20 }} />
               <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
