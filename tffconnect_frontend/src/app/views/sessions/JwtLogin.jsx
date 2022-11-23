@@ -80,7 +80,7 @@ const JwtLogin = () => {
               <ContentBox>
               <GoogleLogin
                 ux_mode='redirect'
-                login_uri='http://tffconnect.com/api/users/google-signup-login/'
+                login_uri='https://tffconnect.com/api/users/google-signup-login/'
                 onError={() => {
                   console.log('Login Failed');
                 }}
