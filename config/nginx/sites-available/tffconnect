@@ -1,5 +1,4 @@
 server {
-    listen 80;
     server_name tffconnect.com;
 
     location /api/ {
@@ -27,4 +26,21 @@ server {
         index index.html;
         try_files $uri $uri/ /index.html;
     }
+
+    listen 443 ssl;
+    ssl_certificate /etc/letsencrypt/live/tffconnect.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/tffconnect.com/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+}
+
+server {
+    if ($host = tffconnect.com) {
+        return 301 https://$host$request_uri;
+    }
+
+    listen 80;
+    server_name tffconnect.com;
+    return 404;
 }

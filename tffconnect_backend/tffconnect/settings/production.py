@@ -24,4 +24,4 @@ DATABASES = {
     }
 }
 
-FRONTEND_URL = "http://tffconnect.com"
+FRONTEND_URL = "https://tffconnect.com"
