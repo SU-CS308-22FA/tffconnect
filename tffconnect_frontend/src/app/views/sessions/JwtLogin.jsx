@@ -87,7 +87,7 @@ const JwtLogin = () => {
               />
               <Box sx={{ height: 20 }} />
               <Paragraph color="text.secondary" textAlign="left" padding="0 0 0 4px">
-                Or sign in with your email address:
+                Veya e-posta adresiniz ile giriş yapın:
               </Paragraph>
               <Box sx={{ height: 20 }} />
               <Formik
