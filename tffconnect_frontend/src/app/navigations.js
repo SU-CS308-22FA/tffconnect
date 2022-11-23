@@ -8,7 +8,8 @@ export const navigations = [
     children: [
       { name: 'Lig Durumu', iconText: 'LD', path: "" },
       { name: 'Hakemler', iconText: 'H', path: "" },
-      { name: 'Projeler', iconText: 'P', path: '/material/addproject' },
+      { name: 'Proje Ekle', iconText: 'PE', path: '/material/addproject' },
+      { name: 'Proje Listele', iconText: 'PL', path: '/material/listproject' },
     ],
   },
   { label: 'OTURUM AÇ', type: 'label' },
