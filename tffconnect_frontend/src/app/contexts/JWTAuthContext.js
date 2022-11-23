@@ -120,7 +120,7 @@ export const AuthProvider = ({ children }) => {
 
                 if (accessToken) {
                     setSession(accessToken)
-                    const response = await axios.get('http://tffconnect.com/api/users/me/')
+                    const response = await axios.get('https://tffconnect.com/api/users/me/')
 
                     dispatch({
                         type: 'INIT',
