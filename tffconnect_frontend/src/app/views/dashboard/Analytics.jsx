@@ -39,7 +39,7 @@ export default function MainView() {
   }, []);
 
   const getNewsItems = () => {
-    axios.get('http://tffconnect.com/api/news/')
+    axios.get('https://tffconnect.com/api/news/')
     .then((response) => {
       allNews = response.data;
       setResponseData(allNews);

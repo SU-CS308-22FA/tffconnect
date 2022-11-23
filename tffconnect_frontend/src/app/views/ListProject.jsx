@@ -31,7 +31,7 @@ import {
     }, []);
 
     const getProjectItems = () => {
-        axios.get('http://127.0.0.1:8000/api/projects/')
+        axios.get('https://tffconnect.com/api/projects/')
         .then((response) => {
             allProjects = response.data;
             setResponseData(allProjects);

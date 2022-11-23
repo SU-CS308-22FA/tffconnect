@@ -38,7 +38,7 @@ const SimpleForm = () => {
     postProject();
   }
   const postProject = () => {
-    axios.post('http://127.0.0.1:8000//api/projects/', state).then((response) => {
+    axios.post('https://tffconnect.com/api/projects/', state).then((response) => {
         console.log(response);
       })
       .catch(error => console.error(error));
