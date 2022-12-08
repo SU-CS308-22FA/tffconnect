@@ -39,7 +39,7 @@ export default function MainView() {
   }, []);
 
   const getNewsItems = () => {
-    axios.get('https://tffconnect.com/api/news/')
+    axios.get('http://127.0.0.1:8000/api/news/')
     .then((response) => {
       allNews = response.data;
       setResponseData(allNews);
@@ -54,14 +54,14 @@ export default function MainView() {
 
     return (
       <Fragment>
-        <ContentBox className="analytics">
+        <ContentBox className="mainView">
           <Grid container spacing={-1}>
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <ul>
                 {(() => {
                   let cards = [];
                   for (let i=0; i < whereToStart; i++) {
-                    let imageUrlStr = "https://tffconnect.com" + allNews[i].image
+                    let imageUrlStr = "http://127.0.0.1:8000" + allNews[i].image
                     cards.push (
                       <Card sx={{ px: 3, py: 2, mb: 3 }}>
                       <CardMedia
@@ -94,7 +94,7 @@ export default function MainView() {
                   {(() => {
                     let cards = [];
                     for (let i=whereToStart; i < allNews.length; i++) {
-                      let imageUrlStr = "https://tffconnect.com" + allNews[i].image
+                      let imageUrlStr = "http://127.0.0.1:8000" + allNews[i].image
                       cards.push (
                         <Card sx={{ px: 3, py: 2, mb: 3 }}>
                         <CardMedia

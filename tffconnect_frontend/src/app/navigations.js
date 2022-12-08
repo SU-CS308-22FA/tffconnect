@@ -1,13 +1,15 @@
 export const navigations = [
-  { name: 'Ana Sayfa', path: '/dashboard/default', icon: 'home' },
+  { name: 'Ana Sayfa', path: '/dashboard', icon: 'home' },
+  { name: 'Favorilediklerim', path: '/favorites', icon: 'favorite' },
   { label: 'TFF GÜNCEL', type: 'label' },
   {
     name: 'Güncel Veriler',
     icon: 'public',
     children: [
-      { name: 'Lig Durumu', iconText: 'LD', path: "" },
-      { name: 'Hakemler', iconText: 'H', path: "" },
-      { name: 'Projeler', iconText: 'P', path: "" },
+      { name: 'Lig Durumu', path: "" },
+      { name: 'Hakemler', path: "" },
+      { name: 'Projeler', path: "" },
+      { name: 'Hakemler-Maçlar', path: '/data/referee_games' },
     ],
   },
   { label: 'OTURUM AÇ', type: 'label' },
