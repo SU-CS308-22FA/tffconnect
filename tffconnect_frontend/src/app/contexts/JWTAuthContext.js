@@ -72,12 +72,28 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    const login = async (email, password) => {
-        const response = await axios.post('/api/auth/login', {
-            email,
+    const login = async (username, password) => {
+        const response = await axios.post('http://127.0.0.1:8000/api/users/login/', {
+            username,
             password,
         })
-        const { accessToken, user } = response.data
+        .catch((error) => {
+            console.log(error)
+        })
+        console.log(response.status)
+        console.log(response.data)
+        const accessToken = response.data["token"]
+        console.log(accessToken)
+    
+        const response2 = await axios.get('http://127.0.0.1:8000/api/users/me/', {
+            headers: {
+                Authorization: "Token " + accessToken,
+              },
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+        const user  = response2.data
 
         setSession(accessToken)
 
@@ -88,7 +104,7 @@ export const AuthProvider = ({ children }) => {
             },
         })
     }
-
+    
     const register = async (email, username, password) => {
         const response = await axios.post('/api/auth/register', {
             email,
