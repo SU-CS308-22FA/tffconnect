@@ -40,9 +40,6 @@ import {
           })
           .catch(error => console.error(error));
     }
-    
-    let whereToStart = Math.ceil(allProjects.length/2);
-    console.log(whereToStart);
 
     return (
       <Box width="100%" overflow="auto">
