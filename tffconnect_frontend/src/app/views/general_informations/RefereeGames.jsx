@@ -8,7 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import axios from 'axios';
-import SimpleTable from '../used-components/SimpleTable';
+import RefereeTable from '../used-components/RefereeTable';
 
 const ContentBox = styled('div')(({ theme }) => ({
     margin: '30px',
@@ -35,9 +35,9 @@ const ContentBox = styled('div')(({ theme }) => ({
     return (
         <Fragment>
           <ContentBox className="mainView">
-            <SimpleTable>
+            <RefereeTable>
 
-            </SimpleTable>
+            </RefereeTable>
           </ContentBox>
         </Fragment>
     );

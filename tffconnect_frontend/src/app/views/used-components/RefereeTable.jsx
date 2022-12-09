@@ -59,7 +59,7 @@ const subscribarList = [
   },
 ];
 
-const SimpleTable = () => {
+const RefereeTable = () => {
   return (
     <Box width="100%" overflow="auto">
       <StyledTable>
@@ -95,4 +95,4 @@ const SimpleTable = () => {
   );
 };
 
-export default SimpleTable;
+export default RefereeTable;

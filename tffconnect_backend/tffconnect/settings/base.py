@@ -33,7 +33,7 @@ INSTALLED_APPS = [
     "tffconnect.users",
     "tffconnect.news",
     "tffconnect.projects",
-    "tffconnect.referees",  #to use the model
+    "tffconnect.referees",
 ]
 
 MIDDLEWARE = [
