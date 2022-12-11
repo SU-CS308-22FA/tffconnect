@@ -6,4 +6,4 @@ class RefereesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Referees
-        fields = ('name', 'surname', 'city', 'classification')
+        fields = ('id', 'name', 'surname', 'city', 'classification')
