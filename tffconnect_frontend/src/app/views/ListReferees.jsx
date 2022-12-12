@@ -34,7 +34,7 @@ import {
       setPage(newPage);
     };
   
-    let [allReferees, setResponseData] = useState('');
+    let [allReferees, setResponseData] = useState([]);
 
     useEffect(() => {
         getRefereesItems();
@@ -69,14 +69,13 @@ import {
           </TableHead>
           <TableBody>
             {allReferees
-              .map(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((referee, index) => (
                 <TableRow key={index}>
                   <TableCell align="left">{referee.name}</TableCell>
                   <TableCell align="center">{referee.surname}</TableCell>
                   <TableCell align="center">{referee.city}</TableCell>
                   <TableCell align="center">{referee.classification}</TableCell>
-                  <TableCell align="center">${referee.amount}</TableCell>
                   <TableCell align="right">
                     <IconButton>
                       <Icon color="error">close</Icon>
