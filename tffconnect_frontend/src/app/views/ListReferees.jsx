@@ -34,8 +34,6 @@ import {
       setPage(newPage);
     };
   
-
-  
     let [allReferees, setResponseData] = useState('');
 
     useEffect(() => {
@@ -48,22 +46,14 @@ import {
             allReferees = response.data;
             setResponseData(allReferees);
             console.log(allReferees);
-            console.log(allReferees.length);
             })
             .catch(error => console.error(error));
     }
-    
-    let whereToStart = Math.ceil(allReferees.length/2);
-    console.log(whereToStart);
-
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
         setPage(0);
       };
-
-
-
 
     return (
       <Box width="100%" overflow="auto">
@@ -71,23 +61,22 @@ import {
           <TableHead>
             <TableRow>
               <TableCell align="left">Name</TableCell>
-              <TableCell align="center">Company</TableCell>
-              <TableCell align="center">Start Date</TableCell>
-              <TableCell align="center">Status</TableCell>
-              <TableCell align="center">Amount</TableCell>
+              <TableCell align="center">Surname</TableCell>
+              <TableCell align="center">City</TableCell>
+              <TableCell align="center">Classification</TableCell>
               <TableCell align="right">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {subscribarList
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((subscriber, index) => (
+            {allReferees
+              .map(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((referee, index) => (
                 <TableRow key={index}>
-                  <TableCell align="left">{subscriber.name}</TableCell>
-                  <TableCell align="center">{subscriber.company}</TableCell>
-                  <TableCell align="center">{subscriber.date}</TableCell>
-                  <TableCell align="center">{subscriber.status}</TableCell>
-                  <TableCell align="center">${subscriber.amount}</TableCell>
+                  <TableCell align="left">{referee.name}</TableCell>
+                  <TableCell align="center">{referee.surname}</TableCell>
+                  <TableCell align="center">{referee.city}</TableCell>
+                  <TableCell align="center">{referee.classification}</TableCell>
+                  <TableCell align="center">${referee.amount}</TableCell>
                   <TableCell align="right">
                     <IconButton>
                       <Icon color="error">close</Icon>
@@ -103,7 +92,7 @@ import {
           page={page}
           component="div"
           rowsPerPage={rowsPerPage}
-          count={subscribarList.length}
+          count={allReferees.length}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
