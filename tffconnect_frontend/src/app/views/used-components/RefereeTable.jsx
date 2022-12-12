@@ -1,14 +1,8 @@
-import {
-  Box,
-  Icon,
-  IconButton,
-  styled,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import * as React from 'react';
+import { Box, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Height } from '../../../../node_modules/@mui/icons-material/index';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: "pre",
@@ -20,79 +14,56 @@ const StyledTable = styled(Table)(({ theme }) => ({
   },
 }));
 
-const subscribarList = [
-  {
-    name: "john doe",
-    date: "18 january, 2019",
-    status: "close",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    status: "open",
-    company: "My Fintech LTD.",
-  },
-  {
-    name: "james cassegne",
-    date: "8 january, 2019",
-    status: "close",
-    company: "Collboy Tech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-];
+export default function RefereeTable() {
+  console.log("Hello");
+  let [allGames, setResponseData] = useState([]);
 
-const RefereeTable = () => {
-  return (
-    <Box width="100%" overflow="auto">
-      <StyledTable>
-        <TableHead>
-          <TableRow>
-            <TableCell align="left">Personel Adı</TableCell>
-            <TableCell align="center">Puanı</TableCell>
-            <TableCell align="center">Atandığı Maç</TableCell>
-            <TableCell align="center">Oynanma Tarihi</TableCell>
-            <TableCell align="center">Maç Sonucu</TableCell>
-            <TableCell align="right">Oyla</TableCell>
-          </TableRow>
-        </TableHead>
+  useEffect(() => {
+    getGames();
+  }, []);
 
-        <TableBody>
-          {subscribarList.map((subscriber, index) => (
-            <TableRow key={index}>
-              <TableCell align="left">{subscriber.name}</TableCell>
-              <TableCell align="center">{subscriber.company}</TableCell>
-              <TableCell align="center">{subscriber.date}</TableCell>
-              <TableCell align="center">{subscriber.date}</TableCell>
-              <TableCell align="center">{subscriber.status}</TableCell>
-              <TableCell align="right">
-                <IconButton>
-                  <Icon color="success">offline_pin</Icon>
-                </IconButton>
-              </TableCell>
+  const getGames = () => {
+    axios.get('http://127.0.0.1:8000/api/games/')
+    .then((response) => {
+      allGames = response.data;
+      setResponseData(allGames);
+      console.log(allGames);
+      console.log(allGames.length);
+    })
+    .catch(error => console.error('Error: ${error}'));
+  }
+
+    return (
+      <Box width="100%" overflow="auto">
+        <StyledTable>
+          <TableHead>
+            <TableRow>
+              <TableCell align="center">Personel Adı</TableCell>
+              <TableCell align="center">Puanı</TableCell>
+              <TableCell align="center">Atandığı Maç</TableCell>
+              <TableCell align="center">Oynanma Tarihi</TableCell>
+              <TableCell align="center">Maç Sonucu</TableCell>
+              <TableCell align="center">Oyla</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </StyledTable>
-    </Box>
-  );
-};
+          </TableHead>
 
-export default RefereeTable;
+          <TableBody>
+            {allGames.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell align="center">{item.referee_id}</TableCell>
+                <TableCell align="center">{item.referee_id}</TableCell>
+                <TableCell align="center">{item.game_name}</TableCell>
+                <TableCell align="center">{item.game_date}</TableCell>
+                <TableCell align="center">{item.game_result}</TableCell>
+                <TableCell align="center">
+                  <IconButton>
+                    <Icon color="success">offline_pin</Icon>
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </StyledTable>
+      </Box>
+    );
+};

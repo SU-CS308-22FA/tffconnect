@@ -36,7 +36,7 @@ const ContentBox = styled('div')(({ theme }) => ({
         <Fragment>
           <ContentBox className="mainView">
             <RefereeTable>
-
+              
             </RefereeTable>
           </ContentBox>
         </Fragment>
