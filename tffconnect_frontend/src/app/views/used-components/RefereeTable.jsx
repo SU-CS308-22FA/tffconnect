@@ -19,25 +19,35 @@ export default function RefereeTable() {
   let [referees, setResponseData_ref] = useState([]);
 
   useEffect(() => {
+    getRefNames();
+  }, [])
+
+  useEffect(() => {
     getGames();
-  }, []);
+  }, [])
+
+  const getRefNames = () => {
+    axios.get('http://127.0.0.1:8000/api/referees/')
+    .then((response) => {
+      referees = response.data;
+      setResponseData_ref(referees);
+    })
+    .catch(error => console.error('Error: ${error}'));
+  }
 
   const getGames = () => {
     axios.get('http://127.0.0.1:8000/api/games/')
     .then((response) => {
       allGames = response.data;
       setResponseData(allGames);
-      console.log(allGames);
-      console.log(allGames.length);
-    })
-    .catch(error => console.error('Error: ${error}'));
-  }
-
-  const getRefNames = () => {
-    axios.get('http://127.0.0.1:8000/api/referees/')
-    .then((response) => {
-      refNames = response.data;
-      setResponseData_ref(refNames);
+      getRefNames();
+      for (let i=0; i < allGames.length; i++) {
+        for (let x=0; x < referees.length; x++) {
+          if (allGames[i].referee_id = referees[x].id) {
+            allGames[i].referee_id = referees[x].name + " " + referees[x].surname
+          }
+        }
+      }
     })
     .catch(error => console.error('Error: ${error}'));
   }
@@ -60,7 +70,7 @@ export default function RefereeTable() {
             {allGames.map((item, index) => (
               <TableRow key={index}>
                 <TableCell align="center">{item.referee_id}</TableCell>
-                <TableCell align="center">{item.referee_id}</TableCell>
+                <TableCell align="center">{"5.0"}</TableCell>
                 <TableCell align="center">{item.game_name}</TableCell>
                 <TableCell align="center">{item.game_date}</TableCell>
                 <TableCell align="center">{item.game_result}</TableCell>
