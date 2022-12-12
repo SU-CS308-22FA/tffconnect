@@ -24,14 +24,14 @@ import {
   }));
 
   const SimpleTable = () => {
-    let [allProjects, setResponseData] = useState('');
+    let [allProjects, setResponseData] = useState([]);
 
     useEffect(() => {
         getProjectItems();
     }, []);
 
     const getProjectItems = () => {
-        axios.get('https://tffconnect.com/api/projects/')
+        axios.get('http://127.0.0.1:8000/api/projects/')
         .then((response) => {
             allProjects = response.data;
             setResponseData(allProjects);
