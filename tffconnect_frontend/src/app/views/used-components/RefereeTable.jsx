@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Box, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Height } from '../../../../node_modules/@mui/icons-material/index';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: "pre",
@@ -17,6 +16,7 @@ const StyledTable = styled(Table)(({ theme }) => ({
 export default function RefereeTable() {
   console.log("Hello");
   let [allGames, setResponseData] = useState([]);
+  let [referees, setResponseData_ref] = useState([]);
 
   useEffect(() => {
     getGames();
@@ -29,6 +29,15 @@ export default function RefereeTable() {
       setResponseData(allGames);
       console.log(allGames);
       console.log(allGames.length);
+    })
+    .catch(error => console.error('Error: ${error}'));
+  }
+
+  const getRefNames = () => {
+    axios.get('http://127.0.0.1:8000/api/referees/')
+    .then((response) => {
+      refNames = response.data;
+      setResponseData_ref(refNames);
     })
     .catch(error => console.error('Error: ${error}'));
   }

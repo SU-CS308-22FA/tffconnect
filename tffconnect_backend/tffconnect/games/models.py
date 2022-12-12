@@ -2,9 +2,9 @@ from django.db import models
 from ..referees.models import Referees
 
 GAME_CHOICES = (
-    ('B', 'Berabere'),
-    ('T1', 'Takım 1 kazandı!'),
-    ('T2', 'Takım 2 kazandı!'),
+    ('Berabere', 'Berabere'),
+    ('Takım 1 kazandı!', 'Takım 1 kazandı!'),
+    ('Takım 2 kazandı!', 'Takım 2 kazandı!'),
 )
 
 
