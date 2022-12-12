@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import axios from 'axios';
 import useAuth from 'app/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
@@ -31,11 +32,13 @@ const SimpleForm = () => {
     owner : user.id,
     is_finished : false
   });
+  const navigator = useNavigate();
   const handleSubmit = (event) => {
     console.log("submitted");
     event.preventDefault();
     console.log(state);
     postProject();
+    navigator('/material/listproject');
   }
   const postProject = () => {
     axios.post('http://127.0.0.1:8000/api/projects/', state).then((response) => {
