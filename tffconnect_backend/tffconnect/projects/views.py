@@ -1,11 +1,10 @@
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import AllowAny
-
 from .models import Project
 from .serializers import ProjectSerializer
 
 
-#/api/projects List, Create
+# /api/projects List, Create
 class ProjectListCreateView(ListCreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
