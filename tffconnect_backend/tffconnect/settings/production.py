@@ -23,3 +23,5 @@ DATABASES = {
         "PORT": 5432,
     }
 }
+
+FRONTEND_URL = "https://tffconnect.com"

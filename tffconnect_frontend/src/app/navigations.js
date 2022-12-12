@@ -1,12 +1,12 @@
 export const navigations = [
-  { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
-  { label: 'PAGES', type: 'label' },
+  { name: 'Ana Sayfa', path: '/dashboard/default', icon: 'home' },
+  { label: 'TFF GÜNCEL', type: 'label' },
   {
-    name: 'Session/Auth',
-    icon: 'security',
+    name: 'Güncel Veriler',
+    icon: 'public',
     children: [
       { name: 'Lig Durumu', iconText: 'LD', path: "" },
-      { name: 'Hakemler', iconText: 'H', path: '/material/AddReferees' },
+      { name: 'Hakemler', iconText: 'H', path: "" },
       { name: 'Projeler', iconText: 'P', path: "" },
     ],
   },
