@@ -6,12 +6,8 @@ export const navigations = [
     icon: 'security',
     children: [
       { name: 'Lig Durumu', iconText: 'LD', path: "" },
-      { name: 'Hakemler', iconText: 'H', path: '/material/AddReferees' },
-<<<<<<< Updated upstream
-=======
-      { name: 'Hakemler', iconText: 'H', path: "" },
-
->>>>>>> Stashed changes
+      //{ name: 'Hakem Ekle', iconText: 'HE', path: '/material/AddReferees' },
+      { name: 'Hakemleri Listele', iconText: 'HL', path: "/material/ListReferees" },
       { name: 'Projeler', iconText: 'P', path: "" },
     ],
   },
