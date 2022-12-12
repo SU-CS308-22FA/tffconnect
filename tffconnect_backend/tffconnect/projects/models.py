@@ -2,7 +2,6 @@ from django.db import models
 from tffconnect.users.models import User
 
 
-# Create your models here.
 class Project(models.Model):
     name = models.CharField(max_length=255)  
     is_finished = models.BooleanField()
