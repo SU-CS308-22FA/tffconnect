@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('game_name', models.CharField(max_length=100)),
                 ('game_date', models.DateField(verbose_name='date played')),
-                ('game_result', models.CharField(choices=[('B', 'Berabere'), ('T1', 'Takım 1 kazandı!'), ('T2', 'Takım 2 kazandı!')], max_length=100)),
+                ('game_result', models.CharField(max_length=100)),
                 ('referee_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='referees.referees')),
             ],
         ),
