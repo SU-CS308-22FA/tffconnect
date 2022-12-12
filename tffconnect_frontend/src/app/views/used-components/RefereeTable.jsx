@@ -14,7 +14,6 @@ const StyledTable = styled(Table)(({ theme }) => ({
 }));
 
 export default function RefereeTable() {
-  console.log("Hello");
   let [allGames, setResponseData] = useState([]);
   let [referees, setResponseData_ref] = useState([]);
 
