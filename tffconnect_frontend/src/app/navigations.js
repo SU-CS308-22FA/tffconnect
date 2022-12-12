@@ -7,6 +7,11 @@ export const navigations = [
     children: [
       { name: 'Lig Durumu', iconText: 'LD', path: "" },
       { name: 'Hakemler', iconText: 'H', path: '/material/AddReferees' },
+<<<<<<< Updated upstream
+=======
+      { name: 'Hakemler', iconText: 'H', path: "" },
+
+>>>>>>> Stashed changes
       { name: 'Projeler', iconText: 'P', path: "" },
     ],
   },
