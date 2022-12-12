@@ -1,7 +1,6 @@
 from django.db import models
 from tffconnect.users.models import User
 
-
 class Project(models.Model):
     name = models.CharField(max_length=255)  
     is_finished = models.BooleanField()
@@ -14,6 +13,3 @@ class Project(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     is_confirmed_by_tff = models.BooleanField()
     confirmation_datetime = models.DateTimeField(auto_now_add=True)
-
-    # imageField  upload / or URL  image upload (base64?)
-    # project eklendiği tarih = date feild on add update
