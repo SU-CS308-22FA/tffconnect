@@ -8,8 +8,6 @@ import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import { GoogleLogin } from '@react-oauth/google';
-
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
 const JustifyBox = styled(FlexBox)(() => ({ justifyContent: 'center' }));
@@ -77,19 +75,7 @@ const JwtLogin = () => {
           </Grid>
 
           <Grid item sm={6} xs={12}>
-              <ContentBox>
-              <GoogleLogin
-                ux_mode='redirect'
-                login_uri='https://tffconnect.com/api/users/google-signup-login/'
-                onError={() => {
-                  console.log('Login Failed');
-                }}
-              />
-              <Box sx={{ height: 20 }} />
-              <Paragraph color="text.secondary" textAlign="left" padding="0 0 0 4px">
-                Veya e-posta adresiniz ile giriş yapın:
-              </Paragraph>
-              <Box sx={{ height: 20 }} />
+            <ContentBox>
               <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}
