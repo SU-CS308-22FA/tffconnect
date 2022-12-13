@@ -10,7 +10,7 @@ class TeamSerializer(serializers.ModelSerializer):
         model = Team
         fields = ["name", "league"]
 
-    def validate_league(self, league):
-        if not Team.objects.filter(league=league).exists():
-            raise serializers.ValidationError({"league": "League does not exist."})
-        return league
+    def validate_name(self, name):
+        if not Team.objects.filter(name=name).exists():
+            raise serializers.ValidationError({"name": "Team does not exist."})
+        return name
