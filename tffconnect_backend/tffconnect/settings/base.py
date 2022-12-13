@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "tffconnect.users",
     "tffconnect.news",
     "tffconnect.projects",
+    "tffconnect.teams",
 ]
 
 MIDDLEWARE = [
