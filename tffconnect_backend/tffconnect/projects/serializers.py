@@ -23,7 +23,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         project = models.Project.objects.create(**validated_data)
         return project
-        
+
     def delete(self, validated_data):
         project = models.Project.objects.delete(**validated_data)
         return project
