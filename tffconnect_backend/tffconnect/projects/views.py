@@ -1,6 +1,5 @@
 from rest_framework.generics import ListCreateAPIView
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-
+from rest_framework.permissions import AllowAny
 from .models import Project
 from .serializers import ProjectSerializer
 
@@ -9,7 +8,7 @@ from .serializers import ProjectSerializer
 class ProjectListCreateView(ListCreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
 
 
 # /api/projects/<int:pk> Retrieve, Update, Destroy
