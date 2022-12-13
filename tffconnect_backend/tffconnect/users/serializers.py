@@ -11,7 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
-        fields = ["id", "username", "first_name", "last_name", "password"]
+        fields = ["id", "username", "first_name", "last_name", "password", "favorite_items"]
 
     def create(self, validated_data):
         user = models.User.objects.create_user(**validated_data)
@@ -21,6 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get("username", instance.username)
         instance.first_name = validated_data.get("first_name", instance.first_name)
         instance.last_name = validated_data.get("last_name", instance.last_name)
+        instance.favorite_items = validated_data.get("favorite_items", instance.favorite_items)
         instance.save()
         return instance
 

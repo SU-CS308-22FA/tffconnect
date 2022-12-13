@@ -5,7 +5,6 @@ import CardMedia from '@mui/material/CardMedia';
 import { Fragment } from 'react';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import axios from 'axios';
 import useAuth from 'app/hooks/useAuth';
@@ -83,9 +82,6 @@ export default function Favorites() {
                       <SubTitle>Haber</SubTitle><br></br>
                       <Description>{allNews[i].details}</Description>
                       <CardActions disableSpacing>
-                        <IconButton aria-label="add to favorites">
-                          <FavoriteIcon />
-                        </IconButton>
                         <IconButton aria-label="share">
                           <ShareIcon />
                         </IconButton>
@@ -116,9 +112,6 @@ export default function Favorites() {
                         <SubTitle>Haber</SubTitle><br></br>
                         <Description>{allNews[i].details}</Description>
                         <CardActions disableSpacing>
-                          <IconButton aria-label="add to favorites">
-                            <FavoriteIcon />
-                          </IconButton>
                           <IconButton aria-label="share">
                             <ShareIcon />
                           </IconButton>
