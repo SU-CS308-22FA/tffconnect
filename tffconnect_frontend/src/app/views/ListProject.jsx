@@ -16,7 +16,7 @@ import {
   const StyledTable = styled(Table)(({ theme }) => ({
     whiteSpace: "pre",
     "& thead": {
-      "& tr": { "& th": { paddingLeft: 0, paddingRight: 0 } },
+      "& tr": { "& th": { paddingLeft: 1, paddingRight: 1 } },
     },
     "& tbody": {
       "& tr": { "& td": { paddingLeft: 0, textTransform: "capitalize" } },
@@ -46,7 +46,7 @@ import {
         <StyledTable>
           <TableHead>
             <TableRow>
-              <TableCell align="left">Project Name</TableCell>
+              <TableCell align="center">Project Name</TableCell>
               <TableCell align="center">Project Description</TableCell>
               <TableCell align="center">Project Status</TableCell>
               <TableCell align="center">Project Proposal Date</TableCell>
@@ -56,14 +56,14 @@ import {
               <TableCell align="center">Project Budget</TableCell>
               <TableCell align="center">Project Owner</TableCell>
               <TableCell align="center">Is Project Approved By Owner</TableCell>
-              <TableCell align="right">Confirmation Date of Approval</TableCell>
+              <TableCell align="center">Confirmation Date of Approval</TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
           {allProjects.map((project, index) => (
             <TableRow key={index}>
-                <TableCell align="left">{project.name}</TableCell>
+                <TableCell align="center">{project.name}</TableCell>
                 <TableCell align="center">{project.description}</TableCell>
                 <TableCell align="center">{project.is_finished}</TableCell>
                 <TableCell align="center">{project.proposal_date}</TableCell>
@@ -73,8 +73,8 @@ import {
                 <TableCell align="center">${project.budget}</TableCell>
                 <TableCell align="center">${project.owner}</TableCell>
                 <TableCell align="center">{project.is_confirmed_by_tff}</TableCell>
-                <TableCell align="right">{project.confirmation_date}</TableCell>
-              <TableCell align="right">
+                <TableCell align="center">{project.confirmation_date}</TableCell>
+              <TableCell align="center">
                 <IconButton>
                   <Icon color="error">close</Icon>
                 </IconButton>
