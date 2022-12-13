@@ -64,6 +64,7 @@ import {
               <TableCell align="center">Surname</TableCell>
               <TableCell align="center">City</TableCell>
               <TableCell align="center">Classification</TableCell>
+              <TableCell align="center">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -75,7 +76,11 @@ import {
                   <TableCell align="center">{referee.surname}</TableCell>
                   <TableCell align="center">{referee.city}</TableCell>
                   <TableCell align="center">{referee.classification}</TableCell>
-
+                  <TableCell align="center">
+                    <IconButton>
+                      <Icon color="error">close</Icon>
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>
