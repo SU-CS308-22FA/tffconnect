@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import axios from 'axios';
+import useAuth from 'app/hooks/useAuth';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -32,7 +33,22 @@ const Description = styled('span')(() => ({
 
 export default function MainView() {
   const { palette } = useTheme();
+  const { user } = useAuth();
   let [allNews, setResponseData] = useState('');
+  const [newsId, setNewsId] = useState(null);
+
+  useEffect(() => {
+    const sendPostRequest = async () => {
+      try {
+        await axios.post('http://127.0.0.1:8000/api/favorites/', { news_id: newsId, user_id: user.id });
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    if (newsId) {
+      sendPostRequest();
+    }
+  }, [newsId]);
 
   useEffect(() => {
     getNewsItems();
@@ -74,7 +90,7 @@ export default function MainView() {
                       <SubTitle>Haber</SubTitle><br></br>
                       <Description>{allNews[i].details}</Description>
                       <CardActions disableSpacing>
-                        <IconButton aria-label="add to favorites">
+                        <IconButton onClick={() => setNewsId(allNews[i].id)}>
                           <FavoriteIcon />
                         </IconButton>
                         <IconButton aria-label="share">

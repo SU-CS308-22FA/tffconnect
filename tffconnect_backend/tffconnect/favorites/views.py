@@ -14,6 +14,6 @@ class AddFavorites(ListCreateAPIView):
 
 class ModifyFavorites(RetrieveUpdateDestroyAPIView):
     queryset = UserFavorites.objects.all()
-    lookup_url_kwarg = 'user_id'
+    lookup_url_kwarg = 'id'
     serializer_class = FavoritesSerializer
     permission_classes = [AllowAny]

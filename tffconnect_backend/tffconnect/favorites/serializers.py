@@ -24,6 +24,6 @@ class FavoritesSerializer(serializers.ModelSerializer):
         instance.news_id = validated_data.get('news_id', instance.news_id)
         instance.save()
         return instance
-        
+
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
