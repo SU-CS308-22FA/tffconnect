@@ -6,7 +6,7 @@ export const navigations = [
     icon: 'security',
     children: [
       { name: 'Lig Durumu', iconText: 'LD', path: "" },
-      //{ name: 'Hakem Ekle', iconText: 'HE', path: '/material/AddReferees' },
+      { name: 'Hakem Ekle/Sil', iconText: 'HE', path: '/material/AddDeleteReferees' },
       { name: 'Hakemleri Listele', iconText: 'HL', path: "/material/ListReferees" },
       { name: 'Projeler', iconText: 'P', path: "" },
     ],

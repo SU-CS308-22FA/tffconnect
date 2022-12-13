@@ -60,11 +60,10 @@ import {
         <StyledTable>
           <TableHead>
             <TableRow>
-              <TableCell align="left">Name</TableCell>
+              <TableCell align="center">Name</TableCell>
               <TableCell align="center">Surname</TableCell>
               <TableCell align="center">City</TableCell>
               <TableCell align="center">Classification</TableCell>
-              <TableCell align="right">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -72,15 +71,11 @@ import {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((referee, index) => (
                 <TableRow key={index}>
-                  <TableCell align="left">{referee.name}</TableCell>
+                  <TableCell align="center">{referee.name}</TableCell>
                   <TableCell align="center">{referee.surname}</TableCell>
                   <TableCell align="center">{referee.city}</TableCell>
                   <TableCell align="center">{referee.classification}</TableCell>
-                  <TableCell align="right">
-                    <IconButton>
-                      <Icon color="error">close</Icon>
-                    </IconButton>
-                  </TableCell>
+
                 </TableRow>
               ))}
           </TableBody>
