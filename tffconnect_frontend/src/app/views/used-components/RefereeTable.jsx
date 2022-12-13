@@ -14,43 +14,36 @@ const StyledTable = styled(Table)(({ theme }) => ({
 }));
 
 export default function RefereeTable() {
-  console.log("Hello");
-  let [allGames, setResponseData] = useState([]);
-  let [referees, setResponseData_ref] = useState([]);
+  const [games, setGames] = useState([]);
+  const [referees, setReferees] = useState([]);
+  const [games_refNames, setGamesWithRefereeNames] = useState([]);
 
   useEffect(() => {
-    getRefNames();
-  }, [])
+    axios.all([
+      axios.get('http://127.0.0.1:8000/api/referees/'),
+      axios.get('http://127.0.0.1:8000/api/games/')
+    ])
+    .then(axios.spread((refereesResponse, gamesResponse) => {
+      setReferees(refereesResponse.data);
+      setGames(gamesResponse.data);
+    }))
+    .catch(error => {
+      console.error(error);
+    });
+  }, []);
 
   useEffect(() => {
-    getGames();
-  }, [])
-
-  const getRefNames = () => {
-    axios.get('http://127.0.0.1:8000/api/referees/')
-    .then((response) => {
-      referees = response.data;
-      setResponseData_ref(referees);
-    })
-    .catch(error => console.error('Error: ${error}'));
-  }
-
-  const getGames = () => {
-    axios.get('http://127.0.0.1:8000/api/games/')
-    .then((response) => {
-      allGames = response.data;
-      setResponseData(allGames);
-      getRefNames();
-      for (let i=0; i < allGames.length; i++) {
-        for (let x=0; x < referees.length; x++) {
-          if (allGames[i].referee_id = referees[x].id) {
-            allGames[i].referee_id = referees[x].name + " " + referees[x].surname
-          }
-        }
-      }
-    })
-    .catch(error => console.error('Error: ${error}'));
-  }
+    const combinedGames = games.map((g) => {
+      const referee = referees.find((r) => r.id === g.referee_id);
+      return {
+        ...g,
+        referee: referee || null,
+      };
+    });
+    setGamesWithRefereeNames(combinedGames)
+  }, [games, referees]);
+  
+  console.log(games_refNames);
 
     return (
       <Box width="100%" overflow="auto">
@@ -67,9 +60,9 @@ export default function RefereeTable() {
           </TableHead>
 
           <TableBody>
-            {allGames.map((item, index) => (
+            {games_refNames.map((item, index) => (
               <TableRow key={index}>
-                <TableCell align="center">{item.referee_id}</TableCell>
+                <TableCell align="center">{item.referee.name + " " + item.referee.surname}</TableCell>
                 <TableCell align="center">{"5.0"}</TableCell>
                 <TableCell align="center">{item.game_name}</TableCell>
                 <TableCell align="center">{item.game_date}</TableCell>
