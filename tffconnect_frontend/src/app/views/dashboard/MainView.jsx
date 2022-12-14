@@ -37,6 +37,13 @@ export default function MainView() {
   let [allNews, setResponseData] = useState('');
   const [newsId, setNewsId] = useState(null);
 
+  /**
+   * @name sendPostRequest function sends a request to the backend server to add an item favorited by a user
+   * to be shown in the favorites view later.
+   * @param news_id comes from the id of the news item favorited by the user
+   * @param user_id is the id of the logged in user, if the user is not logged in
+   * the post request is not sent!
+   */
   useEffect(() => {
     const sendPostRequest = async () => {
       try {
@@ -123,7 +130,7 @@ export default function MainView() {
                         <SubTitle>Haber</SubTitle><br></br>
                         <Description>{allNews[i].details}</Description>
                         <CardActions disableSpacing>
-                          <IconButton aria-label="add to favorites">
+                          <IconButton onClick={() => setNewsId(allNews[i].id)}>
                             <FavoriteIcon />
                           </IconButton>
                           <IconButton aria-label="share">

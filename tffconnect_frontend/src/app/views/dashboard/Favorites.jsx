@@ -37,6 +37,14 @@ export default function Favorites() {
   const [favorites, setFavorites] = useState([]);
   const [user_favorites, setCombinedData] = useState([]);
 
+  /**
+   * @name useEffect function just below this statement makes two get requests to get the required
+   * information from two endpoints.
+   * @param newsResponse is the response turned back from the news endpoint
+   * @param favoritesResponse is the response turned back from the favorites endpoint
+   * The function sets the data turned back from the responses to the news and favorites arrays defined
+   * above.
+   */
   useEffect(() => {
     axios.all([
       axios.get('https://tffconnect.com/api/news/'),
