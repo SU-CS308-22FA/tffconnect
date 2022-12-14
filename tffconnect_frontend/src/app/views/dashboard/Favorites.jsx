@@ -39,8 +39,8 @@ export default function Favorites() {
 
   useEffect(() => {
     axios.all([
-      axios.get('http://127.0.0.1:8000/api/news/'),
-      axios.get('http://127.0.0.1:8000/api/favorites/')
+      axios.get('https://tffconnect.com/api/news/'),
+      axios.get('https://tffconnect.com/api/favorites/')
     ])
     .then(axios.spread((newsResponse, favoritesResponse) => {
       setNews(newsResponse.data);
@@ -81,7 +81,7 @@ export default function Favorites() {
                 {(() => {
                   let cards = [];
                   for (let i=0; i < whereToStart; i++) {
-                    let imageUrlStr = "http://127.0.0.1:8000" + user_favorites[i].newss.image
+                    let imageUrlStr = "https://tffconnect.com" + user_favorites[i].newss.image
                     cards.push (
                       <Card sx={{ px: 3, py: 2, mb: 3 }}>
                       <CardMedia
@@ -114,7 +114,7 @@ export default function Favorites() {
                   {(() => {
                     let cards = [];
                     for (let i=whereToStart; i < user_favorites.length; i++) {
-                      let imageUrlStr = "http://127.0.0.1:8000" + user_favorites[i].newss.image
+                      let imageUrlStr = "https://tffconnect.com" + user_favorites[i].newss.image
                       cards.push (
                         <Card sx={{ px: 3, py: 2, mb: 3 }}>
                         <CardMedia

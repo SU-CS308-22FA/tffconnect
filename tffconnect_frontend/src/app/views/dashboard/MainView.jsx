@@ -40,7 +40,7 @@ export default function MainView() {
   useEffect(() => {
     const sendPostRequest = async () => {
       try {
-        await axios.post('http://127.0.0.1:8000/api/favorites/', { news_id: newsId, user_id: user.id });
+        await axios.post('/api/favorites/', { news_id: newsId, user_id: user.id });
       } catch (err) {
         console.error(err);
       }
