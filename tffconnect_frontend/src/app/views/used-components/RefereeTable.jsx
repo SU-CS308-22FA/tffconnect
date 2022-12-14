@@ -20,8 +20,8 @@ export default function RefereeTable() {
 
   useEffect(() => {
     axios.all([
-      axios.get('http://127.0.0.1:8000/api/referees/'),
-      axios.get('http://127.0.0.1:8000/api/games/')
+      axios.get('https://tffconnect.com/api/referees/'),
+      axios.get('https://tffconnect.com/api/games/')
     ])
     .then(axios.spread((refereesResponse, gamesResponse) => {
       setReferees(refereesResponse.data);

@@ -3,7 +3,6 @@ from ..referees.models import Referees
 
 
 class Games(models.Model):
-    id = models.AutoField(primary_key=True)
     referee_id = models.ForeignKey(Referees, on_delete=models.CASCADE)
     game_name = models.CharField(max_length=100)
     game_date = models.DateField('date played')
