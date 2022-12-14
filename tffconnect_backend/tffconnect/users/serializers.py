@@ -3,17 +3,24 @@ from google.oauth2 import id_token as google_id_token
 from google.auth.transport import requests
 from google.auth.exceptions import GoogleAuthError
 
+from tffconnect.teams.models import Team
+from tffconnect.teams.serializers import TeamSerializer
 from . import models, constants
 
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    favorite_team = TeamSerializer(required=False, allow_null=True)
 
     class Meta:
         model = models.User
-        fields = ["id", "username", "first_name", "last_name", "password"]
+        fields = ["id", "username", "first_name", "last_name", "password", "favorite_team"]
 
     def create(self, validated_data):
+        favorite_team_data = validated_data.pop("favorite_team", None)
+        if favorite_team_data:
+            favorite_team = Team.objects.get(name=favorite_team_data["name"])
+            validated_data["favorite_team"] = favorite_team
         user = models.User.objects.create_user(**validated_data)
         return user
 
@@ -21,6 +28,10 @@ class UserSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get("username", instance.username)
         instance.first_name = validated_data.get("first_name", instance.first_name)
         instance.last_name = validated_data.get("last_name", instance.last_name)
+        favorite_team_data = validated_data.pop("favorite_team", None)
+        if favorite_team_data:
+            favorite_team = Team.objects.get(name=favorite_team_data["name"])
+            instance.favorite_team = favorite_team
         instance.save()
         return instance
 
