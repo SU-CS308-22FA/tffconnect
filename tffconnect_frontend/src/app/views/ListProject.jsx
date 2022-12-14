@@ -1,4 +1,6 @@
 import * as React from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { useEffect, useState } from 'react';
 import {
     Box,
@@ -30,6 +32,15 @@ import {
         getProjectItems();
     }, []);
 
+    const handleClickedDelete = (projectID) => {
+        console.log(projectID); 
+        axios.delete('http://127.0.0.1:8000/api/projects/edit/' + projectID +'/')
+        .then((response) => {
+            console.log(response);
+            getProjectItems();
+          })
+          .catch(error => console.error(error));  
+    }
     const getProjectItems = () => {
         axios.get('http://127.0.0.1:8000/api/projects/')
         .then((response) => {
@@ -48,15 +59,12 @@ import {
             <TableRow>
               <TableCell align="center">Project Name</TableCell>
               <TableCell align="center">Project Description</TableCell>
-              <TableCell align="center">Project Status</TableCell>
               <TableCell align="center">Project Proposal Date</TableCell>
               <TableCell align="center">Project Start Date</TableCell>
               <TableCell align="center">Project End Date</TableCell>
               <TableCell align="center">Project Location</TableCell>
               <TableCell align="center">Project Budget</TableCell>
               <TableCell align="center">Project Owner</TableCell>
-              <TableCell align="center">Is Project Approved By Owner</TableCell>
-              <TableCell align="center">Confirmation Date of Approval</TableCell>
             </TableRow>
           </TableHead>
 
@@ -65,18 +73,20 @@ import {
             <TableRow key={index}>
                 <TableCell align="center">{project.name}</TableCell>
                 <TableCell align="center">{project.description}</TableCell>
-                <TableCell align="center">{project.is_finished}</TableCell>
                 <TableCell align="center">{project.proposal_date}</TableCell>
                 <TableCell align="center">{project.start_date}</TableCell>
                 <TableCell align="center">{project.end_date}</TableCell>
                 <TableCell align="center">{project.location}</TableCell>
-                <TableCell align="center">${project.budget}</TableCell>
-                <TableCell align="center">${project.owner}</TableCell>
-                <TableCell align="center">{project.is_confirmed_by_tff}</TableCell>
-                <TableCell align="center">{project.confirmation_date}</TableCell>
+                <TableCell align="center">{project.budget}</TableCell>
+                <TableCell align="center">{project.owner}</TableCell>
               <TableCell align="center">
                 <IconButton>
-                  <Icon color="error">close</Icon>
+                  <EditIcon ></EditIcon>
+                </IconButton>
+                <IconButton
+                    onClick={ () => handleClickedDelete(project.id)}
+                >
+                  <DeleteIcon ></DeleteIcon>
                 </IconButton>
               </TableCell>
             </TableRow>
