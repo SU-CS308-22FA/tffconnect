@@ -17,3 +17,13 @@ Accessing to TFF Connect
 The users can directly reach to the web application from the URL provided above. The platform
 can be used without creating an account or with an account. Some features are limited without
 an account. The bugs can be reported to the team via the email address team11.cs308@sabanciuniv.edu
+
+How to Build the APP
+-------
+
+The source code can be downloaded directly from GitHub. The project is built upon two main directories,
+tffconnect_backend and tffconnect_frontend. These modules can be access from the same repository but 
+have to be run separately on the local computer. The backend consists of another project folder containing
+all endpoints of the project. On the other hand, the frontend consists of src and app inside the src.
+The components used in the project, authorization related information, hooks and views are all separated
+in a clear manner within frontend related folders.
