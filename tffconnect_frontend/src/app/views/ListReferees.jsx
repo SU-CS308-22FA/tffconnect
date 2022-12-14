@@ -29,6 +29,25 @@ import {
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    const handleDeleteClick = async (pk) => {
+      setIsDeleting(true);
+      console.log(pk);
+      try {
+        await axios.delete(`http://127.0.0.1:8000/api/referees/edit/${pk}/`)
+        .then((response) => {
+          console.log(response);
+          getRefereesItems();
+        })
+      }
+      catch (error){
+        console.log(error);
+      }
+      finally {
+        setIsDeleting(false);
+      }
+    };
   
     const handleChangePage = (_, newPage) => {
       setPage(newPage);
@@ -77,7 +96,7 @@ import {
                   <TableCell align="center">{referee.city}</TableCell>
                   <TableCell align="center">{referee.classification}</TableCell>
                   <TableCell align="center">
-                    <IconButton>
+                    <IconButton onClick={() => (handleDeleteClick(referee.id))} disabled={isDeleting}>
                       <Icon color="error">close</Icon>
                     </IconButton>
                   </TableCell>
