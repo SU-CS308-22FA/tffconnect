@@ -23,4 +23,6 @@ urlpatterns = [
     path("api/", include("tffconnect.users.urls", namespace="users")),
     path("api/", include("tffconnect.news.urls", namespace="news")),
     path("api/", include("tffconnect.projects.urls", namespace="projects")),
+    path("api/", include("tffconnect.referees.urls")),
+    path("api/", include("tffconnect.games.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -54,7 +54,7 @@ export default function MainView() {
 
     return (
       <Fragment>
-        <ContentBox className="analytics">
+        <ContentBox className="mainView">
           <Grid container spacing={-1}>
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <ul>
