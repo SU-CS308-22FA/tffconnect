@@ -7,6 +7,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Project
         fields = (
+            'id',
             'name',
             'is_finished',
             'proposal_date',
