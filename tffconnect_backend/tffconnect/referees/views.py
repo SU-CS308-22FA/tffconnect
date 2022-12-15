@@ -14,6 +14,6 @@ class RefereesList(generics.ListCreateAPIView):
 
 
 class RefereesListDelete(generics.RetrieveUpdateDestroyAPIView):
-     queryset = Referees.objects.all()
-     serializer_class = RefereesSerializer
-     permission_classes = [AllowAny]
+    queryset = Referees.objects.all()
+    serializer_class = RefereesSerializer
+    permission_classes = [AllowAny]
