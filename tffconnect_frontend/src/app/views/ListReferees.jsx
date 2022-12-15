@@ -35,7 +35,7 @@ import {
       setIsDeleting(true);
       console.log(pk);
       try {
-        await axios.delete(`http://127.0.0.1:8000/api/referees/edit/${pk}/`)
+        await axios.delete(`https://tffconnect.com/api/referees/edit/${pk}/`)
         .then((response) => {
           console.log(response);
           getRefereesItems();
@@ -60,7 +60,7 @@ import {
     }, []);
 
     const getRefereesItems = () => {
-        axios.get('http://127.0.0.1:8000/api/referees/')
+        axios.get('https://tffconnect.com/api/referees/')
         .then((response) => {
             allReferees = response.data;
             setResponseData(allReferees);
