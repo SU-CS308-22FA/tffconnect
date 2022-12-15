@@ -31,7 +31,7 @@ const SimpleForm = () => {
     }
   
     const postReferees = () => {
-        axios.post('https://tffconnect.com/api/referees/', state).then((response) => {
+        axios.post('http://127.0.0.1:8000/api/referees/', state).then((response) => {
             console.log(response);
           })
           .catch(error => console.error(error));
