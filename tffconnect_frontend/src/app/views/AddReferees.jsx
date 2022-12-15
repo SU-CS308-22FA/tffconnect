@@ -63,8 +63,8 @@ const SimpleForm = () => {
                 value={name || ""}
                 onChange={handleChange}
                 errorMessages={["this field is required"]}
-                label="Name (Min length 4, Max length 9)"
-                validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+                label="Name"
+                validators={["required"]}
               />
   
               <TextField
