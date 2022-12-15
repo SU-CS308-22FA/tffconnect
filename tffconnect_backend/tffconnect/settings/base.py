@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "tffconnect.users",
-    "tffconnect.referees",  #to use the model
+    "tffconnect.referees",  # to use the model
 ]
 
 MIDDLEWARE = [

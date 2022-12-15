@@ -13,7 +13,7 @@ class RefereesSerializer(serializers.ModelSerializer):
             'surname',
             'city',
             'classification'
-            ) #choose which fields to take in json package (?)
+        )
 
     def create(self, validated_data):
         referee= models.Referees.objects.create(**validated_data)
