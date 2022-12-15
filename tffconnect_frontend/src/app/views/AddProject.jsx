@@ -32,7 +32,9 @@ const SimpleForm = () => {
     owner : user.id,
     is_finished : false
   });
+  
   const navigator = useNavigate();
+
   const handleSubmit = (event) => {
     console.log("submitted");
     event.preventDefault();
@@ -41,7 +43,7 @@ const SimpleForm = () => {
     navigator('/material/listproject');
   }
   const postProject = () => {
-    axios.post('http://127.0.0.1:8000/api/projects/', state).then((response) => {
+    axios.post('https://tffconnect.com/api/projects/', state).then((response) => {
         console.log(response);
       })
       .catch(error => console.error(error));
@@ -68,7 +70,7 @@ const SimpleForm = () => {
     budget,
     owner, // will be automatically user???
     is_confirmed_by_tff, // optional
-    confirmation_date, // optional
+    confirmation_date, 
   } = state;
 
   return (
