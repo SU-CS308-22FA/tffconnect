@@ -13,7 +13,9 @@ import {
     TableHead,
     TableRow,
   } from "@mui/material";
-  import axios from 'axios';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { data } from '../../../node_modules/core-js/internals/is-forced';
   
   const StyledTable = styled(Table)(({ theme }) => ({
     whiteSpace: "pre",
@@ -32,9 +34,27 @@ import {
         getProjectItems();
     }, []);
 
+    const setData = (data) => {
+      console.log(data);
+      let { id, name, description,is_finished, proposal_date, start_date, end_date, location, budget, owner, is_confirmed_by_tff,confirmation_datetime } = data;
+      localStorage.setItem('id', id);
+      localStorage.setItem('name', name);
+      localStorage.setItem('description', description);
+      localStorage.setItem('is_finished', is_finished);
+      localStorage.setItem('proposal_date', proposal_date);
+      localStorage.setItem('start_date', start_date);
+      localStorage.setItem('end_date', end_date);
+      localStorage.setItem('location', location);
+      localStorage.setItem('budget', budget);
+      localStorage.setItem('owner', owner);
+      localStorage.setItem('is_confirmed_by_tff', is_confirmed_by_tff);
+      localStorage.setItem('confirmation_datetime', confirmation_datetime);
+
+   }
+
     const handleClickedDelete = (projectID) => {
         console.log(projectID); 
-        axios.delete('http://127.0.0.1:8000/api/projects/edit/' + projectID +'/')
+        axios.delete('https://tffconnect.com/api/projects/edit/' + projectID +'/')
         .then((response) => {
             console.log(response);
             getProjectItems();
@@ -42,7 +62,7 @@ import {
           .catch(error => console.error(error));  
     }
     const getProjectItems = () => {
-        axios.get('http://127.0.0.1:8000/api/projects/')
+        axios.get('https://tffconnect.com/api/projects/')
         .then((response) => {
             allProjects = response.data;
             setResponseData(allProjects);
@@ -80,11 +100,16 @@ import {
                 <TableCell align="center">{project.budget}</TableCell>
                 <TableCell align="center">{project.owner}</TableCell>
               <TableCell align="center">
-                <IconButton>
+              
+              <Link to="/material/updateproject">
+                <IconButton
+                    onClick={() => setData(project)}
+                >
                   <EditIcon ></EditIcon>
                 </IconButton>
+              </Link>
                 <IconButton
-                    onClick={ () => handleClickedDelete(project.id)}
+                  onClick={ () => handleClickedDelete(project.id)}
                 >
                   <DeleteIcon ></DeleteIcon>
                 </IconButton>
