@@ -16,9 +16,9 @@ class RefereesSerializer(serializers.ModelSerializer):
         )
 
     def create(self, validated_data):
-        referee= models.Referees.objects.create(**validated_data)
+        referee = models.Referees.objects.create(**validated_data)
         return referee
 
     def delete(self, validated_data):
-        referee= models.Referees.objects.delete(**validated_data)
+        referee = models.Referees.objects.delete(**validated_data)
         return referee
