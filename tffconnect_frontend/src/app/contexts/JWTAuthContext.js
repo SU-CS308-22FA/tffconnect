@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react'
+import jwtDecode from 'jwt-decode'
 import axios from 'axios.js'
 import { MatxLoading } from 'app/components'
 
@@ -8,10 +9,20 @@ const initialState = {
     user: null,
 }
 
+const isValidToken = (accessToken) => {
+    if (!accessToken) {
+        return false
+    }
+
+    const decodedToken = jwtDecode(accessToken)
+    const currentTime = Date.now() / 1000
+    return decodedToken.exp > currentTime
+}
+
 const setSession = (accessToken) => {
     if (accessToken) {
         localStorage.setItem('accessToken', accessToken)
-        axios.defaults.headers.common['Authorization'] = `Token ${accessToken}`
+        axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
     } else {
         localStorage.removeItem('accessToken')
         delete axios.defaults.headers.common.Authorization
@@ -63,7 +74,7 @@ const reducer = (state, action) => {
 
 const AuthContext = createContext({
     ...initialState,
-    method: 'Token',
+    method: 'JWT',
     login: () => Promise.resolve(),
     logout: () => { },
     register: () => Promise.resolve(),
@@ -104,7 +115,7 @@ export const AuthProvider = ({ children }) => {
             },
         })
     }
-    
+
     const register = async (email, username, password) => {
         const response = await axios.post('/api/auth/register', {
             email,
@@ -134,15 +145,16 @@ export const AuthProvider = ({ children }) => {
             try {
                 const accessToken = window.localStorage.getItem('accessToken')
 
-                if (accessToken) {
+                if (accessToken && isValidToken(accessToken)) {
                     setSession(accessToken)
-                    const response = await axios.get('https://tffconnect.com/api/users/me/')
+                    const response = await axios.get('/api/auth/profile')
+                    const { user } = response.data
 
                     dispatch({
                         type: 'INIT',
                         payload: {
                             isAuthenticated: true,
-                            user: response.data,
+                            user,
                         },
                     })
                 } else {
@@ -175,7 +187,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider
             value={{
                 ...state,
-                method: 'Token',
+                method: 'JWT',
                 login,
                 logout,
                 register,
@@ -187,4 +199,3 @@ export const AuthProvider = ({ children }) => {
 }
 
 export default AuthContext
-export { setSession }

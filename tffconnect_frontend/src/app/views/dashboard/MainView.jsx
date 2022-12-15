@@ -1,14 +1,21 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
 import { Card, Grid, styled, useTheme } from '@mui/material';
-import CardMedia from '@mui/material/CardMedia';
 import { Fragment } from 'react';
+import Campaigns from './shared/Campaigns';
+import DoughnutChart from './shared/Doughnut';
+import RowCards from './shared/RowCards';
+import StatCards from './shared/StatCards';
+import StatCards2 from './shared/StatCards2';
+import TopSellingTable from './shared/TopSellingTable';
+import UpgradeCard from './shared/UpgradeCard';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import axios from 'axios';
 import useAuth from 'app/hooks/useAuth';
+import React, { useState, useEffect } from 'react';
+import { CardMedia } from '@mui/material';
+import { Description } from 'react-helmet';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -27,11 +34,15 @@ const SubTitle = styled('span')(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const Description = styled('span')(() => ({
-  fontSize: '0.7rem',
+const H4 = styled('h4')(({ theme }) => ({
+  fontSize: '1rem',
+  fontWeight: '500',
+  marginBottom: '16px',
+  textTransform: 'capitalize',
+  color: theme.palette.text.secondary,
 }));
 
-export default function MainView() {
+const Analytics = () => {
   const { palette } = useTheme();
   const { user } = useAuth();
   let [allNews, setResponseData] = useState('');
@@ -145,8 +156,27 @@ export default function MainView() {
                 </ul>
             </Grid>
 
+            <H4>Ongoing Projects</H4>
+            <RowCards />
+          </Grid>
+
+          <Grid item lg={4} md={4} sm={12} xs={12}>
+            <Card sx={{ px: 3, py: 2, mb: 3 }}>
+              <Title>Traffic Sources</Title>
+              <SubTitle>Last 30 days</SubTitle>
+
+              <DoughnutChart
+                height="300px"
+                color={[palette.primary.dark, palette.primary.main, palette.primary.light]}
+              />
+            </Card>
+
+            <UpgradeCard />
+            <Campaigns />
           </Grid>
         </ContentBox>
       </Fragment>
     );
-};
+  };
+
+export default Analytics;

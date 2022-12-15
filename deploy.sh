@@ -5,9 +5,8 @@ sudo apt-get -y install python3 python3-pip nginx gunicorn libpq-dev
 # Install python dependencies
 pip3 install -r tffconnect_backend/requirements.txt
 
-# Django
+# Django migrate
 python3 tffconnect_backend/manage.py migrate
-python3 tffconnect_backend/manage.py collectstatic --noinput
 
 # Setup gunicorn service
 sudo cp config/gunicorn/gunicorn.config /etc/systemd/system/gunicorn.service

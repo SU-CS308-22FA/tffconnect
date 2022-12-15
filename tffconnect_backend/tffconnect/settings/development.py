@@ -18,5 +18,3 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",  # noqa: F405
     }
 }
-
-FRONTEND_URL = "http://localhost:3000"

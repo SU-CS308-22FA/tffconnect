@@ -2,6 +2,8 @@ from django.db import models
 
 
 class Referees(models.Model):
+
+    # id is the primer key automatically
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
     surname = models.CharField(max_length=30)
