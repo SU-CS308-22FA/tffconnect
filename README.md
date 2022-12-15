@@ -16,7 +16,11 @@ Accessing to TFF Connect
 
 The users can directly reach to the web application from the URL provided above. The platform
 can be used without creating an account or with an account. Some features are limited without
-an account. The bugs can be reported to the team via the email address team11.cs308@sabanciuniv.edu
+an account. The bugs can be reported to the team via the these email adresses: 
+sinanyilmaz@sabanciuniv.edu
+alphelvaci@sabanciuniv.edu
+ilginelif@sabanciuniv.edu
+dorukmetiner@sabanciuniv.edu
 
 How to Build the APP
 -------
