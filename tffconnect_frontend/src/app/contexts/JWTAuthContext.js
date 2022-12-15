@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const login = async (username, password) => {
-        const response = await axios.post('http://127.0.0.1:8000/api/users/login/', {
+        const response = await axios.post('https://tffconnect.com/api/users/login/', {
             username,
             password,
         })
@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }) => {
         const accessToken = response.data["token"]
         console.log(accessToken)
     
-        const response2 = await axios.get('http://127.0.0.1:8000/api/users/me/', {
+        const response2 = await axios.get('https://tffconnect.com/api/users/me/', {
             headers: {
                 Authorization: "Token " + accessToken,
               },
