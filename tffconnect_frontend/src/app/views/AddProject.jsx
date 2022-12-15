@@ -32,7 +32,9 @@ const SimpleForm = () => {
     owner : user.id,
     is_finished : false
   });
+  
   const navigator = useNavigate();
+
   const handleSubmit = (event) => {
     console.log("submitted");
     event.preventDefault();
@@ -68,7 +70,7 @@ const SimpleForm = () => {
     budget,
     owner, // will be automatically user???
     is_confirmed_by_tff, // optional
-    confirmation_date, // optional
+    confirmation_date, 
   } = state;
 
   return (
