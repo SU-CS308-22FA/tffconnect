@@ -31,3 +31,10 @@ have to be run separately on the local computer. The backend consists of another
 all endpoints of the project. On the other hand, the frontend consists of src and app inside the src.
 The components used in the project, authorization related information, hooks and views are all separated
 in a clear manner within frontend related folders.
+
+How to Build and Deploy the Software
+-------
+Steps: (in terminal)
+- Npm run build
+- Transfer files to remote server 
+- Run our Custom Deployment Script (if you nedd you can check depoloyment.sh in the repo)
