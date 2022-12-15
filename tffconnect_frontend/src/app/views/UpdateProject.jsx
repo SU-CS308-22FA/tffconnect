@@ -40,6 +40,11 @@ const SimpleForm = () => {
 
     const navigator = useNavigate();
 
+      /**
+   * @name updateSubmit function sends a request to the backend server to update a project item with the given id
+   * @param id comes from the listing page and is used to update the project item. its the Project object id.
+   * @param  description is the description of the project
+   */
     const updateSubmit = () => {
         axios.put('https://tffconnect.com/api/projects/edit/' + id +'/' , 
         {

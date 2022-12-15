@@ -30,6 +30,11 @@ import { data } from '../../../node_modules/core-js/internals/is-forced';
   const SimpleTable = () => {
     let [allProjects, setResponseData] = useState([]);
 
+  /**
+   * @name useEffect function just below this statement makes a call to the project endpoint to list all the projects.
+   * @param getProjectItems is the response turned back from the projects endpoint
+   * @param setData is the function that sets the data for a spesific project object which will be used in the edit page
+   */
     useEffect(() => {
         getProjectItems();
     }, []);
