@@ -29,11 +29,11 @@ class GamesSerializer(serializers.ModelSerializer):
 
 
 class GameCommentSerializer(serializers.ModelSerializer):
-    user_first_name = serializers.CharField(source='user.full_name', read_only=True)
+    user_full_name = serializers.CharField(source='user.full_name', read_only=True)
 
     class Meta:
         model = GameComment
-        fields = ['id', 'game', 'user', 'user_first_name', 'comment', 'is_reported']
+        fields = ['id', 'game', 'user', 'user_full_name', 'comment', 'is_reported']
 
     def create(self, validated_data):
         return GameComment.objects.create(**validated_data)
