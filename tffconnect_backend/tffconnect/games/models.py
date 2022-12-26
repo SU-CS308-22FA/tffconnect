@@ -10,3 +10,13 @@ class Games(models.Model):
 
     def __str__(self):
         return "Games_" + str(self.id)
+
+
+class GameComment(models.Model):
+    game = models.ForeignKey(Games, on_delete=models.CASCADE)
+    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
+    comment = models.TextField()
+    is_reported = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Comment on {self.game} by {self.user}"
