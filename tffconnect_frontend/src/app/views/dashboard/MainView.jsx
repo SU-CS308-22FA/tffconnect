@@ -9,6 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import axios from 'axios';
 import useAuth from 'app/hooks/useAuth';
+import { API_URL } from 'app/constants';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -62,7 +63,7 @@ export default function MainView() {
   }, []);
 
   const getNewsItems = () => {
-    axios.get('https://tffconnect.com/api/news/')
+    axios.get(API_URL + '/news/')
     .then((response) => {
       allNews = response.data;
       setResponseData(allNews);

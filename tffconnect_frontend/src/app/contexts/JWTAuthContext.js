@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react'
 import axios from 'axios.js'
 import { MatxLoading } from 'app/components'
+import { API_URL } from 'app/constants'
 
 const initialState = {
     isAuthenticated: false,
@@ -73,7 +74,7 @@ export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const login = async (username, password) => {
-        const response = await axios.post('https://tffconnect.com/api/users/login/', {
+        const response = await axios.post(API_URL + '/users/login/', {
             username,
             password,
         })
@@ -85,7 +86,7 @@ export const AuthProvider = ({ children }) => {
         const accessToken = response.data["token"]
         console.log(accessToken)
     
-        const response2 = await axios.get('https://tffconnect.com/api/users/me/', {
+        const response2 = await axios.get(API_URL + '/users/me/', {
             headers: {
                 Authorization: "Token " + accessToken,
               },
@@ -136,7 +137,7 @@ export const AuthProvider = ({ children }) => {
 
                 if (accessToken) {
                     setSession(accessToken)
-                    const response = await axios.get('https://tffconnect.com/api/users/me/')
+                    const response = await axios.get(API_URL + '/users/me/')
 
                     dispatch({
                         type: 'INIT',

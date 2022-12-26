@@ -16,6 +16,7 @@ import axios from 'axios';
 import { DatePicker } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from 'app/constants';
 
 const TextField = styled(TextValidator)(() => ({
     width: "100%",
@@ -46,7 +47,7 @@ const SimpleForm = () => {
    * @param  description is the description of the project
    */
     const updateSubmit = () => {
-        axios.put('https://tffconnect.com/api/projects/edit/' + id +'/' , 
+        axios.put(API_URL + '/projects/edit/' + id +'/' , 
         {
             id: id,
             name: name,

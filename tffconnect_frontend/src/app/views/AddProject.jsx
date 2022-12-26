@@ -16,6 +16,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import axios from 'axios';
 import useAuth from 'app/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from 'app/constants';
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
@@ -43,7 +44,7 @@ const SimpleForm = () => {
     navigator('/material/listproject');
   }
   const postProject = () => {
-    axios.post('https://tffconnect.com/api/projects/', state).then((response) => {
+    axios.post(API_URL + '/projects/', state).then((response) => {
         console.log(response);
       })
       .catch(error => console.error(error));

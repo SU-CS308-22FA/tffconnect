@@ -7,6 +7,7 @@ import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { API_URL } from 'app/constants';
 
 import { GoogleLogin } from '@react-oauth/google';
 
@@ -80,7 +81,7 @@ const JwtLogin = () => {
               <ContentBox>
               <GoogleLogin
                 ux_mode='redirect'
-                login_uri='https://tffconnect.com/api/users/google-signup-login/'
+                login_uri={ API_URL + '/users/google-signup-login/' }
                 onError={() => {
                   console.log('Login Failed');
                 }}

@@ -9,6 +9,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import axios from 'axios';
 import useAuth from 'app/hooks/useAuth';
+import { API_URL } from 'app/constants';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -47,8 +48,8 @@ export default function Favorites() {
    */
   useEffect(() => {
     axios.all([
-      axios.get('https://tffconnect.com/api/news/'),
-      axios.get('https://tffconnect.com/api/favorites/')
+      axios.get(API_URL + '/news/'),
+      axios.get(API_URL + '/favorites/')
     ])
     .then(axios.spread((newsResponse, favoritesResponse) => {
       setNews(newsResponse.data);

@@ -16,6 +16,7 @@ import {
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { data } from '../../../node_modules/core-js/internals/is-forced';
+import { API_URL } from 'app/constants';
   
   const StyledTable = styled(Table)(({ theme }) => ({
     whiteSpace: "pre",
@@ -59,7 +60,7 @@ import { data } from '../../../node_modules/core-js/internals/is-forced';
 
     const handleClickedDelete = (projectID) => {
         console.log(projectID); 
-        axios.delete('https://tffconnect.com/api/projects/edit/' + projectID +'/')
+        axios.delete(API_URL + '/projects/edit/' + projectID +'/')
         .then((response) => {
             console.log(response);
             getProjectItems();
@@ -67,7 +68,7 @@ import { data } from '../../../node_modules/core-js/internals/is-forced';
           .catch(error => console.error(error));  
     }
     const getProjectItems = () => {
-        axios.get('https://tffconnect.com/api/projects/')
+        axios.get(API_URL + '/projects/')
         .then((response) => {
             allProjects = response.data;
             setResponseData(allProjects);

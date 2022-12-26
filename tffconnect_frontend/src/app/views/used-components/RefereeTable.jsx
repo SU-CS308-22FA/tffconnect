@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Box, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, TableRow } from "@mui/material";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API_URL } from 'app/constants';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: "pre",
@@ -20,8 +21,8 @@ export default function RefereeTable() {
 
   useEffect(() => {
     axios.all([
-      axios.get('https://tffconnect.com/api/referees/'),
-      axios.get('https://tffconnect.com/api/games/')
+      axios.get(API_URL + '/referees/'),
+      axios.get(API_URL + '/games/')
     ])
     .then(axios.spread((refereesResponse, gamesResponse) => {
       setReferees(refereesResponse.data);
