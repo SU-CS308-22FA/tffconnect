@@ -13,6 +13,7 @@ import {
     TableRow,
   } from "@mui/material";
   import axios from 'axios';
+  import { API_URL } from 'app/constants';
 
   const StyledTable = styled(Table)(() => ({
     whiteSpace: "pre",
@@ -35,7 +36,7 @@ import {
       setIsDeleting(true);
       console.log(pk);
       try {
-        await axios.delete(`https://tffconnect.com/api/referees/edit/${pk}/`)
+        await axios.delete(API_URL + `/referees/edit/${pk}/`)
         .then((response) => {
           console.log(response);
           getRefereesItems();
@@ -60,7 +61,7 @@ import {
     }, []);
 
     const getRefereesItems = () => {
-        axios.get('https://tffconnect.com/api/referees/')
+        axios.get(API_URL + '/referees/')
         .then((response) => {
             allReferees = response.data;
             setResponseData(allReferees);

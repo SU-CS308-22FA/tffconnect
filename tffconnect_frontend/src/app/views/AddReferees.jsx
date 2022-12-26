@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from 'app/constants';
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
@@ -31,7 +32,7 @@ const SimpleForm = () => {
     }
   
     const postReferees = () => {
-        axios.post('https://tffconnect.com/api/referees/', state).then((response) => {
+        axios.post(API_URL + '/referees/', state).then((response) => {
             console.log(response);
           })
           .catch(error => console.error(error));
