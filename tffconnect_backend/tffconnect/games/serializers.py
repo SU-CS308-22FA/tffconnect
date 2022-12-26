@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Games
+from .models import Games, GameComment
 
 
 class GamesSerializer(serializers.ModelSerializer):
@@ -26,3 +26,14 @@ class GamesSerializer(serializers.ModelSerializer):
         instance.game_result = validated_data.get('game_result', instance.game_result)
         instance.save()
         return instance
+
+
+class GameCommentSerializer(serializers.ModelSerializer):
+    user_first_name = serializers.CharField(source='user.full_name', read_only=True);
+
+    class Meta:
+        model = GameComment
+        fields = ['id', 'game', 'user', 'user_first_name', 'comment', 'is_reported']
+
+    def create(self, validated_data):
+        return GameComment.objects.create(**validated_data)
