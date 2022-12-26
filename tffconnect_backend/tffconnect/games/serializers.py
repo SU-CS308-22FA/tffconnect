@@ -34,6 +34,11 @@ class GameCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameComment
         fields = ['id', 'game', 'user', 'user_full_name', 'comment', 'is_reported']
+        read_only_fields = ['user', 'game']
 
     def create(self, validated_data):
+        user = self.context['request'].user
+        game_id = self.context['view'].kwargs['id']
+        validated_data['user'] = user
+        validated_data['game'] = Games.objects.get(id=game_id)
         return GameComment.objects.create(**validated_data)
