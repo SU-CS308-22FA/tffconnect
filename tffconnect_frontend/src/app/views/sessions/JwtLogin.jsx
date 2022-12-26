@@ -7,6 +7,7 @@ import { Formik } from 'formik';
 import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { API_URL } from 'app/constants';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
@@ -75,7 +76,19 @@ const JwtLogin = () => {
           </Grid>
 
           <Grid item sm={6} xs={12}>
-            <ContentBox>
+              <ContentBox>
+              <GoogleLogin
+                ux_mode='redirect'
+                login_uri={ API_URL + '/users/google-signup-login/' }
+                onError={() => {
+                  console.log('Login Failed');
+                }}
+              />
+              <Box sx={{ height: 20 }} />
+              <Paragraph color="text.secondary" textAlign="left" padding="0 0 0 4px">
+                Veya e-posta adresiniz ile giriş yapın:
+              </Paragraph>
+              <Box sx={{ height: 20 }} />
               <Formik
                 onSubmit={handleFormSubmit}
                 initialValues={initialValues}

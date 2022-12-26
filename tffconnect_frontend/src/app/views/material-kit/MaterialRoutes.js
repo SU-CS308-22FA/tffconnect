@@ -17,6 +17,9 @@ const AppAutoComplete = Loadable(lazy(() => import('./auto-complete/AppAutoCompl
 const AppExpansionPanel = Loadable(lazy(() => import('./expansion-panel/AppExpansionPanel')));
 const AddReferees = Loadable(lazy(() => import('../AddReferees')));
 const ListReferees = Loadable(lazy(() => import('../ListReferees')));
+const AddProject = Loadable(lazy(() => import('../AddProject')));
+const ListProject = Loadable(lazy(() => import('../ListProject')));
+const UpdateProject = Loadable(lazy(() => import('../UpdateProject')));
 
 const materialRoutes = [
   {
@@ -82,7 +85,19 @@ const materialRoutes = [
   {
     path: '/material/ListReferees',
     element: <ListReferees />,
-  }
+  },
+  {
+    path: '/material/addproject',
+    element: <AddProject />,
+  },
+  {
+    path: '/material/listproject',
+    element: <ListProject />,
+  },
+  {
+    path: '/material/updateproject',
+    element: <UpdateProject />,
+  },
 ];
 
 export default materialRoutes;

@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useReducer } from 'react'
 import jwtDecode from 'jwt-decode'
 import axios from 'axios.js'
 import { MatxLoading } from 'app/components'
+import { API_URL } from 'app/constants'
 
 const initialState = {
     isAuthenticated: false,
@@ -83,12 +84,28 @@ const AuthContext = createContext({
 export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    const login = async (email, password) => {
-        const response = await axios.post('/api/auth/login', {
-            email,
+    const login = async (username, password) => {
+        const response = await axios.post(API_URL + '/users/login/', {
+            username,
             password,
         })
-        const { accessToken, user } = response.data
+        .catch((error) => {
+            console.log(error)
+        })
+        console.log(response.status)
+        console.log(response.data)
+        const accessToken = response.data["token"]
+        console.log(accessToken)
+    
+        const response2 = await axios.get(API_URL + '/users/me/', {
+            headers: {
+                Authorization: "Token " + accessToken,
+              },
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+        const user  = response2.data
 
         setSession(accessToken)
 
@@ -131,8 +148,7 @@ export const AuthProvider = ({ children }) => {
 
                 if (accessToken && isValidToken(accessToken)) {
                     setSession(accessToken)
-                    const response = await axios.get('/api/auth/profile')
-                    const { user } = response.data
+                    const response = await axios.get(API_URL + '/users/me/')
 
                     dispatch({
                         type: 'INIT',
