@@ -1,12 +1,8 @@
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Grid, styled, useTheme } from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
 import { Fragment } from 'react';
-import Campaigns from './shared/Campaigns';
-import DoughnutChart from './shared/Doughnut';
-import RowCards from './shared/RowCards';
-import StatCards from './shared/StatCards';
-import StatCards2 from './shared/StatCards2';
-import TopSellingTable from './shared/TopSellingTable';
-import UpgradeCard from './shared/UpgradeCard';
 import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -32,15 +28,11 @@ const SubTitle = styled('span')(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const H4 = styled('h4')(({ theme }) => ({
-  fontSize: '1rem',
-  fontWeight: '500',
-  marginBottom: '16px',
-  textTransform: 'capitalize',
-  color: theme.palette.text.secondary,
+const Description = styled('span')(() => ({
+  fontSize: '0.7rem',
 }));
 
-const Analytics = () => {
+export default function MainView() {
   const { palette } = useTheme();
   const { user } = useAuth();
   let [allNews, setResponseData] = useState('');
@@ -154,28 +146,8 @@ const Analytics = () => {
                 </ul>
             </Grid>
 
-            <H4>Ongoing Projects</H4>
-            <RowCards />
           </Grid>
-
-          <Grid item lg={4} md={4} sm={12} xs={12}>
-            <Card sx={{ px: 3, py: 2, mb: 3 }}>
-              <Title>Traffic Sources</Title>
-              <SubTitle>Last 30 days</SubTitle>
-
-              <DoughnutChart
-                height="300px"
-                color={[palette.primary.dark, palette.primary.main, palette.primary.light]}
-              />
-            </Card>
-
-            <UpgradeCard />
-            <Campaigns />
-          </Grid>
-        </Grid>
-      </ContentBox>
-    </Fragment>
-  );
+        </ContentBox>
+      </Fragment>
+    );
 };
-
-export default Analytics;

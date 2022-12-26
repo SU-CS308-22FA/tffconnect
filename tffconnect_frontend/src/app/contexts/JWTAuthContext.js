@@ -1,5 +1,4 @@
 import React, { createContext, useEffect, useReducer } from 'react'
-import jwtDecode from 'jwt-decode'
 import axios from 'axios.js'
 import { MatxLoading } from 'app/components'
 import { API_URL } from 'app/constants'
@@ -10,20 +9,10 @@ const initialState = {
     user: null,
 }
 
-const isValidToken = (accessToken) => {
-    if (!accessToken) {
-        return false
-    }
-
-    const decodedToken = jwtDecode(accessToken)
-    const currentTime = Date.now() / 1000
-    return decodedToken.exp > currentTime
-}
-
 const setSession = (accessToken) => {
     if (accessToken) {
         localStorage.setItem('accessToken', accessToken)
-        axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+        axios.defaults.headers.common['Authorization'] = `Token ${accessToken}`
     } else {
         localStorage.removeItem('accessToken')
         delete axios.defaults.headers.common.Authorization
@@ -75,7 +64,7 @@ const reducer = (state, action) => {
 
 const AuthContext = createContext({
     ...initialState,
-    method: 'JWT',
+    method: 'Token',
     login: () => Promise.resolve(),
     logout: () => { },
     register: () => Promise.resolve(),
@@ -116,7 +105,7 @@ export const AuthProvider = ({ children }) => {
             },
         })
     }
-
+    
     const register = async (email, username, password) => {
         const response = await axios.post('/api/auth/register', {
             email,
@@ -146,7 +135,7 @@ export const AuthProvider = ({ children }) => {
             try {
                 const accessToken = window.localStorage.getItem('accessToken')
 
-                if (accessToken && isValidToken(accessToken)) {
+                if (accessToken) {
                     setSession(accessToken)
                     const response = await axios.get(API_URL + '/users/me/')
 
@@ -154,7 +143,7 @@ export const AuthProvider = ({ children }) => {
                         type: 'INIT',
                         payload: {
                             isAuthenticated: true,
-                            user,
+                            user: response.data,
                         },
                     })
                 } else {
@@ -187,7 +176,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider
             value={{
                 ...state,
-                method: 'JWT',
+                method: 'Token',
                 login,
                 logout,
                 register,
@@ -199,3 +188,4 @@ export const AuthProvider = ({ children }) => {
 }
 
 export default AuthContext
+export { setSession }
