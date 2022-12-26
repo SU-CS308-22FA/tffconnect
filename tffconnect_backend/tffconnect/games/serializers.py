@@ -29,7 +29,7 @@ class GamesSerializer(serializers.ModelSerializer):
 
 
 class GameCommentSerializer(serializers.ModelSerializer):
-    user_first_name = serializers.CharField(source='user.full_name', read_only=True);
+    user_first_name = serializers.CharField(source='user.full_name', read_only=True)
 
     class Meta:
         model = GameComment
