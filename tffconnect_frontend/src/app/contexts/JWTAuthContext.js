@@ -106,10 +106,11 @@ export const AuthProvider = ({ children }) => {
         })
     }
     
-    const register = async (username, email, password) => {
+    const register = async (username, first_name, last_name, password) => {
         const response = await axios.post(API_URL + '/users/signup/', {
             username,
-            email,
+            first_name,
+            last_name,
             password,
         })
         .catch((error) => {
