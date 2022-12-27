@@ -106,14 +106,22 @@ export const AuthProvider = ({ children }) => {
         })
     }
     
-    const register = async (email, username, password) => {
-        const response = await axios.post('/api/auth/register', {
-            email,
+    const register = async (username, email, password) => {
+        const response = await axios.post(API_URL + '/users/signup/', {
             username,
+            email,
             password,
         })
+        .catch((error) => {
+            console.log(error)
+        })
+        console.log(response.data)
 
-        const { accessToken, user } = response.data
+        const accessToken = response.data["token"]
+        console.log(accessToken)
+
+        //user things -> why would I need a get method?
+        const { user } = response.data
 
         setSession(accessToken)
 
