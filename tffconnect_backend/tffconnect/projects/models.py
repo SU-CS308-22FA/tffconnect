@@ -15,6 +15,7 @@ class Project(models.Model):
     is_confirmed_by_tff = models.BooleanField()
     confirmation_datetime = models.DateTimeField(auto_now_add=True)
 
+
 class ProjectComment(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.CASCADE) # char field?
@@ -25,6 +26,6 @@ class ProjectComment(models.Model):
     def approve(self):
         self.approved = True
         self.save()
-    
+
     def __str__(self):
         return self.text_body
