@@ -17,7 +17,14 @@ class ProjectRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = ProjectSerializer
     permission_classes = [AllowAny]
 
+
 class ProjectCommentListCreateView(ListCreateAPIView):
+    queryset = ProjectComment.objects.all()
+    serializer_class = ProjectCommentSerializer
+    permission_classes = [AllowAny]
+
+
+class ProjectCommentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = ProjectComment.objects.all()
     serializer_class = ProjectCommentSerializer
     permission_classes = [AllowAny]
