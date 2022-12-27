@@ -122,7 +122,9 @@ export const AuthProvider = ({ children }) => {
         console.log(accessToken)
 
         //user things -> why would I need a get method?
-        const { user } = response.data
+        const user = response.data
+        console.log(user)
+
 
         setSession(accessToken)
 
