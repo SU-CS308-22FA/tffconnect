@@ -44,8 +44,9 @@ class ProjectSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
 class ProjectCommentSerializer(serializers.ModelSerializer):
-    
+
         class Meta:
             model = models.ProjectComment
             fields = (
