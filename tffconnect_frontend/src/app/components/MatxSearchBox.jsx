@@ -2,7 +2,6 @@ import { Icon, IconButton } from '@mui/material';
 import { styled, useTheme } from '@mui/system';
 import { topBarHeight } from 'app/utils/constant';
 import React, { useState } from 'react';
-import { useEffect } from "react";
 import axios from 'axios';
 import { API_URL } from 'app/constants';
 
@@ -44,7 +43,7 @@ const MatxSearchBox = () => {
     if (!query) {
         return data;
     } else {
-        return data.filter((d) => d.toLowerCase().includes(query));
+        return data.filter((d) => d.name.toLowerCase().includes(query)); //neyini filtreliycek
     }
   };
 
@@ -52,21 +51,24 @@ const MatxSearchBox = () => {
   const HandleSearch = () => {
     // perform the search using the searchQuery value
     // and update the component's state with the search results
+    console.log("HandleSearch e giriyo");
 
-    useEffect(() => {
-      axios.get(API_URL + '/projects/')
-      .then((response) => {
-          setResponseData(response.data);
-          console.log(allProjects);
-          setDataFiltered(filterData(searchQuery, allProjects));
-      })
-      .catch(error => console.error(error));
-    }, []);
-
+    axios.get(API_URL + '/projects/')
+    .then((response) => {
+        setResponseData(response.data);
+        console.log("projeler");
+        console.log(allProjects);
+        setDataFiltered(filterData(searchQuery, allProjects));
+        console.log("filtelenmiş projeler");
+        console.log(dataFiltered);
+    })
+    .catch(error => console.error(error));
+    
   };
 
   const handleInputChange = event => {
     setSearchQuery(event.target.value);
+    console.log("query update ediliyo");
   };
 
   const toggle = () => {
