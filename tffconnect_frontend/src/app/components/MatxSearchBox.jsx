@@ -101,13 +101,15 @@ const MatxSearchBox = () => {
           <IconButton onClick={toggle} sx={{ mx: 2, verticalAlign: 'middle' }}>
             <Icon sx={{ color: textColor }}>close</Icon>
           </IconButton>
+          <div > 
           {dataFiltered.length > 0 && (
             <div>
               {dataFiltered.map(result => (
-                <div key={result.id}>{result.title}</div>
+                <div key={result.id}>{result.name}</div> //görsel biseyler yap allah için
               ))}
             </div>
           )}
+          </div>
         </SearchContainer>
       )}
     </React.Fragment>
