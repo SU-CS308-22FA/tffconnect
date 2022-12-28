@@ -118,7 +118,17 @@ export const AuthProvider = ({ children }) => {
         })
         console.log(response.data)
 
-        const accessToken = response.data["token"]
+        const response2 = await axios.post(API_URL + '/users/login/', {
+            username,
+            password,
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
+        console.log(response2.data)
+
+        const accessToken = response2.data["token"]
         console.log(accessToken)
 
         //user things -> why would I need a get method?

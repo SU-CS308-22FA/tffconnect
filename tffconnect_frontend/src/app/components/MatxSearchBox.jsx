@@ -2,6 +2,9 @@ import { Icon, IconButton } from '@mui/material';
 import { styled, useTheme } from '@mui/system';
 import { topBarHeight } from 'app/utils/constant';
 import React, { useState } from 'react';
+import { useEffect } from "react";
+import axios from 'axios';
+import { API_URL } from 'app/constants';
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -33,6 +36,39 @@ const SearchInput = styled('input')(({ theme }) => ({
 
 const MatxSearchBox = () => {
   const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [dataFiltered, setDataFiltered] = useState([]);
+  let [allProjects, setResponseData] = useState([]);
+
+  const filterData = (query, data) => {
+    if (!query) {
+        return data;
+    } else {
+        return data.filter((d) => d.toLowerCase().includes(query));
+    }
+  };
+
+
+  const HandleSearch = () => {
+    // perform the search using the searchQuery value
+    // and update the component's state with the search results
+
+    useEffect(() => {
+      axios.get(API_URL + '/projects/')
+      .then((response) => {
+          setResponseData(response.data);
+          console.log(allProjects);
+          setDataFiltered(filterData(searchQuery, allProjects));
+      })
+      .catch(error => console.error(error));
+    }, []);
+
+  };
+
+  const handleInputChange = event => {
+    setSearchQuery(event.target.value);
+  };
+
   const toggle = () => {
     setOpen(!open);
   };
@@ -50,10 +86,26 @@ const MatxSearchBox = () => {
 
       {open && (
         <SearchContainer>
-          <SearchInput type="text" placeholder="Search here..." autoFocus />
+          <SearchInput 
+            type="text" 
+            placeholder="Search projects here..."
+            autoFocus 
+            value={searchQuery}
+            onChange={handleInputChange}
+          />
+          <IconButton onClick={HandleSearch} sx={{ mx: 2, verticalAlign: 'middle' }}>
+            <Icon sx={{ color: textColor }}>search</Icon>
+          </IconButton>
           <IconButton onClick={toggle} sx={{ mx: 2, verticalAlign: 'middle' }}>
             <Icon sx={{ color: textColor }}>close</Icon>
           </IconButton>
+          {dataFiltered.length > 0 && (
+            <div>
+              {dataFiltered.map(result => (
+                <div key={result.id}>{result.title}</div>
+              ))}
+            </div>
+          )}
         </SearchContainer>
       )}
     </React.Fragment>
