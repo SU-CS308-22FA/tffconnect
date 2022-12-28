@@ -115,35 +115,35 @@ export default function MainView() {
 
             <Grid item lg={6} md={6} sm={12} xs={12}>
               <ul>
-                  {(() => {
-                    let cards = [];
-                    for (let i=whereToStart; i < allNews.length; i++) {
-                      let imageUrlStr = "http://127.0.0.1:8000" + allNews[i].image
-                      cards.push (
-                        <Card sx={{ px: 3, py: 2, mb: 3 }}>
-                        <CardMedia
-                          component="img"
-                          height="300"
-                          image={imageUrlStr}
-                          alt={allNews[i].image}
-                        />
-                        <Title>{allNews[i].header}</Title>
-                        <SubTitle>Haber</SubTitle><br></br>
-                        <Description>{allNews[i].details}</Description>
-                        <CardActions disableSpacing>
-                          <IconButton onClick={() => setNewsId(allNews[i].id)}>
-                            <FavoriteIcon />
-                          </IconButton>
-                          <IconButton aria-label="share">
-                            <ShareIcon />
-                          </IconButton>
-                        </CardActions>
-                      </Card>
-                      );
-                    }
-                    return cards;
-                  })()}
-                </ul>
+                {(() => {
+                  let cards = [];
+                  for (let i=whereToStart; i < allNews.length; i++) {
+                    let imageUrlStr = "http://127.0.0.1:8000" + allNews[i].image
+                    cards.push (
+                      <Card sx={{ px: 3, py: 2, mb: 3 }}>
+                      <CardMedia
+                        component="img"
+                        height="300"
+                        image={imageUrlStr}
+                        alt={allNews[i].image}
+                      />
+                      <Title>{allNews[i].header}</Title>
+                      <SubTitle>Haber</SubTitle><br></br>
+                      <Description>{allNews[i].details}</Description>
+                      <CardActions disableSpacing>
+                        <IconButton onClick={() => setNewsId(allNews[i].id)}>
+                          <FavoriteIcon />
+                        </IconButton>
+                        <IconButton aria-label="share">
+                          <ShareIcon />
+                        </IconButton>
+                      </CardActions>
+                    </Card>
+                    );
+                  }
+                  return cards;
+                })()}
+              </ul>
             </Grid>
 
           </Grid>

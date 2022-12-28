@@ -3,6 +3,7 @@ import { Box, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from 'app/constants';
+import { Link } from 'react-router-dom';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: "pre",
@@ -69,7 +70,7 @@ export default function RefereeTable() {
                 <TableCell align="center">{item.game_date}</TableCell>
                 <TableCell align="center">{item.game_result}</TableCell>
                 <TableCell align="center">
-                  <IconButton>
+                  <IconButton component={Link} to={{pathname: '/data/referee_vote', search:'?param1=value1'}}>
                     <Icon color="success">offline_pin</Icon>
                   </IconButton>
                 </TableCell>
