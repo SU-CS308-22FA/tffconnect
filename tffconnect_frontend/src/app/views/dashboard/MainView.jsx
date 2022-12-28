@@ -85,7 +85,7 @@ export default function MainView() {
                 {(() => {
                   let cards = [];
                   for (let i=0; i < whereToStart; i++) {
-                    let imageUrlStr = "https://tffconnect.com" + allNews[i].image
+                    let imageUrlStr = "http://127.0.0.1:8000" + allNews[i].image
                     cards.push (
                       <Card sx={{ px: 3, py: 2, mb: 3 }}>
                       <CardMedia
@@ -118,7 +118,7 @@ export default function MainView() {
                   {(() => {
                     let cards = [];
                     for (let i=whereToStart; i < allNews.length; i++) {
-                      let imageUrlStr = "https://tffconnect.com" + allNews[i].image
+                      let imageUrlStr = "http://127.0.0.1:8000" + allNews[i].image
                       cards.push (
                         <Card sx={{ px: 3, py: 2, mb: 3 }}>
                         <CardMedia
