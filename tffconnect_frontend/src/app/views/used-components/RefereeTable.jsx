@@ -3,7 +3,7 @@ import { Box, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from 'app/constants';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: "pre",
@@ -19,6 +19,12 @@ export default function RefereeTable() {
   const [games, setGames] = useState([]);
   const [referees, setReferees] = useState([]);
   const [games_refNames, setGamesWithRefereeNames] = useState([]);
+  const navigate = useNavigate();
+
+  const handleClick = (id) => {
+    const idString = JSON.stringify(id);
+    navigate('/data/referee_vote', {state:{gameID: idString}});
+  }
 
   useEffect(() => {
     axios.all([
@@ -70,7 +76,7 @@ export default function RefereeTable() {
                 <TableCell align="center">{item.game_date}</TableCell>
                 <TableCell align="center">{item.game_result}</TableCell>
                 <TableCell align="center">
-                  <IconButton component={Link} to={{pathname: '/data/referee_vote', search:'?param1=value1'}}>
+                  <IconButton onClick={() => handleClick(item.id)}>
                     <Icon color="success">offline_pin</Icon>
                   </IconButton>
                 </TableCell>
