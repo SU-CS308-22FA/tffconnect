@@ -1,10 +1,10 @@
-import { DatePicker } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import { Button, Checkbox, FormControlLabel, Grid, Icon, Radio, RadioGroup, styled } from "@mui/material";
+import { Button, Grid, Icon, styled } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import InputAdornment from '@mui/material/InputAdornment';
+import axios from 'axios';
+import { API_URL } from 'app/constants';
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
@@ -14,171 +14,77 @@ const TextField = styled(TextValidator)(() => ({
 export default function VoteForm(props) {
   const gameID = props.gameID;
   console.log("Child reporting-GameID: " + gameID);
-  const [state, setState] = useState({ date: new Date() });
+  const [rating, setRating] = useState(3.5);
+  const [game, setGame] = useState([]);
+  const [referee, setReferee] = useState([]);
+  const [game_referee, setRefName] = useState([]);
 
   useEffect(() => {
-    ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
-      if (value !== state.password) return false;
-
-      return true;
+    axios.all([
+      axios.get(API_URL + '/referees/'),
+      axios.get(API_URL + '/games/' + gameID + '/')
+    ])
+    .then(axios.spread((refereesResponse, gamesResponse) => {
+      setReferee(refereesResponse.data);
+      setGame(gamesResponse.data);
+    }))
+    .catch(error => {
+      console.error(error);
     });
-    return () => ValidatorForm.removeValidationRule("isPasswordMatch");
-  }, [state.password]);
+  }, []);
+
+  console.log(game);
+
+  const handleChange = (event) => {
+    setRating(event.target.rating);
+  };
 
   const handleSubmit = (event) => {
     // console.log("submitted");
     // console.log(event);
   };
 
-  const handleChange = (event) => {
-    event.persist();
-    setState({ ...state, [event.target.name]: event.target.value });
-  };
-
-  const handleDateChange = (date) => setState({ ...state, date });
-
-  const {
-    username,
-    firstName,
-    creditCard,
-    mobile,
-    password,
-    confirmPassword,
-    gender,
-    date,
-    email,
-  } = state;
-
   return (
     <div>
       <ValidatorForm onSubmit={handleSubmit} onError={() => null}>
-        <Grid container spacing={6}>
-          <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+        <Grid container justify="center" spacing={2}>
+          <Grid item xs={12}>
             <TextField
+              disabled
               type="text"
-              name="username"
-              id="standard-basic"
-              value={username || ""}
-              onChange={handleChange}
-              errorMessages={["this field is required"]}
+              name="game_name"
               label="Username (Min length 4, Max length 9)"
-              validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
             />
 
             <TextField
               type="text"
               name="firstName"
               label="First Name"
-              onChange={handleChange}
-              value={firstName || ""}
               validators={["required"]}
               errorMessages={["this field is required"]}
             />
 
             <TextField
-              type="email"
-              name="email"
-              label="Email"
-              value={email || ""}
-              onChange={handleChange}
-              validators={["required", "isEmail"]}
-              errorMessages={["this field is required", "email is not valid"]}
-            />
-
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                value={date}
-                onChange={handleDateChange}
-                renderInput={(props) => (
-                  <TextField
-                    {...props}
-                    label="Date picker"
-                    id="mui-pickers-date"
-                    sx={{ mb: 2, width: "100%" }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
-
-            <TextField
-              sx={{ mb: 4 }}
+              label="Hakeme Verilen Puan"
               type="number"
-              name="creditCard"
-              label="Credit Card"
+              inputProps={{
+                step: 0.1,
+                min: 0.0,
+                max: 5.0,
+              }}
+              value={rating}
               onChange={handleChange}
-              value={creditCard || ""}
-              errorMessages={["this field is required"]}
-              validators={["required", "minStringLength:16", "maxStringLength: 16"]}
+              InputProps={{
+                startAdornment: <InputAdornment position="start">(5.0 üzerinden)</InputAdornment>,
+              }}
             />
-          </Grid>
 
-          <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-            <TextField
-              type="text"
-              name="mobile"
-              value={mobile || ""}
-              label="Mobile Nubmer"
-              onChange={handleChange}
-              validators={["required"]}
-              errorMessages={["this field is required"]}
-            />
-            <TextField
-              name="password"
-              type="password"
-              label="Password"
-              value={password || ""}
-              onChange={handleChange}
-              validators={["required"]}
-              errorMessages={["this field is required"]}
-            />
-            <TextField
-              type="password"
-              name="confirmPassword"
-              onChange={handleChange}
-              label="Confirm Password"
-              value={confirmPassword || ""}
-              validators={["required", "isPasswordMatch"]}
-              errorMessages={["this field is required", "password didn't match"]}
-            />
-            <RadioGroup
-              row
-              name="gender"
-              sx={{ mb: 2 }}
-              value={gender || ""}
-              onChange={handleChange}
-            >
-              <FormControlLabel
-                value="Male"
-                label="Male"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
-
-              <FormControlLabel
-                value="Female"
-                label="Female"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
-
-              <FormControlLabel
-                value="Others"
-                label="Others"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
-            </RadioGroup>
-
-            <FormControlLabel
-              control={<Checkbox />}
-              label="I have read and agree to the terms of service."
-            />
           </Grid>
         </Grid>
 
         <Button color="primary" variant="contained" type="submit">
           <Icon>send</Icon>
-          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Submit</Span>
+          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Oyla</Span>
         </Button>
       </ValidatorForm>
     </div>
