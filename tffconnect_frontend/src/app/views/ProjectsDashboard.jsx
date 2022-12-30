@@ -248,11 +248,6 @@ export default function ProjectDashboard() {
                         </Container>
                     </Grid>
                     Burda
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Card sx={{ minWidth: 275, px: 3, py: 2, mb: 3 }}>
-
-                        </Card>
-                    </Grid>
                 </Grid>
             </ContentBox>
         </Fragment>
