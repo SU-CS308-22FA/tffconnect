@@ -49,8 +49,6 @@ export default function ProjectDashboard() {
                 [projectid_index]: !isexpanded[projectid_index]
             });
         }
-        
-        console.log(isexpanded[projectid_index]);
     };
 
     const defineIsExpanded = (projectid_index) => {
@@ -76,7 +74,7 @@ export default function ProjectDashboard() {
         axios.get(API_URL + '/projects/')
             .then(response => {
                 allProjects = response.data;
-                console.log(allProjects);
+                //console.log(allProjects);
                 setResponseData(allProjects);
             })
             .catch(err => {
@@ -86,7 +84,7 @@ export default function ProjectDashboard() {
         axios.get(API_URL + '/projects/comments/')
             .then(response2 => {
                 allComments = response2.data;
-                console.log(allComments);
+                //console.log(allComments);
                 setComments(allComments);
             })
             .catch(err2 => {
@@ -117,7 +115,7 @@ export default function ProjectDashboard() {
             .then(response => {
                 let allUsers = response.data;
                 setUsers(allUsers);
-                console.log(allUsers);
+                //console.log(allUsers);
             })
             .catch(err => {
                 console.log(err);
@@ -155,6 +153,7 @@ export default function ProjectDashboard() {
                                     projectStartDate = allProjects[i].start_date;
                                     projectBudget = allProjects[i].budget;
                                     projectDescription = allProjects[i].description;
+                                    projectStartDate = timeSeperator(projectStartDate);
                                     projectList.push(
                                         <Card expanded={isexpanded[i]} sx={{ minWidth: 275, px: 3, py: 2, mb: 3 }}>
                                             <CardHeader title={`${projectName}`} subheader = {`Başlangiç tarihi: ${projectStartDate}`}
