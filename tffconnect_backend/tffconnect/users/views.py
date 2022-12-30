@@ -21,6 +21,7 @@ class MeView(RetrieveUpdateDestroyAPIView):
     def get_object(self):
         return self.request.user
 
+
 class ListView(ListAPIView):
     serializer_class = serializers.UserSerializer
     permission_classes = [IsAuthenticated]
