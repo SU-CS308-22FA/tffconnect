@@ -2,27 +2,24 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import { Container, Grid } from '../../../node_modules/@mui/material/index';
 import { Fragment } from 'react';
 import { API_URL } from 'app/constants';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import CommentIcon from '@mui/icons-material/Comment';
-import { async } from '../../../node_modules/regenerator-runtime/runtime';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
+import ListItemText from '@mui/material/ListItemText';
+import useAuth from 'app/hooks/useAuth';
 
 
 const ContentBox = styled('div')(({ theme }) => ({
@@ -32,9 +29,11 @@ const ContentBox = styled('div')(({ theme }) => ({
 
   
 export default function ProjectDashboard() {
+    const { user } = useAuth();
     const [isexpanded, setIsExpanded] = useState({});
     let [allProjects, setResponseData] = useState([]);
     let [allComments, setComments] = useState([]);
+    let [allUsers, setUsers] = useState([]);
 
     
     const handleExpandClick = (projectid_index) => {
@@ -69,6 +68,7 @@ export default function ProjectDashboard() {
 
     useEffect(() => {
         getProjectItems();
+        getUserNames();
     }, []);
 
     const  getProjectItems = () => {
@@ -93,6 +93,37 @@ export default function ProjectDashboard() {
                 console.log(err2);
             })
     };
+    const timeSeperator = (time) => {
+        let date = time.split("T")[0];
+        let hour = time.split("T")[1].split(".")[0];
+        return date + "/ " + hour;
+    };
+    const getusername = (user_id) => {
+        let len = allUsers.length;
+        for (let i = 0; i < len; i++) {
+            if (allUsers[i].id === user_id) {
+                return allUsers[i].username;
+            }
+        }  
+    };
+    const getUserNames = (user_id) => {
+        let accessToken = localStorage.getItem('accessToken');
+
+        axios.get(API_URL + '/users/', {
+            headers: {
+                Authorization: "Token " + accessToken,
+              },
+        })
+            .then(response => {
+                let allUsers = response.data;
+                setUsers(allUsers);
+                console.log(allUsers);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        
+    }; 
 
     return (
         <Fragment>
@@ -115,15 +146,16 @@ export default function ProjectDashboard() {
                                 );
                             }
                             else{
-                                let list = [];
+                                let projectList = [];
                                 let projectName,projectStartDate, projectBudget, projectDescription;
+                                
                                 for (let i = 0; i<len ; i++){
                                     defineIsExpanded(i);
                                     projectName = allProjects[i].name;
                                     projectStartDate = allProjects[i].start_date;
                                     projectBudget = allProjects[i].budget;
                                     projectDescription = allProjects[i].description;
-                                    list.push(
+                                    projectList.push(
                                         <Card expanded={isexpanded[i]} sx={{ minWidth: 275, px: 3, py: 2, mb: 3 }}>
                                             <CardHeader title={`${projectName}`} subheader = {`Başlangiç tarihi: ${projectStartDate}`}
                                                 action = {
@@ -150,17 +182,63 @@ export default function ProjectDashboard() {
                                             </CardActions>
 
                                             <Collapse in={isexpanded[i] === true} timeout="auto" unmountOnExit>
-                                                <CardContent>
-                                                <Typography paragraph>
-                                                    COMMENT WILL SHOWN HERE:
-                                                </Typography>
+                                                {(() => {  
+                                                    let commentList = [];
+                                                    let commentLen = allComments.length;
+                                                    let commentText, commentAuthor, commentDate;
+                                                    for (let j = 0; j<commentLen ; j++){
+                                                        if (allProjects[i].id === allComments[j].project){
+                                                            commentText = allComments[j].text_body;
+                                                            commentAuthor = allComments[j].author;
+                                                            commentDate = allComments[j].date_added;
+                                                            commentDate= timeSeperator(commentDate);
+                                                            commentAuthor= getusername(commentAuthor);
+                                                            commentList.push(
+                                                                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                                                                    <ListItem alignItems="flex-start">
+                                                                        <ListItemText
+                                                                        primary={`${commentText}`}
+                                                                        secondary={
+                                                                            <React.Fragment>
+                                                                            <Typography
+                                                                                sx={{ display: 'inline' }}
+                                                                                component="span"
+                                                                                variant="body2"
+                                                                                color="text.primary"
+                                                                            >
+                                                                                {`${commentAuthor}:`}
+                                                                            </Typography>
+                                                                            {`${commentDate}`}
+                                                                            </React.Fragment>
+                                                                        }/>
+                                                                    </ListItem>
+                                                                    <Divider variant="inset" component="li" />
+                                                                    </List>
+                                                            );
+                                                        }
+                                                    }
+                                                    if (commentList.length === 0){
+                                                        commentList.push(
+                                                            <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                                                                <ListItem alignItems="flex-start">
+                                                                    <ListItemText
+                                                                    primary="Yorum Yok..."
+                                                                    />
+                                                                </ListItem>
+                                                                <Divider variant="inset" component="li" />
+                                                            </List>
+                                                        );
+                                                    }
 
-                                                </CardContent>
+                                                    return commentList;
+                                                })()}
+
+                                                               
                                             </Collapse>
                                         </Card>
                                     );
                                 }
-                                return list;
+                                return projectList;
                             }
                         })()}
                     </Grid>
