@@ -33,7 +33,6 @@ const ContentBox = styled('div')(({ theme }) => ({
   
 export default function ProjectDashboard() {
     const [isexpanded, setIsExpanded] = useState({});
-
     let [allProjects, setResponseData] = useState([]);
     let [allComments, setComments] = useState([]);
 
@@ -46,7 +45,6 @@ export default function ProjectDashboard() {
             });
         }
         else {
-            
             setIsExpanded({
                 ...isexpanded,
                 [projectid_index]: !isexpanded[projectid_index]
@@ -54,11 +52,8 @@ export default function ProjectDashboard() {
         }
         
         console.log(isexpanded[projectid_index]);
-
-        console.log(projectid_index);
-        console.log("hey");
     };
-    
+
     const defineIsExpanded = (projectid_index) => {
         if (isexpanded[projectid_index] === undefined) {
             setIsExpanded({
@@ -74,7 +69,6 @@ export default function ProjectDashboard() {
 
     useEffect(() => {
         getProjectItems();
-
     }, []);
 
     const  getProjectItems = () => {
@@ -158,12 +152,9 @@ export default function ProjectDashboard() {
                                             <Collapse in={isexpanded[i] === true} timeout="auto" unmountOnExit>
                                                 <CardContent>
                                                 <Typography paragraph>
-                                                    Method:
+                                                    COMMENT WILL SHOWN HERE:
                                                 </Typography>
-                                                <Typography paragraph>
-                                                    Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-                                                    aside for 10 minutes.
-                                                </Typography>
+
                                                 </CardContent>
                                             </Collapse>
                                         </Card>
