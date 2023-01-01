@@ -53,6 +53,19 @@ export default function RefereeTable() {
   
   console.log(games_refNames);
 
+  const getRating = (refereeRating, ratingCount) => {
+    try {
+      const rating = refereeRating / ratingCount;
+      if (ratingCount == 0) {
+        return 0;
+      } else {
+        return rating.toFixed(2);
+      }
+    } catch(e) {
+      return 0;
+    }
+  };
+
     return (
       <Box width="100%" overflow="auto">
         <StyledTable>
@@ -72,7 +85,7 @@ export default function RefereeTable() {
             {games_refNames.map((item, index) => (
               <TableRow key={index}>
                 <TableCell align="center">{item.referee.name + " " + item.referee.surname}</TableCell>
-                <TableCell align="center">{item.referee_rating}</TableCell>
+                <TableCell align="center">{getRating(item.referee_rating, item.rating_count)}</TableCell>
                 <TableCell align="center">{item.game_name}</TableCell>
                 <TableCell align="center">{item.game_date}</TableCell>
                 <TableCell align="center">{item.game_result}</TableCell>

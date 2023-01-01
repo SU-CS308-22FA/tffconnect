@@ -1,9 +1,8 @@
 import { Button, Grid, Icon, styled } from "@mui/material";
 import { Span } from "app/components/Typography";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import InputAdornment from '@mui/material/InputAdornment';
-import axios from 'axios';
 import { API_URL } from 'app/constants';
 
 const TextField = styled(TextValidator)(() => ({
@@ -16,37 +15,37 @@ export default function VoteForm(props) {
   console.log("Child reporting-GameID: " + gameDetails);
   const game = JSON.parse(gameDetails);
   const [rating, setRating] = useState(3.5);
-  const [value, setValue] = useState(null);
 
   const handleChange = (event) => {
-    setRating(event.target.rating);
-    console.log(event.target.rating);
+    setRating(event.target.value);
   };
 
-  async function handleSubmit(event) {
+  const handleSubmit = async () => {
     const response = await fetch(API_URL + '/games/' + game.id + '/',);
     const gameData = await response.json();
-    const newCount = gameData.rating_count + 1;
-    const newRating = (gameData.referee_rating + rating) / newCount;
-    console.log(gameData);
+    const newCount = parseFloat(gameData.rating_count) + 1;
+    const newRating = (parseFloat(gameData.referee_rating) + parseFloat(rating));
     console.log(newRating);
-
-    const requestOptions = {
+    console.log(newCount);
+    const roundedRating = newRating.toFixed(2);
+    const updateResponse = await fetch(API_URL + '/games/' + game.id + '/', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
-        id:gameData.id,
-        referee_id:gameData.referee_id,
-        game_name:gameData.game_name,
-        game_date:gameData.game_date,
-        game_result:gameData.game_result,
-        referee_rating:newRating, 
-        rating_count:newCount,
-      }),
-    };
-    console.log(requestOptions);
-    const updateResponse = await fetch(API_URL + '/games/' + game.id + '/', requestOptions);
-  }
+        id: gameData.id,
+        referee_id: gameData.referee_id,
+        game_name: gameData.game_name,
+        game_date: gameData.game_date,
+        game_result: gameData.game_result,
+        referee_rating: roundedRating,
+        rating_count: newCount
+      })
+    });
+    const data = await updateResponse.json();
+    console.log(data);
+  };
 
   return (
     <div>
