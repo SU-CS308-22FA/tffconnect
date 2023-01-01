@@ -21,9 +21,9 @@ export default function RefereeTable() {
   const [games_refNames, setGamesWithRefereeNames] = useState([]);
   const navigate = useNavigate();
 
-  const handleClick = (id) => {
-    const idString = JSON.stringify(id);
-    navigate('/data/referee_vote', {state:{gameID: idString}});
+  const handleClick = (item) => {
+    const itemString = JSON.stringify(item);
+    navigate('/data/referee_vote', {state:{game: itemString}});
   }
 
   useEffect(() => {
@@ -59,10 +59,11 @@ export default function RefereeTable() {
           <TableHead>
             <TableRow>
               <TableCell align="center">Personel Adı</TableCell>
-              <TableCell align="center">Puanı</TableCell>
+              <TableCell align="center">Maç Oylaması</TableCell>
               <TableCell align="center">Atandığı Maç</TableCell>
               <TableCell align="center">Oynanma Tarihi</TableCell>
               <TableCell align="center">Maç Sonucu</TableCell>
+              <TableCell align="center">Oylanma Sayısı</TableCell>
               <TableCell align="center">Oyla</TableCell>
             </TableRow>
           </TableHead>
@@ -71,12 +72,13 @@ export default function RefereeTable() {
             {games_refNames.map((item, index) => (
               <TableRow key={index}>
                 <TableCell align="center">{item.referee.name + " " + item.referee.surname}</TableCell>
-                <TableCell align="center">{"5.0"}</TableCell>
+                <TableCell align="center">{item.referee_rating}</TableCell>
                 <TableCell align="center">{item.game_name}</TableCell>
                 <TableCell align="center">{item.game_date}</TableCell>
                 <TableCell align="center">{item.game_result}</TableCell>
+                <TableCell align="center">{item.rating_count}</TableCell>
                 <TableCell align="center">
-                  <IconButton onClick={() => handleClick(item.id)}>
+                  <IconButton onClick={() => handleClick(item)}>
                     <Icon color="success">offline_pin</Icon>
                   </IconButton>
                 </TableCell>

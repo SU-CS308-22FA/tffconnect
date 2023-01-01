@@ -12,37 +12,41 @@ const TextField = styled(TextValidator)(() => ({
 }));
 
 export default function VoteForm(props) {
-  const gameID = props.gameID;
-  console.log("Child reporting-GameID: " + gameID);
+  const gameDetails = props.game;
+  console.log("Child reporting-GameID: " + gameDetails);
+  const game = JSON.parse(gameDetails);
   const [rating, setRating] = useState(3.5);
-  const [game, setGame] = useState([]);
-  const [referee, setReferee] = useState([]);
-  const [game_referee, setRefName] = useState([]);
-
-  useEffect(() => {
-    axios.all([
-      axios.get(API_URL + '/referees/'),
-      axios.get(API_URL + '/games/' + gameID + '/')
-    ])
-    .then(axios.spread((refereesResponse, gamesResponse) => {
-      setReferee(refereesResponse.data);
-      setGame(gamesResponse.data);
-    }))
-    .catch(error => {
-      console.error(error);
-    });
-  }, []);
-
-  console.log(game);
+  const [value, setValue] = useState(null);
 
   const handleChange = (event) => {
     setRating(event.target.rating);
+    console.log(event.target.rating);
   };
 
-  const handleSubmit = (event) => {
-    // console.log("submitted");
-    // console.log(event);
-  };
+  async function handleSubmit(event) {
+    const response = await fetch(API_URL + '/games/' + game.id + '/',);
+    const gameData = await response.json();
+    const newCount = gameData.rating_count + 1;
+    const newRating = (gameData.referee_rating + rating) / newCount;
+    console.log(gameData);
+    console.log(newRating);
+
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id:gameData.id,
+        referee_id:gameData.referee_id,
+        game_name:gameData.game_name,
+        game_date:gameData.game_date,
+        game_result:gameData.game_result,
+        referee_rating:newRating, 
+        rating_count:newCount,
+      }),
+    };
+    console.log(requestOptions);
+    const updateResponse = await fetch(API_URL + '/games/' + game.id + '/', requestOptions);
+  }
 
   return (
     <div>
@@ -52,18 +56,15 @@ export default function VoteForm(props) {
             <TextField
               disabled
               type="text"
-              name="game_name"
-              label="Username (Min length 4, Max length 9)"
+              name="referee_fullname"
+              label={game.game_name}
             />
-
             <TextField
+              disabled
               type="text"
-              name="firstName"
-              label="First Name"
-              validators={["required"]}
-              errorMessages={["this field is required"]}
+              name="referee_fullname"
+              label={game.referee.name + " " + game.referee.surname}
             />
-
             <TextField
               label="Hakeme Verilen Puan"
               type="number"
@@ -78,7 +79,6 @@ export default function VoteForm(props) {
                 startAdornment: <InputAdornment position="start">(5.0 üzerinden)</InputAdornment>,
               }}
             />
-
           </Grid>
         </Grid>
 

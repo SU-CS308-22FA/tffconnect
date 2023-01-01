@@ -11,12 +11,12 @@ const ContentBox = styled('div')(({ theme }) => ({
 
 export default function RefVote() {
     const location = useLocation();
-    const gameID = location.state.gameID;
+    const game = location.state.game;
 
     return (
         <Fragment>
           <ContentBox className="refereeVoting">
-            <VoteForm gameID={gameID} >
+            <VoteForm game={game} >
             </VoteForm>
           </ContentBox>
         </Fragment>
