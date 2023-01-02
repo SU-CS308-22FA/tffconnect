@@ -4,6 +4,7 @@ import { useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import InputAdornment from '@mui/material/InputAdornment';
 import { API_URL } from 'app/constants';
+import { useNavigate } from 'react-router-dom';
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
@@ -15,6 +16,7 @@ export default function VoteForm(props) {
   console.log("Child reporting-GameID: " + gameDetails);
   const game = JSON.parse(gameDetails);
   const [rating, setRating] = useState(3.5);
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     setRating(event.target.value);
@@ -45,6 +47,7 @@ export default function VoteForm(props) {
     });
     const data = await updateResponse.json();
     console.log(data);
+    navigate('/data/referee_games');
   };
 
   return (
