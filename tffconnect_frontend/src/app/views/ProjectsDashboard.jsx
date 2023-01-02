@@ -16,6 +16,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import CommentIcon from '@mui/icons-material/Comment';
 import List from '@mui/material/List';
+import { ListItemSecondaryAction } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
@@ -24,7 +25,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-
+import FlagIcon from '@mui/icons-material/Flag';
 
 
 const ContentBox = styled('div')(({ theme }) => ({
@@ -40,6 +41,26 @@ export default function ProjectDashboard() {
     let [allComments, setComments] = useState([]);
     let [allUsers, setUsers] = useState([]);
 
+    const handleReport = (item) => {
+        console.log(item);
+        console.log("REPORTED");
+    };
+
+    useEffect(() => {
+        const buttons = document.querySelectorAll('.report-button');
+        buttons.forEach((button) => {
+            button.addEventListener('click', (event) => {
+                handleReport(event.target.dataset.comment);
+            });
+        });
+        return () => {
+        buttons.forEach((button) => {
+            button.removeEventListener('click', (event) => {
+            handleReport(event.target.dataset.comment);
+            });
+        });
+        };
+    }, []);
     
     const handleExpandClick = (projectid_index) => {
         if (isexpanded[projectid_index] === undefined) {
@@ -68,9 +89,9 @@ export default function ProjectDashboard() {
     const handleSettingsClick = () => {
         console.log("REPORTED");
     };
+
     const handleCommentClick = () => {
         console.log("COMMENTED");
-
     };
 
     useEffect(() => {
@@ -219,6 +240,11 @@ export default function ProjectDashboard() {
                                                                             {`${commentDate}`}
                                                                             </React.Fragment>
                                                                         }/>
+                                                                        <ListItemSecondaryAction>
+                                                                            <IconButton onClick={handleReport(allComments[j])}>
+                                                                                <FlagIcon />
+                                                                            </IconButton>
+                                                                        </ListItemSecondaryAction>
                                                                     </ListItem>
                                                                     <Divider variant="inset" component="li" />
                                                                     </List>

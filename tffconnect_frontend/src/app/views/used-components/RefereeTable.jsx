@@ -72,7 +72,7 @@ export default function RefereeTable() {
   const getRating = (refereeRating, ratingCount) => {
     try {
       const rating = refereeRating / ratingCount;
-      if (ratingCount == 0) {
+      if (ratingCount === 0) {
         return 0;
       } else {
         return rating.toFixed(2);

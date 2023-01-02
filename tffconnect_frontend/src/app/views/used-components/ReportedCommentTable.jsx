@@ -73,9 +73,29 @@ export default function ReportedCommentTable() {
 
   console.log(reported_comments);
 
-  const handleClick = (item) => {
-    const itemString = JSON.stringify(item);
-    navigate('/data/referee_vote', {state:{game: itemString}});
+  const handleDelete = (item) => {
+    const updateResponse = fetch(API_URL + '/projects/comments/' + item.id + '/', {
+      method: 'DELETE',
+    });
+    navigate('/dashboard');
+  }
+
+  const handleAccept = (item) => {
+    const updateResponse = fetch(API_URL + '/projects/comments/' + item.id + '/', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id: item.id,
+        project: item.project,
+        author: item.author,
+        text_body: item.text_body,
+        date_added: item.date_added,
+        is_approved: false,
+      })
+    });
+    navigate('/dashboard');
   }
 
     return (
@@ -101,12 +121,12 @@ export default function ReportedCommentTable() {
                 <TableCell align="center">{formatDate(item.date_added)}</TableCell>
                 <TableCell align="center">{item.text_body}</TableCell>
                 <TableCell align="center">
-                  <IconButton onClick={() => handleClick(item)}>
+                  <IconButton onClick={() => handleAccept(item)}>
                     <Icon color="success"><CheckCircleOutlineIcon/></Icon>
                   </IconButton>
                 </TableCell>
                 <TableCell align="center">
-                  <IconButton onClick={() => handleClick(item)}>
+                  <IconButton onClick={() => handleDelete(item)}>
                     <Icon color="error"><HighlightOffIcon/></Icon>
                   </IconButton>
                 </TableCell>
