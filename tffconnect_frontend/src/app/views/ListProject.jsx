@@ -43,9 +43,10 @@ import useAuth from 'app/hooks/useAuth';
     let list = [];
   
   const navigator = useNavigate();
-    useEffect(() => {
-        getProjectItems();
-    }, []);
+
+  useEffect(() => {
+      getProjectItems();
+  }, []);
 
     const setData = (data) => {
       console.log(data);
