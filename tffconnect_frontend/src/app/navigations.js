@@ -9,10 +9,10 @@ export const navigations = [
     children: [
       { name: 'Lig Durumu', path: "" },
       { name: 'Hakemler', path: "" },
-      { name: 'Projeler', path: "" },
       { name: 'Hakemler-Maçlar', path: '/data/referee_games' },
+      { name: 'Tüm Projeler', path: "/material/ProjectsDashboard" },
       { name: 'Proje Ekle', iconText: 'PE', path: '/material/addproject' },
-      { name: 'Proje Listele', iconText: 'PL', path: '/material/listproject' },
+      { name: 'Projelerimi Listele', iconText: 'PL', path: '/material/listproject' },
     ],
   },
   { label: 'OTURUM AÇ', type: 'label' },

@@ -10,4 +10,5 @@ urlpatterns = [
     path("users/signup/", views.SignUpView.as_view()),
     path("users/google-signup-login/", views.GoogleSignupLoginView.as_view()),
     path("users/me/", views.MeView.as_view()),
+    path("users/", views.ListView.as_view()),
 ]
