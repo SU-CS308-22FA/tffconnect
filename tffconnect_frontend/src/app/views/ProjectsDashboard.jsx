@@ -20,11 +20,10 @@ import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import useAuth from 'app/hooks/useAuth';
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-
+import { useRef } from 'react';
 
 
 const ContentBox = styled('div')(({ theme }) => ({
@@ -35,12 +34,21 @@ const ContentBox = styled('div')(({ theme }) => ({
   
 export default function ProjectDashboard() {
     const { user } = useAuth();
+    const formRef = useRef();
     const [isexpanded, setIsExpanded] = useState({});
     let [allProjects, setResponseData] = useState([]);
     let [allComments, setComments] = useState([]);
     let [allUsers, setUsers] = useState([]);
 
+    let [comment, setComment] = useState([{
+            project: -1,
+            author: user.id,
+            date_added : new Date(),
+            text_body: "",
+            is_approved: false,   
+    }]);
     
+
     const handleExpandClick = (projectid_index) => {
         if (isexpanded[projectid_index] === undefined) {
             setIsExpanded({
@@ -56,6 +64,23 @@ export default function ProjectDashboard() {
         }
     };
 
+    const defineComment = (projectid_index) => {
+        if (!comment[projectid_index]) {  // Check if comment object for projectid_index exists
+            const initialComment = {  // Initial values for comment object
+              project: -1,
+              author: user.id,
+              date_added: new Date(),
+              text_body: "",
+              is_approved: false,
+            };
+            const newComments = Array(projectid_index + 1).fill().map(() => initialComment);  
+            const updatedComments = [...comment];  
+            updatedComments.splice(projectid_index, 0, ...newComments);  
+            setComment(updatedComments); 
+        }
+            
+    };
+
     const defineIsExpanded = (projectid_index) => {
         if (isexpanded[projectid_index] === undefined) {
             setIsExpanded({
@@ -68,9 +93,43 @@ export default function ProjectDashboard() {
     const handleSettingsClick = () => {
         console.log("REPORTED");
     };
-    const handleCommentClick = () => {
+    const handleCommentClick = (event, index) => {
         console.log("COMMENTED");
+        event.preventDefault();
+        console.log(comment[index]);
 
+        axios.post(API_URL + '/projects/comments/', 
+            {
+                project: comment[index].project,
+                author: comment[index].author,
+                date_added : comment[index].date_added,
+                text_body: comment[index].text_body,
+                is_approved: comment[index].is_approved,
+            })
+            .then(response => {
+                console.log(response);
+                getProjectItems();
+                setTimeout(() => formRef.current.reset(), 3);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        
+    };
+    
+    const handleCommentChange = (event, index) => {
+        event.persist();
+        console.log(comment[index]);
+        if (index >=0 && index < allProjects.length) {
+            const newComment = [...comment]
+            newComment[index][event.target.name] = event.target.value;
+            newComment[index]["project"] = allProjects[index].id;
+            setComment(newComment);
+        }
+        else {
+            console.log("burda");
+        }
+       
     };
 
     useEffect(() => {
@@ -158,6 +217,7 @@ export default function ProjectDashboard() {
                                 
                                 for (let i = 0; i<len ; i++){
                                     defineIsExpanded(i);
+                                    defineComment(i);
                                     projectName = allProjects[i].name;
                                     projectStartDate = allProjects[i].start_date;
                                     projectBudget = allProjects[i].budget;
@@ -238,21 +298,27 @@ export default function ProjectDashboard() {
                                                         );
                                                     }
                                                     commentList.push(
-                                                        <Box  
-                                                            component="form" 
-                                                            sx={{
-                                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
-                                                            }}
-                                                            noValidate
-                                                            autoComplete="off"
-                                                        >
-                                                            <TextField id="outlined-basic" label="Yorumunuz" variant="outlined" />
-                                                                    
-                                                            <Button onClick= {()=> handleCommentClick()} variant="contained" endIcon={<SendIcon />}>
-                                                                Gonder
-                                                            </Button>
-                                                           
-                                                        </Box>
+                                                        <Grid container spacing={2}>
+                                                            <Grid item xs={12} sm={6}>
+                                                                <form ref={formRef}>
+                                                                    <TextField 
+                                                                        name= "text_body" 
+                                                                        value={comment[i]?.text_body} 
+                                                                        onChange={(event) => handleCommentChange(event,i)} 
+                                                                        id="outlined-basic" 
+                                                                        label="Yorumunuz" 
+                                                                        variant="outlined" 
+                                                                    />   
+                                                                    <Button 
+                                                                        onClick= {((event)=> handleCommentClick(event, i))}  
+                                                                        variant="contained" 
+                                                                        endIcon={<SendIcon />}
+                                                                    >
+                                                                        Gonder
+                                                                    </Button>
+                                                                 </form>
+                                                            </Grid>
+                                                        </Grid>
                                                     );
 
                                                     return commentList;
