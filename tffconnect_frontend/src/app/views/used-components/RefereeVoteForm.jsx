@@ -5,6 +5,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import InputAdornment from '@mui/material/InputAdornment';
 import { API_URL } from 'app/constants';
 import { useNavigate } from 'react-router-dom';
+import useAuth from 'app/hooks/useAuth';
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
@@ -12,6 +13,7 @@ const TextField = styled(TextValidator)(() => ({
 }));
 
 export default function VoteForm(props) {
+  const { user } = useAuth();
   const gameDetails = props.game;
   console.log("Child reporting-GameID: " + gameDetails);
   const game = JSON.parse(gameDetails);
@@ -47,6 +49,14 @@ export default function VoteForm(props) {
     });
     const data = await updateResponse.json();
     console.log(data);
+    fetch(API_URL + '/votes/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({user_id: user.id, game_id: gameData.id})
+    })
+    .then(response => response.json());
     navigate('/data/referee_games');
   };
 
