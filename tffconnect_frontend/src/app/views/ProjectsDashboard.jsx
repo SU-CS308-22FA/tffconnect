@@ -20,6 +20,11 @@ import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import useAuth from 'app/hooks/useAuth';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
+
 
 
 const ContentBox = styled('div')(({ theme }) => ({
@@ -62,6 +67,10 @@ export default function ProjectDashboard() {
 
     const handleSettingsClick = () => {
         console.log("REPORTED");
+    };
+    const handleCommentClick = () => {
+        console.log("COMMENTED");
+
     };
 
     useEffect(() => {
@@ -228,6 +237,23 @@ export default function ProjectDashboard() {
                                                             </List>
                                                         );
                                                     }
+                                                    commentList.push(
+                                                        <Box  
+                                                            component="form" 
+                                                            sx={{
+                                                                '& .MuiTextField-root': { m: 1, width: '25ch' },
+                                                            }}
+                                                            noValidate
+                                                            autoComplete="off"
+                                                        >
+                                                            <TextField id="outlined-basic" label="Yorumunuz" variant="outlined" />
+                                                                    
+                                                            <Button onClick= {()=> handleCommentClick()} variant="contained" endIcon={<SendIcon />}>
+                                                                Gonder
+                                                            </Button>
+                                                           
+                                                        </Box>
+                                                    );
 
                                                     return commentList;
                                                 })()}
