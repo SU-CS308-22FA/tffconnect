@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from 'app/constants';
 import { useNavigate } from 'react-router-dom';
+import useAuth from 'app/hooks/useAuth';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: "pre",
@@ -16,14 +17,29 @@ const StyledTable = styled(Table)(({ theme }) => ({
 }));
 
 export default function RefereeTable() {
+  const { user } = useAuth();
   const [games, setGames] = useState([]);
   const [referees, setReferees] = useState([]);
   const [games_refNames, setGamesWithRefereeNames] = useState([]);
   const navigate = useNavigate();
 
-  const handleClick = (item) => {
-    const itemString = JSON.stringify(item);
-    navigate('/data/referee_vote', {state:{game: itemString}});
+  const handleClick = (item, game_id) => {
+    fetch(API_URL + '/votes/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const hasVoted = data.some(vote => vote.user_id === user.id && vote.game_id === game_id);
+      console.log(hasVoted);
+
+      if(!hasVoted) {
+        const itemString = JSON.stringify(item);
+        navigate('/data/referee_vote', {state:{game: itemString}});
+      }
+    });
   }
 
   useEffect(() => {
@@ -91,7 +107,7 @@ export default function RefereeTable() {
                 <TableCell align="center">{item.game_result}</TableCell>
                 <TableCell align="center">{item.rating_count}</TableCell>
                 <TableCell align="center">
-                  <IconButton onClick={() => handleClick(item)}>
+                  <IconButton onClick={() => handleClick(item, item.id)}>
                     <Icon color="success">offline_pin</Icon>
                   </IconButton>
                 </TableCell>
