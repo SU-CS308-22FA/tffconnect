@@ -101,11 +101,11 @@ const MatxSearchBox = () => {
           <IconButton onClick={toggle} sx={{ mx: 2, verticalAlign: 'middle' }}>
             <Icon sx={{ color: textColor }}>close</Icon>
           </IconButton>
-          <div > 
+          <div styled="display:block;"> 
           {dataFiltered.length > 0 && (
             <div>
               {dataFiltered.map(result => (
-                <div key={result.id}>{result.name}</div> //görsel biseyler yap allah için
+                <div style={{  fontSize: '1rem',paddingRight: '200px',paddingLeft: '30px'}} key={result.id}>{result.name}</div> //görsel biseyler yap allah için
               ))}
             </div>
           )}
