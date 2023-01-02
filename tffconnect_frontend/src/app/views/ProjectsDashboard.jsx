@@ -42,25 +42,21 @@ export default function ProjectDashboard() {
     let [allUsers, setUsers] = useState([]);
 
     const handleReport = (item) => {
-        console.log(item);
-        console.log("REPORTED");
+        const updateResponse = fetch(API_URL + '/projects/comments/' + item.id + '/', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              id: item.id,
+              project: item.project,
+              author: item.author,
+              text_body: item.text_body,
+              date_added: item.date_added,
+              is_approved: true,
+            })
+          });
     };
-
-    useEffect(() => {
-        const buttons = document.querySelectorAll('.report-button');
-        buttons.forEach((button) => {
-            button.addEventListener('click', (event) => {
-                handleReport(event.target.dataset.comment);
-            });
-        });
-        return () => {
-        buttons.forEach((button) => {
-            button.removeEventListener('click', (event) => {
-            handleReport(event.target.dataset.comment);
-            });
-        });
-        };
-    }, []);
     
     const handleExpandClick = (projectid_index) => {
         if (isexpanded[projectid_index] === undefined) {
@@ -241,7 +237,7 @@ export default function ProjectDashboard() {
                                                                             </React.Fragment>
                                                                         }/>
                                                                         <ListItemSecondaryAction>
-                                                                            <IconButton onClick={handleReport(allComments[j])}>
+                                                                            <IconButton onClick={() => handleReport(allComments[j])}>
                                                                                 <FlagIcon />
                                                                             </IconButton>
                                                                         </ListItemSecondaryAction>
