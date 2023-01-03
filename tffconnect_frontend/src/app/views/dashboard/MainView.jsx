@@ -9,7 +9,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import axios from 'axios';
 import useAuth from 'app/hooks/useAuth';
-import { API_URL } from 'app/constants';
+import { API_URL, IMAGE_URL } from 'app/constants';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -85,7 +85,7 @@ export default function MainView() {
                 {(() => {
                   let cards = [];
                   for (let i=0; i < whereToStart; i++) {
-                    let imageUrlStr = "http://127.0.0.1:8000" + allNews[i].image
+                    let imageUrlStr = IMAGE_URL + allNews[i].image
                     cards.push (
                       <Card sx={{ px: 3, py: 2, mb: 3 }}>
                       <CardMedia
@@ -118,7 +118,7 @@ export default function MainView() {
                 {(() => {
                   let cards = [];
                   for (let i=whereToStart; i < allNews.length; i++) {
-                    let imageUrlStr = "http://127.0.0.1:8000" + allNews[i].image
+                    let imageUrlStr = IMAGE_URL + allNews[i].image
                     cards.push (
                       <Card sx={{ px: 3, py: 2, mb: 3 }}>
                       <CardMedia

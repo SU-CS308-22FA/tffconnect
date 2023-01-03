@@ -9,7 +9,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import axios from 'axios';
 import useAuth from 'app/hooks/useAuth';
-import { API_URL } from 'app/constants';
+import { API_URL, IMAGE_URL } from 'app/constants';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -96,7 +96,7 @@ export default function Favorites() {
                 {(() => {
                   let cards = [];
                   for (let i=0; i < whereToStart; i++) {
-                    let imageUrlStr = "http://127.0.0.1:8000" + user_favorites[i].newss.image
+                    let imageUrlStr = IMAGE_URL + user_favorites[i].newss.image
                     cards.push (
                       <Card sx={{ px: 3, py: 2, mb: 3 }}>
                       <CardMedia
@@ -129,7 +129,7 @@ export default function Favorites() {
                   {(() => {
                     let cards = [];
                     for (let i=whereToStart; i < user_favorites.length; i++) {
-                      let imageUrlStr = "http://127.0.0.1:8000" + user_favorites[i].newss.image
+                      let imageUrlStr = IMAGE_URL + user_favorites[i].newss.image
                       cards.push (
                         <Card sx={{ px: 3, py: 2, mb: 3 }}>
                         <CardMedia
