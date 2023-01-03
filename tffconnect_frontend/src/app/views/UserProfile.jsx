@@ -40,7 +40,6 @@ const Container = styled("div")(({ theme }) => ({
 
 const AppTable = () => {
 
-    let [myComments, setMyComments] = useState([]);
     let [allComments, setAllComments] = useState([]);
     const {user} = useAuth();
 
@@ -97,28 +96,32 @@ const AppTable = () => {
         <StyledTable>
           <TableHead>
             <TableRow>
-              <TableCell align="center">Proje İsmi</TableCell>
+              <TableCell align="center">Proje ID</TableCell>
               <TableCell align="center">İçerik</TableCell>
               <TableCell align="center">Tarih</TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-          {allComments.map((comment, index) => (
-            <TableRow key={index}>
-                <TableCell align="center">{comment.project}</TableCell>
-                <TableCell align="center">{comment.text_body}</TableCell>
-                <TableCell align="center">{comment.date_added}</TableCell>
-              <TableCell align="center">
-              
-                <IconButton
-                  onClick={ () => handleClickedDelete(comment.id)}
-                >
-                  <DeleteIcon ></DeleteIcon>
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
+          {allComments.map((comment, index) => {
+            if (comment.author===user.id) {
+                return (
+                    <TableRow key={index}>
+                        <TableCell align="center">{comment.project}</TableCell>
+                        <TableCell align="center">{comment.text_body}</TableCell>
+                        <TableCell align="center">{comment.date_added}</TableCell>
+                    <TableCell align="center">
+                    
+                        <IconButton
+                        onClick={ () => handleClickedDelete(comment.id)}
+                        >
+                        <DeleteIcon ></DeleteIcon>
+                        </IconButton>
+                    </TableCell>
+                    </TableRow>
+                )
+                }
+            })}
         </TableBody>
         </StyledTable>
       </Box>
