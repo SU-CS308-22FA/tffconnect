@@ -12,6 +12,7 @@ export const navigations = [
       { name: 'Tüm Projeler', path: "/material/ProjectsDashboard" },
       { name: 'Proje Ekle', iconText: 'PE', path: '/material/addproject' },
       { name: 'Projelerimi Listele', iconText: 'PL', path: '/material/listproject' },
+      { name: 'Profilim', iconText: 'P', path: '/material/userprofile' },
     ],
   },
   { label: 'OTURUM AÇ', type: 'label' },
