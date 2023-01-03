@@ -83,11 +83,45 @@ export default function ProjectDashboard() {
     };
 
     const handleSettingsClick = () => {
-        console.log("REPORTED");
+        //console.log("REPORTED");
     };
+    const handleCommentClick = (event, index) => {
+        //console.log("COMMENTED");
+        event.preventDefault();
+        //console.log(comment[index]);
 
-    const handleCommentClick = () => {
-        console.log("COMMENTED");
+        axios.post(API_URL + '/projects/comments/', 
+            {
+                project: comment[index].project,
+                author: comment[index].author,
+                date_added : comment[index].date_added,
+                text_body: comment[index].text_body,
+                is_approved: comment[index].is_approved,
+            })
+            .then(response => {
+                console.log(response);
+                getProjectItems();
+                setTimeout(() => formRef.current.reset(), 3);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        
+    };
+    
+    const handleCommentChange = (event, index) => {
+        event.persist();
+        //console.log(comment[index]);
+        if (index >=0 && index < allProjects.length) {
+            const newComment = [...comment]
+            newComment[index][event.target.name] = event.target.value;
+            newComment[index]["project"] = allProjects[index].id;
+            setComment(newComment);
+        }
+        else {
+            console.log("burda");
+        }
+       
     };
 
     useEffect(() => {
