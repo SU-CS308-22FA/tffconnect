@@ -192,10 +192,10 @@ export default function ProjectDashboard() {
     }; 
 
     return (
-        <Fragment>
-            <ContentBox className ="ProjectDashboard">
-                <Grid container spacing={-2}>
-                    <Grid item xs={12} sm={6} md={4}>
+        <Fragment >
+            <ContentBox className ="ProjectDashboard" style={{ margin: 'auto' }}>
+                <Grid container spacing={-2} justifyContent="center" alignItems="center">
+                    <Grid item xs={24} sm={12} md={8}>
 
                         {(() => {
                             let len = allProjects.length;
@@ -241,9 +241,6 @@ export default function ProjectDashboard() {
                                                 </Typography>
                                             </CardContent>
                                             <CardActions disableSpacing>
-                                                <IconButton aria-label="add to favorites">
-                                                    <FavoriteIcon />
-                                                </IconButton>
                                                 <IconButton>
                                                     <CommentIcon onClick = { ()=> handleExpandClick(i) }/>
                                                 </IconButton>
@@ -333,12 +330,6 @@ export default function ProjectDashboard() {
                             }
                         })()}
                     </Grid>
-                    <Grid item xs={6} sm={3} md={0.5}>
-                        <Container>
-                        
-                        </Container>
-                    </Grid>
-                    Burda
                 </Grid>
             </ContentBox>
         </Fragment>
