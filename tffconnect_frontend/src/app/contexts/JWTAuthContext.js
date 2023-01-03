@@ -85,7 +85,7 @@ export const AuthProvider = ({ children }) => {
         console.log(response.data)
         const accessToken = response.data["token"]
         console.log(accessToken)
-    
+        
         const response2 = await axios.get(API_URL + '/users/me/', {
             headers: {
                 Authorization: "Token " + accessToken,

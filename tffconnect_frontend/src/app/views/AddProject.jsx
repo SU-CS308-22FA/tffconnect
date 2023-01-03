@@ -86,14 +86,14 @@ const SimpleForm = () => {
               value={name || ""}
               onChange={handleChange}
               errorMessages={["this field is required"]}
-              label="Project Name"
+              label="Proje İsmi Yaziniz "
               validators={["required"]}
             />
 
             <TextField
               type="text"
               name="description"
-              label="Project Description"
+              label="Proje Açiklamasi Giriniz"
               onChange={handleChange}
               value={description || ""}
               validators={["required"]}
@@ -107,22 +107,7 @@ const SimpleForm = () => {
                 renderInput={(props) => (
                   <TextField
                     {...props}
-                    label="Project Proposal Date"
-                    id="mui-pickers-date"
-                    sx={{ mb: 2, width: "100%" }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
-
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                value={end_date}
-                onChange={handleStartDateChange}
-                renderInput={(props) => (
-                  <TextField
-                    {...props}
-                    label="Project Start Date"
+                    label="Proje Öneri Tarihi Seçiniz"
                     id="mui-pickers-date"
                     sx={{ mb: 2, width: "100%" }}
                   />
@@ -133,11 +118,26 @@ const SimpleForm = () => {
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 value={start_date}
+                onChange={handleStartDateChange}
+                renderInput={(props) => (
+                  <TextField
+                    {...props}
+                    label="Tahmini Proje Başlangiç Tarihi Seçiniz"
+                    id="mui-pickers-date"
+                    sx={{ mb: 2, width: "100%" }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DatePicker
+                value={end_date}
                 onChange={handleEndDateChange}
                 renderInput={(props) => (
                   <TextField
                     {...props}
-                    label="Project End Date"
+                    label=" Tahmini Proje Bitiş Tarihi Seçiniz"
                     id="mui-pickers-date"
                     sx={{ mb: 2, width: "100%" }}
                   />
@@ -151,7 +151,7 @@ const SimpleForm = () => {
           <TextField
               type="text"
               name="location"
-              label="Project Location"
+              label="Proje Lokasyonu"
               value={location || ""}
               onChange={handleChange}
               validators={["required"]}
@@ -162,7 +162,7 @@ const SimpleForm = () => {
               sx={{ mb: 4 }}
               type="text"
               name="budget"
-              label="Project Budget"
+              label="Proje Bütçesi"
               onChange={handleChange}
               value={budget || ""}
               errorMessages={["this field is required"]}
@@ -175,7 +175,7 @@ const SimpleForm = () => {
 
             <RadioGroup
               row
-              label = "Is Confirmed by TFF"
+              label = "Federasyon Onayli mi? Evet ya da Hayir"
               name="is_confirmed_by_tff"
               sx={{ mb: 2 }}
               value={is_confirmed_by_tff || ""}
@@ -184,14 +184,14 @@ const SimpleForm = () => {
 
               <FormControlLabel
                 value="true"
-                label="Yes"
+                label="Evet"
                 labelPlacement="end"
                 control={<Radio color="secondary" />}
               />
 
               <FormControlLabel
                 value="false"
-                label="No"
+                label="Hayir"
                 labelPlacement="end"
                 control={<Radio color="secondary" />}
               />
@@ -205,7 +205,7 @@ const SimpleForm = () => {
                 renderInput={(props) => (
                   <TextField
                     {...props}
-                    label="Confirmation Date by TFF"
+                    label="Federasyon Onay Tarihi Seçiniz"
                     id="mui-pickers-date"
                     sx={{ mb: 2, width: "100%" }}
                   />
