@@ -58,7 +58,6 @@ export default function ReportedCommentTable() {
 
   useEffect(() => {
     const reportedComments = all_comments.filter(item => item.is_approved === true);
-    console.log(reportedComments);
     const combinedComments = reportedComments.map((r) => {
       const projectDetails = projects.find((p) => p.id === r.project);
       const userDetails = users.find((u) => u.id === r.author);
@@ -70,8 +69,6 @@ export default function ReportedCommentTable() {
     });
     setReportedComments(combinedComments)
   }, [all_comments, projects, users]);
-
-  console.log(reported_comments);
 
   const handleDelete = (item) => {
     const updateResponse = fetch(API_URL + '/projects/comments/' + item.id + '/', {
