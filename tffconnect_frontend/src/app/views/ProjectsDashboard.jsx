@@ -66,6 +66,7 @@ export default function ProjectDashboard() {
           });
     };
     
+
     const handleExpandClick = (projectid_index) => {
         if (isexpanded[projectid_index] === undefined) {
             setIsExpanded({
@@ -111,9 +112,9 @@ export default function ProjectDashboard() {
         //console.log("REPORTED");
     };
     const handleCommentClick = (event, index) => {
-        console.log("COMMENTED");
+        //console.log("COMMENTED");
         event.preventDefault();
-        console.log(comment[index]);
+        //console.log(comment[index]);
 
         axios.post(API_URL + '/projects/comments/', 
             {
@@ -136,7 +137,7 @@ export default function ProjectDashboard() {
     
     const handleCommentChange = (event, index) => {
         event.persist();
-        console.log(comment[index]);
+        //console.log(comment[index]);
         if (index >=0 && index < allProjects.length) {
             const newComment = [...comment]
             newComment[index][event.target.name] = event.target.value;
