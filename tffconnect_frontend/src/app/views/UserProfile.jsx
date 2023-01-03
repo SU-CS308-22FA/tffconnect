@@ -39,7 +39,6 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 const AppTable = () => {
-
     let [allComments, setAllComments] = useState([]);
     const {user} = useAuth();
 
@@ -50,7 +49,7 @@ const AppTable = () => {
 
     const handleClickedDelete = (commentID) => {
         console.log(commentID); 
-        axios.delete(API_URL + '/comments/edit/' + commentID +'/')
+        axios.delete(API_URL + '/projects/comments/' + commentID +'/')
         .then((response) => {
             console.log(response);
             getComments();
@@ -58,20 +57,6 @@ const AppTable = () => {
           .catch(error => console.error(error));  
     }
 
-    const findProjectName = (projectID) => {
-        console.log(projectID);
-        try {
-            axios.get(API_URL + '/projects/edit/' + projectID + '/') 
-            .then((response) => {
-                const myProject = response.data;
-                console.log(myProject.name);
-                return (myProject.name)
-            })
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
 
     const getComments = () => {
 
@@ -120,9 +105,11 @@ const AppTable = () => {
           <TableBody>
           {allComments.map((comment, index) => {
             if (comment.author===user.id) {
+              
                 return (
                     <TableRow key={index}>
-                        <TableCell align="center">{findProjectName(comment.project)}</TableCell>
+
+                        <TableCell align="center">{comment.project}</TableCell>
                         <TableCell align="center">{comment.text_body}</TableCell>
                         <TableCell align="center">{comment.date_added}</TableCell>
                     <TableCell align="center">
