@@ -83,9 +83,25 @@ const AppTable = () => {
 
       <SimpleCard title="Kullanıcı Bilgisi">
         
+      <Box width="100%" overflow="auto">
+      <StyledTable>
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">E-Mail</TableCell>
+            <TableCell align="center">İsim</TableCell>
+            <TableCell align="center">Soyisim</TableCell>
+          </TableRow>
+        </TableHead>
 
-
-
+        <TableBody>
+            <TableRow>
+              <TableCell align="center">{user.username}</TableCell>
+              <TableCell align="center">{user.first_name}</TableCell>
+              <TableCell align="center">{user.last_name}</TableCell>
+            </TableRow>   
+        </TableBody>
+      </StyledTable>
+    </Box>
       </SimpleCard>
 
 
