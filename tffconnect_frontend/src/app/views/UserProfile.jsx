@@ -40,11 +40,13 @@ const Container = styled("div")(({ theme }) => ({
 
 const AppTable = () => {
     let [allComments, setAllComments] = useState([]);
+    let [allProjects, setAllProjects] = useState([]);
     const {user} = useAuth();
 
 
     useEffect(() => { 
         getComments();
+        getProjects();
     }, []);
 
     const handleClickedDelete = (commentID) => {
@@ -55,13 +57,41 @@ const AppTable = () => {
             getComments();
           })
           .catch(error => console.error(error));  
-    }
+    };
 
 
+    const findProjectName = (projectID) => {
+        console.log(projectID);
+        let projectName;
+
+        for (let y = 0; y < allProjects.length; y++){
+
+            if (allProjects[y].id === projectID){
+                console.log(allProjects[y]);
+                projectName = allProjects[y].name;
+            }
+        }
+        console.log(projectName);
+        return projectName;
+    };
+
+    const getProjects = () => {
+
+        axios.get(API_URL + '/projects/')
+        .then(response => {
+            allProjects = response.data;
+            console.log(allProjects);
+            setAllProjects(allProjects);
+            console.log(allProjects);
+
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+    };
+    
     const getComments = () => {
-
-        console.log(user);
-        console.log(user.id);
   
         axios.get(API_URL + '/projects/comments/')
         .then((myresponse) => {
@@ -72,10 +102,10 @@ const AppTable = () => {
 
             console.log(allComments);
 
-          })
+        })
         .catch(error => console.error(error));
-  
-      }
+        
+    };
 
 
   return (
@@ -112,35 +142,57 @@ const AppTable = () => {
         <StyledTable>
           <TableHead>
             <TableRow>
-              <TableCell align="center">Proje ID</TableCell>
+              <TableCell align="center">Proje İsmi</TableCell>
               <TableCell align="center">İçerik</TableCell>
               <TableCell align="center">Tarih</TableCell>
             </TableRow>
           </TableHead>
 
-          <TableBody>
-          {allComments.map((comment, index) => {
-            if (comment.author===user.id) {
-              
-                return (
-                    <TableRow key={index}>
+            {(() => {  
+                let len = allComments.length;
+                let usersCommentList = [];
+                let comment_text, comment_project, comment_author, comment_date, comment_id;
+                let commentProjectName;
+                for (let i = 0; i < len; i++){
+                    comment_text = allComments[i].text_body;
+                    comment_project = allComments[i].project;
+                    comment_author = allComments[i].author;
+                    comment_date = allComments[i].date_added;
+                    comment_id = allComments[i].id;
 
-                        <TableCell align="center">{comment.project}</TableCell>
-                        <TableCell align="center">{comment.text_body}</TableCell>
-                        <TableCell align="center">{comment.date_added}</TableCell>
-                    <TableCell align="center">
-                    
-                        <IconButton
-                        onClick={ () => handleClickedDelete(comment.id)}
-                        >
-                        <DeleteIcon ></DeleteIcon>
-                        </IconButton>
-                    </TableCell>
-                    </TableRow>
-                )
+                    if (user.id === comment_author){
+                        commentProjectName = findProjectName(comment_project);
+                        usersCommentList.push(
+                            <TableBody>
+                                <TableRow >
+                                    <TableCell align="center">{commentProjectName}</TableCell>
+                                    <TableCell align="center">{comment_text}</TableCell>
+                                    <TableCell align="center">{comment_date}</TableCell>
+                                    <TableCell align="center">
+                                        <IconButton
+                                        onClick={ () => handleClickedDelete(comment_id)}
+                                        >
+                                        <DeleteIcon ></DeleteIcon>
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        );
+                    }
+                    if (usersCommentList.len === 0){
+                        usersCommentList.push(
+                            <TableBody>
+                            <TableRow >
+                                <TableCell align="center">Kullanıcının yorumu yok</TableCell>
+                            </TableRow>
+                        </TableBody>
+                        );
+                    }
+
                 }
-            })}
-        </TableBody>
+
+                return usersCommentList;
+            })()}
         </StyledTable>
       </Box>
 
