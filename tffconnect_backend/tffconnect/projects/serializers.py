@@ -78,28 +78,28 @@ class ProjectCommentSerializer(serializers.ModelSerializer):
 
 class ProjectFavoriteSerializer(serializers.ModelSerializer):
 
-        class Meta:
-            model = models.ProjectFavorite
-            fields = (
-                'id',
-                'project',
-                'liked_by',
-                'date_liked',
-                'is_liked'
-            )
+    class Meta:
+        model = models.ProjectFavorite
+        fields = (
+            'id',
+            'project',
+            'liked_by',
+            'date_liked',
+            'is_liked'
+        )
 
-        def create(self, validated_data):
-            project_favorite = models.ProjectFavorite.objects.create(**validated_data)
-            return project_favorite
+    def create(self, validated_data):
+        project_favorite = models.ProjectFavorite.objects.create(**validated_data)
+        return project_favorite
 
-        def delete(self, validated_data):
-            project_favorite = models.ProjectFavorite.objects.delete(**validated_data)
-            return project_favorite
+    def delete(self, validated_data):
+        project_favorite = models.ProjectFavorite.objects.delete(**validated_data)
+        return project_favorite
 
-        def update(self, instance, validated_data):
-            instance.project = validated_data.get('project', instance.project)
-            instance.liked_by = validated_data.get('liked_by', instance.liked_by)
-            instance.date_liked = validated_data.get('date_liked', instance.date_liked)
-            instance.is_liked = validated_data.get('is_liked', instance.is_liked)
-            instance.save()
-            return instance
+    def update(self, instance, validated_data):
+        instance.project = validated_data.get('project', instance.project)
+        instance.liked_by = validated_data.get('liked_by', instance.liked_by)
+        instance.date_liked = validated_data.get('date_liked', instance.date_liked)
+        instance.is_liked = validated_data.get('is_liked', instance.is_liked)
+        instance.save()
+        return instance
