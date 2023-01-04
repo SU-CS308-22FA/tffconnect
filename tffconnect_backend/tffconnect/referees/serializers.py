@@ -6,7 +6,7 @@ from . import models
 class RefereesSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Referees
+        model = models.Referees
         fields = (
                 'id',
                 'name',
