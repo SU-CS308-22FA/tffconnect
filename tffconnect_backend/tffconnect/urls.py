@@ -26,4 +26,5 @@ urlpatterns = [
     path("api/", include("tffconnect.referees.urls")),
     path("api/", include("tffconnect.games.urls")),
     path("api/", include("tffconnect.favorites.urls")),
+    path("api/", include("tffconnect.votes.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

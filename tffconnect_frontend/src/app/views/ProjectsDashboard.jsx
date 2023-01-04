@@ -7,15 +7,15 @@ import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Container, Grid } from '../../../node_modules/@mui/material/index';
+import { Grid } from '../../../node_modules/@mui/material/index';
 import { Fragment } from 'react';
 import { API_URL } from 'app/constants';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import CommentIcon from '@mui/icons-material/Comment';
 import List from '@mui/material/List';
+import { ListItemSecondaryAction } from '@mui/material';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
@@ -23,6 +23,7 @@ import useAuth from 'app/hooks/useAuth';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
+import FlagIcon from '@mui/icons-material/Flag';
 import { useRef } from 'react';
 
 
@@ -41,12 +42,29 @@ export default function ProjectDashboard() {
     let [allUsers, setUsers] = useState([]);
 
     let [comment, setComment] = useState([{
-            project: -1,
-            author: user.id,
-            date_added : new Date(),
-            text_body: "",
-            is_approved: false,   
+        project: -1,
+        author: user.id,
+        date_added : new Date(),
+        text_body: "",
+        is_approved: false,   
     }]);
+
+    const handleReport = (item) => {
+        const updateResponse = fetch(API_URL + '/projects/comments/' + item.id + '/', {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              id: item.id,
+              project: item.project,
+              author: item.author,
+              text_body: item.text_body,
+              date_added: item.date_added,
+              is_approved: true,
+            })
+          });
+    };
     
 
     const handleExpandClick = (projectid_index) => {
@@ -276,6 +294,11 @@ export default function ProjectDashboard() {
                                                                             {`${commentDate}`}
                                                                             </React.Fragment>
                                                                         }/>
+                                                                        <ListItemSecondaryAction>
+                                                                            <IconButton onClick={() => handleReport(allComments[j])}>
+                                                                                <FlagIcon />
+                                                                            </IconButton>
+                                                                        </ListItemSecondaryAction>
                                                                     </ListItem>
                                                                     <Divider variant="inset" component="li" />
                                                                     </List>
