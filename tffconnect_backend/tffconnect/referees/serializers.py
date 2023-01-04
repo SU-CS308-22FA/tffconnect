@@ -6,14 +6,14 @@ class RefereesSerializer(serializers.ModelSerializer):
 
 
         class Meta:
-        model = models.Referees
-        fields = (
-            'id',
-            'name',
-            'surname',
-            'city',
-            'classification'
-        )
+            model = models.Referees
+            fields = (
+                'id',
+                'name',
+                'surname',
+                'city',
+                'classification'
+            )
 
         def create(self, validated_data):
             referee = models.Referees.objects.create(**validated_data)
