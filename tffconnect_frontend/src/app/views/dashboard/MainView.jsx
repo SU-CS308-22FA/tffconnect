@@ -67,14 +67,11 @@ export default function MainView() {
     .then((response) => {
       allNews = response.data;
       setResponseData(allNews);
-      console.log(allNews);
-      console.log(allNews.length);
     })
     .catch(error => console.error('Error: ${error}'));
   }
 
   let whereToStart = Math.ceil(allNews.length/2);
-  console.log(whereToStart);
 
     return (
       <Fragment>

@@ -77,9 +77,7 @@ export default function Favorites() {
     setUserFavorites(userFavorites);
   }, [combined_favorites, user.id]);
   
-  console.log(user_favorites);
   let whereToStart = Math.ceil(user_favorites.length/2);
-  console.log(whereToStart);
 
   if (user == null) {
     return (

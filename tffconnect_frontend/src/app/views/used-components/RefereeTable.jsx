@@ -33,8 +33,7 @@ export default function RefereeTable() {
     .then(response => response.json())
     .then(data => {
       const hasVoted = data.some(vote => vote.user_id === user.id && vote.game_id === game_id);
-      console.log(hasVoted);
-
+      
       if(!hasVoted) {
         const itemString = JSON.stringify(item);
         navigate('/data/referee_vote', {state:{game: itemString}});
@@ -66,13 +65,11 @@ export default function RefereeTable() {
     });
     setGamesWithRefereeNames(combinedGames)
   }, [games, referees]);
-  
-  console.log(games_refNames);
 
   const getRating = (refereeRating, ratingCount) => {
     try {
       const rating = refereeRating / ratingCount;
-      if (ratingCount == 0) {
+      if (ratingCount === 0) {
         return 0;
       } else {
         return rating.toFixed(2);

@@ -29,8 +29,6 @@ export default function VoteForm(props) {
     const gameData = await response.json();
     const newCount = parseFloat(gameData.rating_count) + 1;
     const newRating = (parseFloat(gameData.referee_rating) + parseFloat(rating));
-    console.log(newRating);
-    console.log(newCount);
     const roundedRating = newRating.toFixed(2);
     const updateResponse = await fetch(API_URL + '/games/' + game.id + '/', {
       method: 'PUT',
@@ -47,8 +45,7 @@ export default function VoteForm(props) {
         rating_count: newCount
       })
     });
-    const data = await updateResponse.json();
-    console.log(data);
+
     fetch(API_URL + '/votes/', {
       method: 'POST',
       headers: {
