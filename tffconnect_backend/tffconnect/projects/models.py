@@ -30,6 +30,7 @@ class ProjectComment(models.Model):
     def __str__(self):
         return self.text_body
 
+
 class ProjectFavorite(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='favorites')
     liked_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')

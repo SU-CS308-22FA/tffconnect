@@ -75,8 +75,9 @@ class ProjectCommentSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+
 class ProjectFavoriteSerializer(serializers.ModelSerializer):
-    
+
         class Meta:
             model = models.ProjectFavorite
             fields = (
@@ -86,7 +87,7 @@ class ProjectFavoriteSerializer(serializers.ModelSerializer):
                 'date_liked',
                 'is_liked'
             )
-            
+
         def create(self, validated_data):
             project_favorite = models.ProjectFavorite.objects.create(**validated_data)
             return project_favorite

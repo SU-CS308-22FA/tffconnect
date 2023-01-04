@@ -29,11 +29,13 @@ class ProjectCommentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     serializer_class = ProjectCommentSerializer
     permission_classes = [AllowAny]
 
+
 # /api/projects/favorites List, Create
 class ProjectFavoriteListCreateView(ListCreateAPIView):
     queryset = ProjectFavorite.objects.all()
     serializer_class = ProjectFavoriteSerializer
     permission_classes = [AllowAny]
+
 
 class ProjectFavoriteRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = ProjectFavorite.objects.all()
