@@ -24,7 +24,7 @@ const SearchContainer = styled('div')(({ theme }) => ({
   top: 0,
   left: 0,
   zIndex: 9,
-  width: '500%',
+  width: '100%',
   display: 'flex',
   alignItems: 'center',
   height: topBarHeight,
@@ -38,7 +38,8 @@ const SearchContainer = styled('div')(({ theme }) => ({
 const AutoComplete = styled(Autocomplete)(() => ({
   width: 500,
   marginTop: '8px',
-  marginBottom: '8px',
+  marginLeft: '16px',
+  marginBottom: '16px',
 }));
 
 const MatxSearchBox = () => {
