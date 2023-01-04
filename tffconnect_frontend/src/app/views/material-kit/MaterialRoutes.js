@@ -18,6 +18,7 @@ const AppExpansionPanel = Loadable(lazy(() => import('./expansion-panel/AppExpan
 const AddProject = Loadable(lazy(() => import('../AddProject')));
 const ListProject = Loadable(lazy(() => import('../ListProject')));
 const UpdateProject = Loadable(lazy(() => import('../UpdateProject')));
+const ProjectsDashboard = Loadable(lazy(() => import('../ProjectsDashboard')));
 
 const materialRoutes = [
   {
@@ -87,6 +88,10 @@ const materialRoutes = [
   {
     path: '/material/updateproject',
     element: <UpdateProject />,
+  },
+  {
+    path: '/material/ProjectsDashboard',
+    element: <ProjectsDashboard />,
   },
 ];
 
