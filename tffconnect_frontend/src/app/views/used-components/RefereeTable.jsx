@@ -33,7 +33,7 @@ export default function RefereeTable() {
     .then(response => response.json())
     .then(data => {
       const hasVoted = data.some(vote => vote.user_id === user.id && vote.game_id === game_id);
-
+      
       if(!hasVoted) {
         const itemString = JSON.stringify(item);
         navigate('/data/referee_vote', {state:{game: itemString}});
