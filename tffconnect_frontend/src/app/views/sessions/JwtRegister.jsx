@@ -58,7 +58,7 @@ const JwtRegister = () => {
     setLoading(true);
 
     try {
-      register(values.email, values.username, values.password);
+      register(values.email, values.firstName, values.lastName, values.password);
       navigate('/');
       setLoading(false);
     } catch (e) {
@@ -90,20 +90,6 @@ const JwtRegister = () => {
               >
                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit }) => (
                   <form onSubmit={handleSubmit}>
-                    <TextField
-                      fullWidth
-                      size="small"
-                      type="text"
-                      name="username"
-                      label="Username"
-                      variant="outlined"
-                      onBlur={handleBlur}
-                      value={values.username}
-                      onChange={handleChange}
-                      helperText={touched.username && errors.username}
-                      error={Boolean(errors.username && touched.username)}
-                      sx={{ mb: 3 }}
-                    />
 
                     <TextField
                       fullWidth
@@ -117,6 +103,36 @@ const JwtRegister = () => {
                       onChange={handleChange}
                       helperText={touched.email && errors.email}
                       error={Boolean(errors.email && touched.email)}
+                      sx={{ mb: 3 }}
+                    />  
+
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      name="firstName"
+                      label="First Name"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.firstName}
+                      onChange={handleChange}
+                      helperText={touched.username && errors.username}
+                      error={Boolean(errors.username && touched.username)}
+                      sx={{ mb: 3 }}
+                    />
+
+                    <TextField
+                      fullWidth
+                      size="small"
+                      type="text"
+                      name="lastName"
+                      label="Last Name"
+                      variant="outlined"
+                      onBlur={handleBlur}
+                      value={values.lastName}
+                      onChange={handleChange}
+                      helperText={touched.username && errors.username}
+                      error={Boolean(errors.username && touched.username)}
                       sx={{ mb: 3 }}
                     />
                     <TextField
