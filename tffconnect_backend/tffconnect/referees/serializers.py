@@ -4,6 +4,7 @@ from . import models
 
 class RefereesSerializer(serializers.ModelSerializer):
 
+
     class Meta:
         model = models.Referees
         fields = (
@@ -14,10 +15,11 @@ class RefereesSerializer(serializers.ModelSerializer):
                 'classification'
         )
 
-def create(self, validated_data):
-        referee = models.Referees.objects.create(**validated_data)
-        return referee
 
-def delete(self, validated_data):
-        referee = models.Referees.objects.delete(**validated_data)
-        return referee
+        def create(self, validated_data):
+                referee = models.Referees.objects.create(**validated_data)
+                return referee
+
+        def delete(self, validated_data):
+                referee = models.Referees.objects.delete(**validated_data)
+                return referee
