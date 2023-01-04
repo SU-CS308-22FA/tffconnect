@@ -1,7 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import AllowAny
-from .models import Project, ProjectComment
-from .serializers import ProjectSerializer, ProjectCommentSerializer
+from .models import Project, ProjectComment, ProjectFavorite
+from .serializers import ProjectSerializer, ProjectCommentSerializer, ProjectFavoriteSerializer
 
 
 # /api/projects List, Create
@@ -27,4 +27,15 @@ class ProjectCommentListCreateView(ListCreateAPIView):
 class ProjectCommentRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
     queryset = ProjectComment.objects.all()
     serializer_class = ProjectCommentSerializer
+    permission_classes = [AllowAny]
+
+# /api/projects/favorites List, Create
+class ProjectFavoriteListCreateView(ListCreateAPIView):
+    queryset = ProjectFavorite.objects.all()
+    serializer_class = ProjectFavoriteSerializer
+    permission_classes = [AllowAny]
+
+class ProjectFavoriteRetrieveUpdateDestroyView(RetrieveUpdateDestroyAPIView):
+    queryset = ProjectFavorite.objects.all()
+    serializer_class = ProjectFavoriteSerializer
     permission_classes = [AllowAny]
