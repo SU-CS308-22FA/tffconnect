@@ -1,25 +1,11 @@
 import { Icon, IconButton } from '@mui/material';
 import { styled, useTheme } from '@mui/system';
 import { topBarHeight } from 'app/utils/constant';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Autocomplete, TextField } from '@mui/material';
 import axios from 'axios';
 import { API_URL } from 'app/constants';
 
-const SearchContainer = styled('div')(({ theme }) => ({
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  zIndex: 9,
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  height: topBarHeight,
-  background: theme.palette.primary.main,
-  color: theme.palette.text.primary,
-  '&::placeholder': {
-    color: theme.palette.text.primary,
-  },
-}));
 
 const SearchInput = styled('input')(({ theme }) => ({
   width: '100%',
@@ -33,42 +19,46 @@ const SearchInput = styled('input')(({ theme }) => ({
   '&::placeholder': { color: theme.palette.text.primary },
 }));
 
+const SearchContainer = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  zIndex: 9,
+  width: '500%',
+  display: 'flex',
+  alignItems: 'center',
+  height: topBarHeight,
+  background: theme.palette.primary.main,
+  color: theme.palette.text.primary,
+  '&::placeholder': {
+    color: theme.palette.text.primary,
+  },
+}));
+
+const AutoComplete = styled(Autocomplete)(() => ({
+  width: 500,
+  marginTop: '8px',
+  marginBottom: '8px',
+}));
+
 const MatxSearchBox = () => {
+
   const [open, setOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [dataFiltered, setDataFiltered] = useState([]);
   let [allProjects, setResponseData] = useState([]);
 
-  const filterData = (query, data) => {
-    if (!query) {
-        return data;
-    } else {
-        return data.filter((d) => d.name.toLowerCase().includes(query)); //neyini filtreliycek
-    }
-  };
+  useEffect(() => {
+    getProjectItems();
+}, []);
 
-
-  const HandleSearch = () => {
-    // perform the search using the searchQuery value
-    // and update the component's state with the search results
-    console.log("HandleSearch e giriyo");
+  const getProjectItems = () => {
 
     axios.get(API_URL + '/projects/')
     .then((response) => {
         setResponseData(response.data);
         console.log("projeler");
         console.log(allProjects);
-        setDataFiltered(filterData(searchQuery, allProjects));
-        console.log("filtelenmiş projeler");
-        console.log(dataFiltered);
     })
     .catch(error => console.error(error));
-    
-  };
-
-  const handleInputChange = event => {
-    setSearchQuery(event.target.value);
-    console.log("query update ediliyo");
   };
 
   const toggle = () => {
@@ -88,28 +78,16 @@ const MatxSearchBox = () => {
 
       {open && (
         <SearchContainer>
-          <SearchInput 
-            type="text" 
-            placeholder="Search projects here..."
-            autoFocus 
-            value={searchQuery}
-            onChange={handleInputChange}
+          <AutoComplete
+          options={allProjects}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+            <TextField {...params} label="Search the projects here.." margin="normal" variant="outlined" fullWidth />
+          )}
           />
-          <IconButton onClick={HandleSearch} sx={{ mx: 2, verticalAlign: 'middle' }}>
-            <Icon sx={{ color: textColor }}>search</Icon>
-          </IconButton>
           <IconButton onClick={toggle} sx={{ mx: 2, verticalAlign: 'middle' }}>
             <Icon sx={{ color: textColor }}>close</Icon>
           </IconButton>
-          <div styled="display:block;"> 
-          {dataFiltered.length > 0 && (
-            <div>
-              {dataFiltered.map(result => (
-                <div style={{  fontSize: '1rem',paddingRight: '200px',paddingLeft: '30px'}} key={result.id}>{result.name}</div> //görsel biseyler yap allah için
-              ))}
-            </div>
-          )}
-          </div>
         </SearchContainer>
       )}
     </React.Fragment>
