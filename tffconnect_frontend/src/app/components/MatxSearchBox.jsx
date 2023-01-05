@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 import axios from 'axios';
 import { API_URL } from 'app/constants';
+import { useNavigate } from "react-router-dom";
 
 
 const SearchInput = styled('input')(({ theme }) => ({
@@ -43,13 +44,18 @@ const AutoComplete = styled(Autocomplete)(() => ({
 }));
 
 const MatxSearchBox = () => {
+  let navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
   let [allProjects, setResponseData] = useState([]);
 
   useEffect(() => {
     getProjectItems();
-}, []);
+  }, []);
+
+  const handleChange = (projectId) => {
+    window.location.href = "/project/" + projectId
+  }
 
   const getProjectItems = () => {
 
@@ -82,6 +88,7 @@ const MatxSearchBox = () => {
           <AutoComplete
           options={allProjects}
           getOptionLabel={(option) => option.name}
+          onChange={(e, value) => handleChange(value.id)}
           renderInput={(params) => (
             <TextField {...params} label="Search the projects here.." margin="normal" variant="outlined" fullWidth />
           )}

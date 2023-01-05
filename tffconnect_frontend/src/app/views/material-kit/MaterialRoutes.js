@@ -95,7 +95,7 @@ const materialRoutes = [
     element: <ProjectsDashboard />,
   },
   {
-    path: '/material/TheProject',
+    path: '/project/:id',
     element: <TheProject />,
   },
 ];
