@@ -9,4 +9,6 @@ urlpatterns = [
     path("projects/theproject/<int:pk>/", views.ProjectRetrieveUpdateDestroyView.as_view()),
     path("projects/comments/", views.ProjectCommentListCreateView.as_view()),
     path("projects/comments/<int:pk>/", views.ProjectCommentRetrieveUpdateDestroyView.as_view()),
+    path("projects/favorites/", views.ProjectFavoriteListCreateView.as_view()),
+    path("projects/favorites/<int:pk>/", views.ProjectFavoriteRetrieveUpdateDestroyView.as_view()),
 ]

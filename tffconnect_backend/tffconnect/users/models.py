@@ -9,3 +9,7 @@ class User(AbstractUser):
     EMAIL_FIELD = "username"
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []
+
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
