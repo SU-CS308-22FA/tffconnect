@@ -26,3 +26,11 @@ class GameCommentListCreateAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         return GameComment.objects.filter(game_id=self.kwargs['id'])
+
+
+class GameCommentRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = GameCommentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return GameComment.objects.filter(game_id=self.kwargs['id'])
