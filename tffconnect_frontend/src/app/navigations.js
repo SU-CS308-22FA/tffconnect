@@ -8,7 +8,8 @@ export const navigations = [
     icon: 'public',
     children: [
       { name: 'Lig Durumu', path: "" },
-      { name: 'Hakemler', path: "" },
+      { name: 'Hakem Ekle', iconText: 'HE', path: "/material/AddReferees" },
+      { name: 'Hakemleri Listele ve Sil', iconText: 'HL', path: "/material/ListReferees" },
       { name: 'Hakemler-Maçlar', path: '/data/referee_games' },
       { name: 'Tüm Projeler', path: "/material/ProjectsDashboard" },
       { name: 'Proje Ekle', iconText: 'PE', path: '/material/addproject' },
