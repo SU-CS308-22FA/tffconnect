@@ -7,6 +7,8 @@ export const navigations = [
     name: 'Güncel Veriler',
     icon: 'public',
     children: [
+      { name: 'Hakem Ekle', iconText: 'HE', path: "/material/AddReferees" },
+      { name: 'Hakemleri Listele ve Sil', iconText: 'HL', path: "/material/ListReferees" },
       { name: 'Hakemler-Maçlar', path: '/data/referee_games' },
       { name: 'Tüm Projeler', path: "/material/ProjectsDashboard" },
       { name: 'Proje Ekle', iconText: 'PE', path: '/material/addproject' },
