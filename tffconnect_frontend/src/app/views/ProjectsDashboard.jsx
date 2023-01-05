@@ -249,12 +249,43 @@ export default function ProjectDashboard() {
         
     };
 
-    const handleEmptyStarCreated = (favorite_index) => {
+    const handleEmptyStarCreated = (favorite_index, projectID) => { // favorite icon is cliked and is_liked value will be updated
+
+        axios.put(API_URL + '/projects/favorites/' + favorite_index + '/',
+            {
+                project : projectID,
+                date_liked : new Date(),
+                is_liked : true,
+                liked_by : user.id,
+
+            })
+            .then(response => {
+                console.log(response);
+                getFavoriteItems();
+            })
+            .catch(err => {
+                console.log(err);
+            })
 
     };
 
-    const handleFilledStar = (favorite_index) => {
+    const handleFilledStar = (favorite_index, projectID) => {
 
+        axios.put(API_URL + '/projects/favorites/' + favorite_index + '/',
+            {
+                project : projectID,
+                date_liked : new Date(),
+                is_liked : false,
+                liked_by : user.id,
+
+            })
+            .then(response => {
+                console.log(response);
+                getFavoriteItems();
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }; 
 
     return (
@@ -300,7 +331,7 @@ export default function ProjectDashboard() {
                                                                 favoriteElement.push(
                                                                     <CardHeader title={`${projectName}`} subheader = {`Başlangiç tarihi: ${projectStartDate}`}
                                                                         action = { 
-                                                                            <IconButton aria-label="settings" onClick = {()=> console.log("DOLU ICON")}> 
+                                                                            <IconButton aria-label="settings" onClick = {()=> handleFilledStar(allFavorites[k].id, allProjects[i].id)}> 
                                                                                 <StarIcon />
                                                                             </IconButton>
                                                                         }
@@ -310,7 +341,7 @@ export default function ProjectDashboard() {
                                                             else { // it is not liked
                                                                 <CardHeader title={`${projectName}`} subheader = {`Başlangiç tarihi: ${projectStartDate}`}
                                                                     action = { 
-                                                                        <IconButton aria-label="settings" onClick = {()=> console.log("BOS ICON")}>
+                                                                        <IconButton aria-label="settings" onClick = {()=> handleEmptyStarCreated(allFavorites[k].id,allProjects[i].id)}>
                                                                             <StarBorderIcon />
                                                                         </IconButton>
                                                                     }
