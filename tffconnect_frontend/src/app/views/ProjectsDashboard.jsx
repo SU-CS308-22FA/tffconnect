@@ -25,6 +25,8 @@ import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import FlagIcon from '@mui/icons-material/Flag';
 import { useRef } from 'react';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 
 const ContentBox = styled('div')(({ theme }) => ({
@@ -40,6 +42,7 @@ export default function ProjectDashboard() {
     let [allProjects, setResponseData] = useState([]);
     let [allComments, setComments] = useState([]);
     let [allUsers, setUsers] = useState([]);
+    let [allFavorites, setFavorites ] = useState([]);
 
     let [comment, setComment] = useState([{
         project: -1,
@@ -66,7 +69,6 @@ export default function ProjectDashboard() {
           });
     };
     
-
     const handleExpandClick = (projectid_index) => {
         if (isexpanded[projectid_index] === undefined) {
             setIsExpanded({
@@ -111,6 +113,7 @@ export default function ProjectDashboard() {
     const handleSettingsClick = () => {
         //console.log("REPORTED");
     };
+
     const handleCommentClick = (event, index) => {
         //console.log("COMMENTED");
         event.preventDefault();
@@ -153,7 +156,22 @@ export default function ProjectDashboard() {
     useEffect(() => {
         getProjectItems();
         getUserNames();
+        getFavoriteItems();
     }, []);
+
+    const getFavoriteItems = () => {
+
+        axios.get(API_URL + '/projects/favorites/')
+            .then(response => {
+                allFavorites = response.data;
+                console.log(allFavorites);
+                setFavorites(allFavorites);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+    };
 
     const  getProjectItems = () => {
 
@@ -177,11 +195,13 @@ export default function ProjectDashboard() {
                 console.log(err2);
             })
     };
+
     const timeSeperator = (time) => {
         let date = time.split("T")[0];
         let hour = time.split("T")[1].split(".")[0];
         return date + "/ " + hour;
     };
+
     const getusername = (user_id) => {
         let len = allUsers.length;
         for (let i = 0; i < len; i++) {
@@ -190,6 +210,7 @@ export default function ProjectDashboard() {
             }
         }  
     };
+
     const getUserNames = (user_id) => {
         let accessToken = localStorage.getItem('accessToken');
 
@@ -207,6 +228,33 @@ export default function ProjectDashboard() {
                 console.log(err);
             })
         
+    }; 
+
+    const handleEmptyStarUncreated = (projectID) => { // Favorite button is clicked and new Favorite obkect will be post
+
+        axios.post(API_URL + '/projects/favorites/',
+            {
+                project : projectID,
+                liked_by : user.id,
+                date_liked  : new Date(),
+                is_liked : true,
+            })
+            .then(response => {
+                console.log(response);
+                getFavoriteItems();
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        
+    };
+
+    const handleEmptyStarCreated = (favorite_index) => {
+
+    };
+
+    const handleFilledStar = (favorite_index) => {
+
     }; 
 
     return (
@@ -243,13 +291,50 @@ export default function ProjectDashboard() {
                                     projectStartDate = timeSeperator(projectStartDate);
                                     projectList.push(
                                         <Card expanded={isexpanded[i]} sx={{ minWidth: 275, px: 3, py: 2, mb: 3 }}>
-                                            <CardHeader title={`${projectName}`} subheader = {`Başlangiç tarihi: ${projectStartDate}`}
-                                                action = {
-                                                    <IconButton aria-label="settings" onClick = {()=> handleSettingsClick()}>
-                                                        <MoreVertIcon />
-                                                    </IconButton>
-                                                }  
-                                            />
+                                            {(() => {
+                                                let favoriteElement = [];
+                                                for (let k = 0; k < allFavorites.length; k++) {
+                                                    if (allFavorites[k].liked_by === user.id){ // eğer user id varsa
+                                                        if (allFavorites[k].project === allProjects[i].id) {// eğer user id varsa ve aradığımız projeyi likelamış ise
+                                                            if (allFavorites[k].is_liked === true) { // if user id exist and if it is current project if it is liked
+                                                                favoriteElement.push(
+                                                                    <CardHeader title={`${projectName}`} subheader = {`Başlangiç tarihi: ${projectStartDate}`}
+                                                                        action = { 
+                                                                            <IconButton aria-label="settings" onClick = {()=> console.log("DOLU ICON")}> 
+                                                                                <StarIcon />
+                                                                            </IconButton>
+                                                                        }
+                                                                    />
+                                                                )
+                                                            }
+                                                            else { // it is not liked
+                                                                <CardHeader title={`${projectName}`} subheader = {`Başlangiç tarihi: ${projectStartDate}`}
+                                                                    action = { 
+                                                                        <IconButton aria-label="settings" onClick = {()=> console.log("BOS ICON")}>
+                                                                            <StarBorderIcon />
+                                                                        </IconButton>
+                                                                    }
+                                                                />
+                                                            }  
+                                    
+                                                        }
+                                                    }
+                                                }
+                                                if (favoriteElement.length === 0) { // user id sine denk değil ya da user id var ama aradığımız projeyi likelememiş FARKETMEZ her türlü boş star iconu basıcak basıldıgında like olucak
+                                                    favoriteElement.push(
+                                                        <CardHeader title={`${projectName}`} subheader = {`Başlangiç tarihi: ${projectStartDate}`}
+                                                            action = { 
+                                                                <IconButton aria-label="settings" onClick = {()=> handleEmptyStarUncreated(allProjects[i].id)}>
+                                                                    <StarBorderIcon />
+                                                                </IconButton>
+                                                            }
+                                                        />
+                                                    );
+                                                }
+
+                                                return favoriteElement;
+                                            })()}
+                                    
                                             <CardContent>
                                                 <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                                                     Proje Bütçesi: {`${projectBudget}`}
