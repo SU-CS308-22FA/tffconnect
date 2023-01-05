@@ -127,6 +127,7 @@ export const AuthProvider = ({ children }) => {
         })
 
         console.log(response2.data)
+
         const accessToken = response2.data["token"]
 
         console.log(accessToken)

@@ -3,6 +3,8 @@ import { Box, Icon, IconButton, styled, Table, TableBody, TableCell, TableHead, 
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { API_URL } from 'app/constants';
+import { Button } from '../../../../node_modules/@mui/material/index';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import useAuth from 'app/hooks/useAuth';
 
@@ -99,7 +101,11 @@ export default function RefereeTable() {
               <TableRow key={index}>
                 <TableCell align="center">{item.referee.name + " " + item.referee.surname}</TableCell>
                 <TableCell align="center">{getRating(item.referee_rating, item.rating_count)}</TableCell>
-                <TableCell align="center">{item.game_name}</TableCell>
+                <TableCell align="center">
+                  <Link to={"/match/" + item.id}>
+                  {item.game_name}
+                  </Link>
+                </TableCell>
                 <TableCell align="center">{item.game_date}</TableCell>
                 <TableCell align="center">{item.game_result}</TableCell>
                 <TableCell align="center">{item.rating_count}</TableCell>

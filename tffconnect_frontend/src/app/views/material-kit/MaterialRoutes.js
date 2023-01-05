@@ -21,6 +21,9 @@ const UpdateProject = Loadable(lazy(() => import('../UpdateProject')));
 const ProjectsDashboard = Loadable(lazy(() => import('../ProjectsDashboard')));
 const AddReferees = Loadable(lazy(() => import('../AddReferees')));
 const ListReferees = Loadable(lazy(() => import('../ListReferees')));
+const TheProject = Loadable(lazy(() => import('../TheProject')));
+const UserProfile = Loadable(lazy(() => import('../UserProfile')));
+
 
 const materialRoutes = [
   {
@@ -102,6 +105,14 @@ const materialRoutes = [
   {
     path: '/material/ListReferees',
     element: <ListReferees />,
+  },
+  {
+    path: '/project/:id',
+    element: <TheProject />,
+  },
+  {
+    path: '/material/UserProfile',
+    element: <UserProfile />,
   },
 ];
 
