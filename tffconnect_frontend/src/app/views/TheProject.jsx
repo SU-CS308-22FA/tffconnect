@@ -1,5 +1,6 @@
 import { Box, styled } from "@mui/material";
 import { Breadcrumb, SimpleCard } from "app/components";
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import {
     Icon,
@@ -34,12 +35,27 @@ const Container = styled("div")(({ theme }) => ({
 
 const AppTable = () => {
 
+    let [project, setProject] = useState([]);
 
+    useEffect(() => { 
+        getProject(5); //parametre lazım
+    }, []);
 
+    const getProject = (projectID) => {
 
+        console.log(projectID);
+        axios.get(API_URL + '/projects/theproject/' + projectID + '/')
+        .then(response => {
+            console.log(response.data);
+            setProject(response.data);
+            console.log(project);
 
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    };
 
-    
     return (
       <Container>
 
@@ -62,17 +78,19 @@ const AppTable = () => {
                     </TableHead>
 
                     <TableBody>
+                        {project.length > 0 && (
                         <TableRow>
-                        <TableCell align="center">{project.name}</TableCell>
-                        <TableCell align="center">{project.description}</TableCell>
-                        <TableCell align="center">{project.location}</TableCell>
-                        <TableCell align="center">{project.owner}</TableCell>
-                        <TableCell align="center">{project.budget}</TableCell>
-                        <TableCell align="center">{project.proposal_date}</TableCell>
-                        <TableCell align="center">{project.confirmation_datetime}</TableCell>
-                        <TableCell align="center">{project.start_date}</TableCell>
-                        <TableCell align="center">{project.end_date}</TableCell>
-                        </TableRow>   
+                        <TableCell align="center">{project[0].name}</TableCell>
+                        <TableCell align="center">{project[0].description}</TableCell>
+                        <TableCell align="center">{project[0].location}</TableCell>
+                        <TableCell align="center">{project[0].owner}</TableCell>
+                        <TableCell align="center">{project[0].budget}</TableCell>
+                        <TableCell align="center">{project[0].proposal_date}</TableCell>
+                        <TableCell align="center">{project[0].confirmation_datetime}</TableCell>
+                        <TableCell align="center">{project[0].start_date}</TableCell>
+                        <TableCell align="center">{project[0].end_date}</TableCell>
+                        </TableRow>
+                        )}   
                     </TableBody>
                 </StyledTable>
             </Box>
