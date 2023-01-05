@@ -75,6 +75,7 @@ const MatchDetail = () => {
         })
         document.getElementById('comment').value = "";
         handleCloseCommentModal();
+        getComments();
     }
 
     const handleDeleteComment = (commentId) => {
