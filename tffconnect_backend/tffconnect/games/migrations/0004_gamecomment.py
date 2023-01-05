@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("games", "0002_alter_games_id"),
+        ("games", "0003_games_rating_count_games_referee_rating"),
     ]
 
     operations = [
