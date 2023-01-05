@@ -5,6 +5,8 @@ import axios from 'axios';
 import { API_URL } from 'app/constants';
 import { Button } from '../../../../node_modules/@mui/material/index';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import useAuth from 'app/hooks/useAuth';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   whiteSpace: "pre",
@@ -17,9 +19,29 @@ const StyledTable = styled(Table)(({ theme }) => ({
 }));
 
 export default function RefereeTable() {
+  const { user } = useAuth();
   const [games, setGames] = useState([]);
   const [referees, setReferees] = useState([]);
   const [games_refNames, setGamesWithRefereeNames] = useState([]);
+  const navigate = useNavigate();
+
+  const handleClick = (item, game_id) => {
+    fetch(API_URL + '/votes/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const hasVoted = data.some(vote => vote.user_id === user.id && vote.game_id === game_id);
+      
+      if(!hasVoted) {
+        const itemString = JSON.stringify(item);
+        navigate('/data/referee_vote', {state:{game: itemString}});
+      }
+    });
+  }
 
   useEffect(() => {
     axios.all([
@@ -45,8 +67,19 @@ export default function RefereeTable() {
     });
     setGamesWithRefereeNames(combinedGames)
   }, [games, referees]);
-  
-  console.log(games_refNames);
+
+  const getRating = (refereeRating, ratingCount) => {
+    try {
+      const rating = refereeRating / ratingCount;
+      if (ratingCount === 0) {
+        return 0;
+      } else {
+        return rating.toFixed(2);
+      }
+    } catch(e) {
+      return 0;
+    }
+  };
 
     return (
       <Box width="100%" overflow="auto">
@@ -54,10 +87,11 @@ export default function RefereeTable() {
           <TableHead>
             <TableRow>
               <TableCell align="center">Personel Adı</TableCell>
-              <TableCell align="center">Puanı</TableCell>
+              <TableCell align="center">Maç Oylaması</TableCell>
               <TableCell align="center">Atandığı Maç</TableCell>
               <TableCell align="center">Oynanma Tarihi</TableCell>
               <TableCell align="center">Maç Sonucu</TableCell>
+              <TableCell align="center">Oylanma Sayısı</TableCell>
               <TableCell align="center">Oyla</TableCell>
             </TableRow>
           </TableHead>
@@ -66,7 +100,7 @@ export default function RefereeTable() {
             {games_refNames.map((item, index) => (
               <TableRow key={index}>
                 <TableCell align="center">{item.referee.name + " " + item.referee.surname}</TableCell>
-                <TableCell align="center">{"5.0"}</TableCell>
+                <TableCell align="center">{getRating(item.referee_rating, item.rating_count)}</TableCell>
                 <TableCell align="center">
                   <Link to={"/match/" + item.id}>
                   {item.game_name}
@@ -74,8 +108,9 @@ export default function RefereeTable() {
                 </TableCell>
                 <TableCell align="center">{item.game_date}</TableCell>
                 <TableCell align="center">{item.game_result}</TableCell>
+                <TableCell align="center">{item.rating_count}</TableCell>
                 <TableCell align="center">
-                  <IconButton>
+                  <IconButton onClick={() => handleClick(item, item.id)}>
                     <Icon color="success">offline_pin</Icon>
                   </IconButton>
                 </TableCell>

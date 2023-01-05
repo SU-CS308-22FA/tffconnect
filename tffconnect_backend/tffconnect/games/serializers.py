@@ -7,7 +7,7 @@ class GamesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Games
-        fields = ['id', 'referee_id', 'game_name', 'game_date', 'game_result']
+        fields = ['id', 'referee_id', 'game_name', 'game_date', 'game_result', 'referee_rating', 'rating_count']
 
     def create(self, validated_data):
         """
@@ -24,6 +24,8 @@ class GamesSerializer(serializers.ModelSerializer):
         instance.game_name = validated_data.get('game_name', instance.game_name)
         instance.game_date = validated_data.get('game_date', instance.game_date)
         instance.game_result = validated_data.get('game_result', instance.game_result)
+        instance.referee_rating = validated_data.get('referee_rating', instance.referee_rating)
+        instance.rating_count = validated_data.get('rating_count', instance.rating_count)
         instance.save()
         return instance
 

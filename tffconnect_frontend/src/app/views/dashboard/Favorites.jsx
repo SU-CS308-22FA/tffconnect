@@ -9,7 +9,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import axios from 'axios';
 import useAuth from 'app/hooks/useAuth';
-import { API_URL } from 'app/constants';
+import { API_URL, IMAGE_URL } from 'app/constants';
 
 const ContentBox = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -36,7 +36,8 @@ export default function Favorites() {
   const { user } = useAuth();
   const [news, setNews] = useState([]);
   const [favorites, setFavorites] = useState([]);
-  const [user_favorites, setCombinedData] = useState([]);
+  const [combined_favorites, setCombinedData] = useState([]);
+  const [user_favorites, setUserFavorites] = useState([]);
 
   /**
    * @name useEffect function just below this statement makes two get requests to get the required
@@ -62,7 +63,7 @@ export default function Favorites() {
 
   useEffect(() => {
     const combinedNews = favorites.map((f) => {
-      const newss = news.find((n) => n.id === f.news_id && user.id === f.user_id);
+      const newss = news.find((n) => n.id === f.news_id);
       return {
         ...f,
         newss: newss || null,
@@ -70,10 +71,13 @@ export default function Favorites() {
     });
     setCombinedData(combinedNews)
   }, [news, favorites]);
+
+  useEffect(() => {
+    const userFavorites = combined_favorites.filter(item => item.user_id === user.id);
+    setUserFavorites(userFavorites);
+  }, [combined_favorites, user.id]);
   
-  console.log(user_favorites);
   let whereToStart = Math.ceil(user_favorites.length/2);
-  console.log(whereToStart);
 
   if (user == null) {
     return (
@@ -90,7 +94,7 @@ export default function Favorites() {
                 {(() => {
                   let cards = [];
                   for (let i=0; i < whereToStart; i++) {
-                    let imageUrlStr = "https://tffconnect.com" + user_favorites[i].newss.image
+                    let imageUrlStr = IMAGE_URL + user_favorites[i].newss.image
                     cards.push (
                       <Card sx={{ px: 3, py: 2, mb: 3 }}>
                       <CardMedia
@@ -123,7 +127,7 @@ export default function Favorites() {
                   {(() => {
                     let cards = [];
                     for (let i=whereToStart; i < user_favorites.length; i++) {
-                      let imageUrlStr = "https://tffconnect.com" + user_favorites[i].newss.image
+                      let imageUrlStr = IMAGE_URL + user_favorites[i].newss.image
                       cards.push (
                         <Card sx={{ px: 3, py: 2, mb: 3 }}>
                         <CardMedia

@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "tffconnect.referees",
     "tffconnect.games",
     "tffconnect.favorites",
+    "tffconnect.votes",
 ]
 
 MIDDLEWARE = [
