@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Games
+from .models import Games, GameComment
 
 
 class GamesSerializer(serializers.ModelSerializer):
@@ -26,5 +26,26 @@ class GamesSerializer(serializers.ModelSerializer):
         instance.game_result = validated_data.get('game_result', instance.game_result)
         instance.referee_rating = validated_data.get('referee_rating', instance.referee_rating)
         instance.rating_count = validated_data.get('rating_count', instance.rating_count)
+        instance.save()
+        return instance
+
+
+class GameCommentSerializer(serializers.ModelSerializer):
+    user_full_name = serializers.CharField(source='user.full_name', read_only=True)
+
+    class Meta:
+        model = GameComment
+        fields = ['id', 'game', 'user', 'user_full_name', 'comment', 'is_reported']
+        read_only_fields = ['user', 'game']
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        game_id = self.context['view'].kwargs['id']
+        validated_data['user'] = user
+        validated_data['game'] = Games.objects.get(id=game_id)
+        return GameComment.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.is_reported = validated_data.get('is_reported', instance.is_reported)
         instance.save()
         return instance
