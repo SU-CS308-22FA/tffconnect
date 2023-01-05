@@ -19,6 +19,7 @@ const AddProject = Loadable(lazy(() => import('../AddProject')));
 const ListProject = Loadable(lazy(() => import('../ListProject')));
 const UpdateProject = Loadable(lazy(() => import('../UpdateProject')));
 const ProjectsDashboard = Loadable(lazy(() => import('../ProjectsDashboard')));
+const TheProject = Loadable(lazy(() => import('../TheProject')));
 
 const materialRoutes = [
   {
@@ -92,6 +93,10 @@ const materialRoutes = [
   {
     path: '/material/ProjectsDashboard',
     element: <ProjectsDashboard />,
+  },
+  {
+    path: '/material/TheProject',
+    element: <TheProject />,
   },
 ];
 
