@@ -42,3 +42,8 @@ class GameCommentSerializer(serializers.ModelSerializer):
         validated_data['user'] = user
         validated_data['game'] = Games.objects.get(id=game_id)
         return GameComment.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.is_reported = validated_data.get('is_reported', instance.is_reported)
+        instance.save()
+        return instance
