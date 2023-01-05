@@ -1,7 +1,23 @@
 import { Icon, IconButton } from '@mui/material';
 import { styled, useTheme } from '@mui/system';
 import { topBarHeight } from 'app/utils/constant';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Autocomplete, TextField } from '@mui/material';
+import axios from 'axios';
+import { API_URL } from 'app/constants';
+
+
+const SearchInput = styled('input')(({ theme }) => ({
+  width: '100%',
+  border: 'none',
+  outline: 'none',
+  fontSize: '1rem',
+  paddingLeft: '20px',
+  height: 'calc(100% - 5px)',
+  background: theme.palette.primary.main,
+  color: theme.palette.text.primary,
+  '&::placeholder': { color: theme.palette.text.primary },
+}));
 
 const SearchContainer = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -19,20 +35,33 @@ const SearchContainer = styled('div')(({ theme }) => ({
   },
 }));
 
-const SearchInput = styled('input')(({ theme }) => ({
-  width: '100%',
-  border: 'none',
-  outline: 'none',
-  fontSize: '1rem',
-  paddingLeft: '20px',
-  height: 'calc(100% - 5px)',
-  background: theme.palette.primary.main,
-  color: theme.palette.text.primary,
-  '&::placeholder': { color: theme.palette.text.primary },
+const AutoComplete = styled(Autocomplete)(() => ({
+  width: 500,
+  marginTop: '8px',
+  marginLeft: '16px',
+  marginBottom: '16px',
 }));
 
 const MatxSearchBox = () => {
+
   const [open, setOpen] = useState(false);
+  let [allProjects, setResponseData] = useState([]);
+
+  useEffect(() => {
+    getProjectItems();
+}, []);
+
+  const getProjectItems = () => {
+
+    axios.get(API_URL + '/projects/')
+    .then((response) => {
+        setResponseData(response.data);
+        console.log("projeler");
+        console.log(allProjects);
+    })
+    .catch(error => console.error(error));
+  };
+
   const toggle = () => {
     setOpen(!open);
   };
@@ -50,7 +79,13 @@ const MatxSearchBox = () => {
 
       {open && (
         <SearchContainer>
-          <SearchInput type="text" placeholder="Search here..." autoFocus />
+          <AutoComplete
+          options={allProjects}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+            <TextField {...params} label="Search the projects here.." margin="normal" variant="outlined" fullWidth />
+          )}
+          />
           <IconButton onClick={toggle} sx={{ mx: 2, verticalAlign: 'middle' }}>
             <Icon sx={{ color: textColor }}>close</Icon>
           </IconButton>
